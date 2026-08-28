@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { isInviteUsable } from "@/lib/invites";
 
 export const runtime = "nodejs";
 
@@ -57,15 +58,21 @@ export async function POST(request: Request) {
 
   const { data: invite, error: inviteError } = await admin
     .from("invites")
-    .select("id, code, role, used_at")
+    .select("id, code, role, uses_count, max_uses, first_used_at")
     .eq("code", inviteCode)
     .maybeSingle();
 
   if (inviteError) {
     return Response.json({ error: "Erreur lors de la vérification du code." }, { status: 500 });
   }
-  if (!invite || invite.used_at !== null) {
-    return Response.json({ error: "Code d'invitation invalide ou déjà utilisé." }, { status: 400 });
+  if (!invite) {
+    return Response.json({ error: "Code d'invitation invalide." }, { status: 400 });
+  }
+  if (!isInviteUsable(invite)) {
+    return Response.json(
+      { error: "Code d'invitation invalide ou nombre d'utilisations atteint." },
+      { status: 400 },
+    );
   }
 
   const { data: created, error: createError } = await admin.auth.admin.createUser({
@@ -103,7 +110,14 @@ export async function POST(request: Request) {
     );
   }
 
-  await admin.from("invites").update({ used_at: new Date().toISOString() }).eq("id", invite.id);
+  // Reusable code: bump the usage counter and stamp first-use (telemetry only).
+  await admin
+    .from("invites")
+    .update({
+      uses_count: (invite?.uses_count ?? 0) + 1,
+      first_used_at: invite?.first_used_at ?? new Date().toISOString(),
+    })
+    .eq("id", invite.id);
 
   return Response.json({ ok: true }, { status: 201 });
 }

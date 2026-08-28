@@ -49,7 +49,12 @@ export interface Invite {
   code: string;
   email: string | null;
   role: ProfileRole;
-  used_at: string | null;
+  /** Timestamp of the first signup with this code (telemetry only). */
+  first_used_at: string | null;
+  /** Number of accounts created with this code. */
+  uses_count: number;
+  /** Optional cap on signups; NULL = unlimited (shared friend code). */
+  max_uses: number | null;
 }
 
 export type PostWithRelations = Post & {

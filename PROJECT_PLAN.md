@@ -136,7 +136,9 @@ create table invites (
   code text unique not null,              -- "BESTIE-7F3K"
   email text,
   role text not null default 'friend',
-  used_at timestamptz,
+  first_used_at timestamptz,                 -- telemetrie : 1e utilisation
+  uses_count integer not null default 0,     -- nb d'inscriptions avec ce code
+  max_uses integer,                          -- NULL = illimite (code partage)
   created_at timestamptz default now()
 );
 
@@ -338,7 +340,7 @@ supabase/migrations/0002_storage_buckets.sql
 - Sanitisation : whitelist + hook afterSanitizeAttributes (styles filtrées, href http/https/mailto, iframe youtube/spotify uniquement, rel noopener forcé)
 - oEmbed : hosts autorisés + re-validation de l'iframe + timeout 5 s
 - Upload : auth requise + allowlist types/buckets + dossier par utilisateur + upsert:false
-- Signup : code d'invitation single-use vérifié côté serveur (service role), 409 sur doublons
+- Signup : code d'invitation réutilisable (multi-use) vérifié côté serveur (service role) ; blobcage optionnelle via `max_uses` (NULL = illimité, un seul code partagé par tous les amis). `uses_count` incrémenté à chaque inscription, `first_used_at` en télémétrie.
 - Stealth : robots.ts disallow /, metadata noindex, aucun nom dans les métadonnées
 - Points restants (mineurs, documentés) : pas de CSP/rate-limiting ; avatars dans bucket post-media ; visitor_counts non atomique
 
