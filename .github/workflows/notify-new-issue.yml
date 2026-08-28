@@ -1,0 +1,29 @@
+name: Notify local agent of new issue
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify local launcher via webhook
+        env:
+          WEBHOOK_URL: ${{ secrets.AGENT_WEBHOOK_URL }}
+          WEBHOOK_SECRET: ${{ secrets.AGENT_WEBHOOK_SECRET }}
+        run: |
+          if [ -z "$WEBHOOK_URL" ] || [ -z "$WEBHOOK_SECRET" ]; then
+            echo "::error::AGENT_WEBHOOK_URL or AGENT_WEBHOOK_SECRET not set in repo secrets"
+            exit 1
+          fi
+          echo '${{ toJson(github.event) }}' \
+            | jq -c '{ action, issue: { number: .issue.number, title: .issue.title, html_url: .issue.html_url }, repository: { full_name: .repository.full_name } }' \
+            | curl -sS -o /dev/null -w "webhook status: %{http_code}\n" \
+              -X POST "$WEBHOOK_URL" \
+              -H "Content-Type: application/json" \
+              -H "X-Agent-Secret: $WEBHOOK_SECRET" \
+              --data-binary @-

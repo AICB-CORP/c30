@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+:root {
+  --sky-pink: #ff69b4;
+  --sky-hotpink: #ff1493;
+  --sky-purple: #8b00ff;
+  --sky-blue: #00bfff;
+  --sky-black: #0d0011;
+  --sky-white: #fff8fb;
+}
+
+@theme inline {
+  --color-background: var(--sky-black);
+  --color-foreground: var(--sky-white);
+  --font-retro: var(--font-retro-cursive);
+  --font-pixel: var(--font-pixel);
+}
+
+body {
+  background: var(--sky-black);
+  color: var(--sky-white);
+  font-family: "Comic Sans MS", "Chalkboard SE", cursive, sans-serif;
+  min-height: 100vh;
+}
+
+/* ---- Boîtes rétro ---- */
+.retro-box {
+  background: linear-gradient(180deg, #2a0a3d 0%, #16042a 100%);
+  border: 3px ridge var(--sky-hotpink);
+  border-radius: 12px;
+  box-shadow:
+    0 0 12px rgba(255, 20, 147, 0.45),
+    inset 0 0 18px rgba(255, 105, 180, 0.15);
+  padding: 1rem;
+}
+
+.retro-pink-box {
+  background: linear-gradient(180deg, var(--sky-hotpink) 0%, #c0006e 100%);
+  border: 3px ridge #ffb6d9;
+  border-radius: 12px;
+  color: #fff;
+  box-shadow: 0 0 14px rgba(255, 20, 147, 0.6);
+  padding: 1rem;
+}
+
+.retro-title {
+  font-family: var(--font-retro-cursive), "Dancing Script", cursive;
+  font-size: 2.2rem;
+  text-shadow:
+    0 0 8px var(--sky-hotpink),
+    0 0 16px var(--sky-hotpink),
+    0 0 32px var(--sky-purple);
+  color: #fff;
+}
+
+/* ---- Effets de texte ---- */
+.neon-pink {
+  color: #fff;
+  text-shadow:
+    0 0 5px var(--sky-pink),
+    0 0 10px var(--sky-pink),
+    0 0 20px var(--sky-hotpink),
+    0 0 40px var(--sky-hotpink);
+}
+
+.neon-blue {
+  color: #fff;
+  text-shadow:
+    0 0 5px var(--sky-blue),
+    0 0 10px var(--sky-blue),
+    0 0 20px #0099ff,
+    0 0 40px #0099ff;
+}
+
+.neon-purple {
+  color: #fff;
+  text-shadow:
+    0 0 5px var(--sky-purple),
+    0 0 10px var(--sky-purple),
+    0 0 20px #a02cff,
+    0 0 40px #a02cff;
+}
+
+.rainbow-text {
+  background: linear-gradient(90deg, #ff0080, #ff8c00, #ffe600, #00ff88, #00bfff, #8b00ff, #ff0080);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: rainbow-slide 6s linear infinite;
+}
+
+@keyframes rainbow-slide {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* ---- Marquee (défilement) ---- */
+@keyframes marquee {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.marquee > * {
+  display: inline-block;
+  animation: marquee 14s linear infinite;
+  will-change: transform;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.blink {
+  animation: blink 1s step-start infinite;
+}
+
+/* ---- Coup de cœur ---- */
+@keyframes heart-burst {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.7);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.heart-burst {
+  animation: heart-burst 0.6s ease;
+  display: inline-block;
+}
+
+/* ---- Curseur étincelle ---- */
+.sparkle-cursor,
+.sparkle-cursor * {
+  cursor:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><polygon points='12,0 15,9 24,12 15,15 12,24 9,15 0,12 9,9' fill='%23ff69b4'/></svg>")
+      12 12,
+    auto;
+}
+
+/* ---- Fond glitter en tuiles ---- */
+.tiled-gif-bg {
+  background-image: url("/gifs/glitter-stars.gif");
+  background-repeat: repeat;
+}
+
+/* ---- Boutons ---- */
+.retro-btn {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  border: 3px outset #ffb6d9;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--sky-hotpink), #a0005e);
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 10px rgba(255, 20, 147, 0.5);
+  cursor: pointer;
+}
+
+.retro-btn:active {
+  border-style: inset;
+}
+
+.retro-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Compteur odomètre ---- */
+.odometer {
+  font-family: var(--font-pixel), monospace;
+  background: #000;
+  color: #ff0;
+  border: 2px inset #888;
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+  display: inline-block;
+  letter-spacing: 0.15em;
+}
+
+/* ---- Contenu des posts ---- */
+.post-content {
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  border: 3px solid var(--sky-hotpink);
+  border-radius: 8px;
+  margin: 0.5rem 0;
+}
+
+.post-content iframe {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 640px) {
+  .retro-title {
+    font-size: 1.6rem;
+  }
+
+  .retro-box,
+  .retro-pink-box {
+    padding: 0.75rem;
+  }
+}
