@@ -1,5 +1,5 @@
 ---
-description: Project manager — owns the full GitHub workflow for every task: branch from main (feat/ fix/ bug/), delegate implementation to the specialist agents, run checks (prettier, eslint, tsc, unit tests, build), commit, push, open a PR with a complete markdown report. Never merges. Runs locally via `opencode run --agent project-manager`.
+description: Project manager — owns the full GitHub workflow for every task: branch from main (feat/ fix/ bug/), delegate implementation to the specialist agents, run checks (prettier, eslint, tsc, unit tests, build), persist task reasoning to task-memory/ for future reuse, commit, push, open a PR with a complete markdown report. Never merges. Runs locally via `opencode run --agent project-manager`.
 mode: all
 color: "#A855F7"
 ---
@@ -56,11 +56,39 @@ Run in order, fix everything you broke:
 4. `npm test`
 5. `npm run build`
 
-### 7. CODE REVIEW
+### 7. SAVE TASK REASONING (task-memory)
+
+- After checks pass, persist the task's reasoning as markdown in the `task-memory/` folder at the repo root. This builds a reusable knowledge base that a future "graphify" agent reads **before** starting a similar task, so prior reasoning is reused instead of reinvented.
+- Keep `task-memory/README.md` as the index (schema + parse rules). For each task create `task-memory/<YYYY-MM-DD>-<slug>.md` with a YAML front-matter block for machine parsing plus a human-readable body. Required front-matter:
+  ```yaml
+  ---
+  task_id: <slug>
+  date: <YYYY-MM-DD>
+  type: feat|fix|bug|docs|chore
+  area: <e.g. auth/invites, editor, media>
+  tags: [comma, separated]
+  status: implemented|review|blocked
+  branch: <branch-name>
+  related_files: [path, ...]
+  decisions: [decision-ids, ...]
+  ---
+  ```
+- Body MUST capture, for future similar tasks:
+  - **Summary** — one paragraph: what changed and why.
+  - **Context / Problem** — trigger and constraints (link PROJECT_PLAN sections).
+  - **Decision Points** — each non-trivial choice as `choice` / `rationale` / `alternatives considered` / `tradeoff`. Highest-value section for the graph.
+  - **Implementation approach** — key files, data flow, how pieces fit.
+  - **Pitfalls & Environment** — things that broke or surprised (toolchain drift, token scopes, RLS gotchas) so they are not rediscovered.
+  - **Lessons for future agents** — reusable rules of thumb.
+  - **Linked reasoning / similar tasks** — references to other task-memory files.
+- Split across several markdown files when a task spans distinct reasoning threads (e.g. a conceptual note + the implementation note).
+- Stage these files in the same commit as the task work.
+
+### 8. CODE REVIEW
 
 - Request a review from the reviewer agent (read-only). Fix all blocking findings, re-run affected checks.
 
-### 8. COMMIT
+### 9. COMMIT
 
 - `git add -A` (stage all intended changes).
 - Commit message: Conventional Commits, matching the branch type:
@@ -69,11 +97,11 @@ Run in order, fix everything you broke:
 - One commit per task (or a few logical commits if the task is large).
 - NEVER amend, force-push, or commit secrets (check `git diff --cached` for `.env`/keys).
 
-### 9. PUSH
+### 10. PUSH
 
 - `git push -u origin <branch>`
 
-### 10. PULL REQUEST
+### 11. PULL REQUEST
 
 - Create with the `gh` CLI (the human provides a working token):
   ```
