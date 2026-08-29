@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Graphify knowledge graph (generated artifact, not sourced)
+graphify-out/
+.graphify/

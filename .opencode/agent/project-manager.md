@@ -1,5 +1,5 @@
 ---
-description: Project manager — owns the full GitHub workflow for every task: branch from main (feat/ fix/ bug/), delegate implementation to the specialist agents, run checks (prettier, eslint, tsc, unit tests, build), commit, push, open a PR with a complete markdown report. Never merges. Runs locally via `opencode run --agent project-manager`.
+description: Project manager — owns the full GitHub workflow for every task: branch from main (feat/ fix/ bug/), delegate implementation to the specialist agents, run checks (prettier, eslint, tsc, unit tests, build), persist task reasoning to task-memory/ for future reuse, commit, push, open a PR with a complete markdown report. Never merges. Runs locally via `opencode run --agent project-manager`.
 mode: all
 color: "#A855F7"
 ---
@@ -17,6 +17,11 @@ For EVERY task, follow the complete pipeline below. This is the ONLY accepted fl
 - Read PROJECT_PLAN.md in full — it is the contract.
 - Read the task/issue. If unclear, make reasonable assumptions and state them in the report.
 - If the task is not a GitHub issue, still follow the same flow (branch + PR).
+- **QUERY THE GRAPHIFY KNOWLEDGE GRAPH (mandatory).** Before planning, consult the persistent reasoning graph so prior decisions are reused instead of reinvented. From the repo root, using the `opencode` conda env (see `task-memory/opencode-conda-environment.md`):
+  ```bash
+  conda run -n opencode graphify query "<task summary + key entities>" --graph graphify-out/graph.json --budget 1500
+  ```
+  If `graphify-out/graph.json` does not exist yet, build it first (code graph needs no key): `conda run -n opencode graphify extract . --code-only --no-cluster --out .`. To also include the `task-memory/` reasoning docs, use the **local Ollama** build (no external API key — see `task-memory/opencode-conda-environment.md` DP3): `OLLAMA_API_KEY=ollama conda run -n opencode graphify extract . --backend ollama --model Llama3.1:8B --out .`. Inject the top matches (file paths, decision summaries, gotchas) into the task context AND into the prompts you hand to subagents.
 
 ### 2. GIT PRE-CHECK
 
@@ -56,11 +61,48 @@ Run in order, fix everything you broke:
 4. `npm test`
 5. `npm run build`
 
-### 7. CODE REVIEW
+### 7. SAVE TASK REASONING (task-memory)
+
+- After checks pass, persist the task's reasoning as markdown in the `task-memory/` folder at the repo root. This builds a reusable knowledge base that a future "graphify" agent reads **before** starting a similar task, so prior reasoning is reused instead of reinvented.
+- Keep `task-memory/README.md` as the index (schema + parse rules). For each task create `task-memory/<YYYY-MM-DD>-<slug>.md` with a YAML front-matter block for machine parsing plus a human-readable body. Required front-matter:
+  ```yaml
+  ---
+  task_id: <slug>
+  date: <YYYY-MM-DD>
+  type: feat|fix|bug|docs|chore
+  area: <e.g. auth/invites, editor, media>
+  tags: [comma, separated]
+  status: implemented|review|blocked
+  branch: <branch-name>
+  related_files: [path, ...]
+  decisions: [decision-ids, ...]
+  ---
+  ```
+- Body MUST capture, for future similar tasks:
+  - **Summary** — one paragraph: what changed and why.
+  - **Context / Problem** — trigger and constraints (link PROJECT_PLAN sections).
+  - **Decision Points** — each non-trivial choice as `choice` / `rationale` / `alternatives considered` / `tradeoff`. Highest-value section for the graph.
+  - **Implementation approach** — key files, data flow, how pieces fit.
+  - **Pitfalls & Environment** — things that broke or surprised (toolchain drift, token scopes, RLS gotchas) so they are not rediscovered.
+  - **Lessons for future agents** — reusable rules of thumb.
+  - **Linked reasoning / similar tasks** — references to other task-memory files.
+- Split across several markdown files when a task spans distinct reasoning threads (e.g. a conceptual note + the implementation note).
+- Stage these files in the same commit as the task work.
+- **EXTEND THE GRAPH.** After writing the markdown, grow the knowledge graph so future tasks can find this reasoning (run from repo root with the `opencode` conda env). Prefer the **local Ollama** build so the reasoning docs are included with **no external API key** (see `task-memory/opencode-conda-environment.md` DP3):
+  ```bash
+  # full repo graph (code + task-memory docs) via local Ollama — $0, offline
+  OLLAMA_API_KEY=ollama conda run -n opencode graphify extract . \
+    --backend ollama --model Llama3.1:8B --out .
+  # fallback: code graph only, no key, no ollama needed
+  conda run -n opencode graphify extract . --code-only --no-cluster --out .
+  ```
+  Prereqs (one-time, already done): `conda run -n opencode pip install openai`, `ollama pull Llama3.1:8B`, Ollama running. The generated `graphify-out/` is gitignored. This closes the loop: each task → markdown → graph → queried by the next task.
+
+### 8. CODE REVIEW
 
 - Request a review from the reviewer agent (read-only). Fix all blocking findings, re-run affected checks.
 
-### 8. COMMIT
+### 9. COMMIT
 
 - `git add -A` (stage all intended changes).
 - Commit message: Conventional Commits, matching the branch type:
@@ -69,11 +111,11 @@ Run in order, fix everything you broke:
 - One commit per task (or a few logical commits if the task is large).
 - NEVER amend, force-push, or commit secrets (check `git diff --cached` for `.env`/keys).
 
-### 9. PUSH
+### 10. PUSH
 
 - `git push -u origin <branch>`
 
-### 10. PULL REQUEST
+### 11. PULL REQUEST
 
 - Create with the `gh` CLI (the human provides a working token):
   ```
@@ -115,6 +157,15 @@ Run in order, fix everything you broke:
   ```
 - NEVER merge the PR, never rebase, never delete the branch after pushing. The human reviews and merges.
 - After the PR is created, reply with: the branch name, the PR URL, and a 5-line summary.
+
+## GITHUB AGENT IDENTITY (read every session)
+
+The agent acts on GitHub as the account **`aicb-lab`**, a member of the org **`AICB-CORP`** (project repos live under `AICB-CORP/`, e.g. `AICB-CORP/c30`). The full reference — SSH key path, `gh` login state, token prerequisites, switching — is in `task-memory/github-agent-identity.md`. Essentials for this pipeline:
+
+- **SSH key**: `~/.ssh/githubaicb` is the primary identity for `github.com` (configured in `~/.ssh/config`). Git pushes (steps 9–10) use this — no token needed for push.
+- **`gh` CLI**: already logged in as `aicb-lab` (active account). For tasks needing the organization/bot context, `moiap13` is also registered — switch with `gh auth switch --user moiap13` or a per-command `GH_TOKEN=<tok> gh ...`.
+- **PR creation (step 11)** needs the fine-grained PAT to have: `aicb-lab` as a repo collaborator **AND** PAT _Repository access_ = All repositories (or the specific repo) **AND** _Permissions → Pull requests → Read and write_. If `gh pr create` fails with `Resource not accessible by personal access token (createPullRequest)`, that permission is missing — fix in the PAT settings, then retry.
+- **Never write the token to disk** — it lives in the OS keyring; the `task-memory` note records only non-secret metadata.
 
 ## RULES
 

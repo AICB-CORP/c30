@@ -30,3 +30,13 @@ Read PROJECT_PLAN.md in full before acting. §8 (Aesthetic) is your source of tr
 
 - Concrete CSS/snippets/palettes/tokens, plus curated GIF file lists with sources.
 - Flag any design decision that could hurt readability or the mobile experience.
+
+## Graphify context (agentic memory)
+
+Before acting, if the task may benefit from prior reasoning, consult the Graphify knowledge graph (built and maintained by the project-manager pipeline). From the repo root, using the `opencode` conda env:
+
+```bash
+conda run -n opencode graphify query "<keywords>" --graph graphify-out/graph.json --budget 1500
+```
+
+Incorporate relevant past decisions, files, and gotchas into your work. The graph is extended after every task (project-manager pipeline, step 7). If `graphify-out/graph.json` is missing, the project-manager will build it. See `task-memory/opencode-conda-environment.md` for setup details.
