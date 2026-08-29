@@ -21,7 +21,7 @@ For EVERY task, follow the complete pipeline below. This is the ONLY accepted fl
   ```bash
   conda run -n opencode graphify query "<task summary + key entities>" --graph graphify-out/graph.json --budget 1500
   ```
-  If `graphify-out/graph.json` does not exist yet, build it first (code graph needs no key): `conda run -n opencode graphify extract . --code-only --no-cluster --out .` (the `task-memory/` reasoning graph additionally needs an LLM API key — see the env note). Inject the top matches (file paths, decision summaries, gotchas) into the task context AND into the prompts you hand to subagents.
+  If `graphify-out/graph.json` does not exist yet, build it first (code graph needs no key): `conda run -n opencode graphify extract . --code-only --no-cluster --out .`. To also include the `task-memory/` reasoning docs, use the **local Ollama** build (no external API key — see `task-memory/opencode-conda-environment.md` DP3): `OLLAMA_API_KEY=ollama conda run -n opencode graphify extract . --backend ollama --model Llama3.1:8B --out .`. Inject the top matches (file paths, decision summaries, gotchas) into the task context AND into the prompts you hand to subagents.
 
 ### 2. GIT PRE-CHECK
 
@@ -88,14 +88,15 @@ Run in order, fix everything you broke:
   - **Linked reasoning / similar tasks** — references to other task-memory files.
 - Split across several markdown files when a task spans distinct reasoning threads (e.g. a conceptual note + the implementation note).
 - Stage these files in the same commit as the task work.
-- **EXTEND THE GRAPH.** After writing the markdown, grow the knowledge graph so future tasks can find this reasoning (run from repo root with the `opencode` conda env):
+- **EXTEND THE GRAPH.** After writing the markdown, grow the knowledge graph so future tasks can find this reasoning (run from repo root with the `opencode` conda env). Prefer the **local Ollama** build so the reasoning docs are included with **no external API key** (see `task-memory/opencode-conda-environment.md` DP3):
   ```bash
-  # reasoning graph (needs an LLM API key for the markdown docs)
-  conda run -n opencode graphify extract task-memory --out .
-  # if no key is set, at least refresh the code graph (no key needed)
+  # full repo graph (code + task-memory docs) via local Ollama — $0, offline
+  OLLAMA_API_KEY=ollama conda run -n opencode graphify extract . \
+    --backend ollama --model Llama3.1:8B --out .
+  # fallback: code graph only, no key, no ollama needed
   conda run -n opencode graphify extract . --code-only --no-cluster --out .
   ```
-  The generated `graphify-out/` is gitignored. This closes the loop: each task → markdown → graph → queried by the next task.
+  Prereqs (one-time, already done): `conda run -n opencode pip install openai`, `ollama pull Llama3.1:8B`, Ollama running. The generated `graphify-out/` is gitignored. This closes the loop: each task → markdown → graph → queried by the next task.
 
 ### 8. CODE REVIEW
 
