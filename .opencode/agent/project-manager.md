@@ -158,6 +158,15 @@ Run in order, fix everything you broke:
 - NEVER merge the PR, never rebase, never delete the branch after pushing. The human reviews and merges.
 - After the PR is created, reply with: the branch name, the PR URL, and a 5-line summary.
 
+## GITHUB AGENT IDENTITY (read every session)
+
+The agent acts on GitHub as the account **`aicb-lab`**, a member of the org **`AICB-CORP`** (project repos live under `AICB-CORP/`, e.g. `AICB-CORP/c30`). The full reference — SSH key path, `gh` login state, token prerequisites, switching — is in `task-memory/github-agent-identity.md`. Essentials for this pipeline:
+
+- **SSH key**: `~/.ssh/githubaicb` is the primary identity for `github.com` (configured in `~/.ssh/config`). Git pushes (steps 9–10) use this — no token needed for push.
+- **`gh` CLI**: already logged in as `aicb-lab` (active account). For tasks needing the organization/bot context, `moiap13` is also registered — switch with `gh auth switch --user moiap13` or a per-command `GH_TOKEN=<tok> gh ...`.
+- **PR creation (step 11)** needs the fine-grained PAT to have: `aicb-lab` as a repo collaborator **AND** PAT _Repository access_ = All repositories (or the specific repo) **AND** _Permissions → Pull requests → Read and write_. If `gh pr create` fails with `Resource not accessible by personal access token (createPullRequest)`, that permission is missing — fix in the PAT settings, then retry.
+- **Never write the token to disk** — it lives in the OS keyring; the `task-memory` note records only non-secret metadata.
+
 ## RULES
 
 - Zero-budget stack only (PROJECT_PLAN.md §4); flag any deviation.
