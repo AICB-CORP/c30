@@ -17,6 +17,11 @@ For EVERY task, follow the complete pipeline below. This is the ONLY accepted fl
 - Read PROJECT_PLAN.md in full — it is the contract.
 - Read the task/issue. If unclear, make reasonable assumptions and state them in the report.
 - If the task is not a GitHub issue, still follow the same flow (branch + PR).
+- **QUERY THE GRAPHIFY KNOWLEDGE GRAPH (mandatory).** Before planning, consult the persistent reasoning graph so prior decisions are reused instead of reinvented. From the repo root, using the `opencode` conda env (see `task-memory/opencode-conda-environment.md`):
+  ```bash
+  conda run -n opencode graphify query "<task summary + key entities>" --graph graphify-out/graph.json --budget 1500
+  ```
+  If `graphify-out/graph.json` does not exist yet, build it first (code graph needs no key): `conda run -n opencode graphify extract . --code-only --no-cluster --out .` (the `task-memory/` reasoning graph additionally needs an LLM API key — see the env note). Inject the top matches (file paths, decision summaries, gotchas) into the task context AND into the prompts you hand to subagents.
 
 ### 2. GIT PRE-CHECK
 
@@ -83,6 +88,14 @@ Run in order, fix everything you broke:
   - **Linked reasoning / similar tasks** — references to other task-memory files.
 - Split across several markdown files when a task spans distinct reasoning threads (e.g. a conceptual note + the implementation note).
 - Stage these files in the same commit as the task work.
+- **EXTEND THE GRAPH.** After writing the markdown, grow the knowledge graph so future tasks can find this reasoning (run from repo root with the `opencode` conda env):
+  ```bash
+  # reasoning graph (needs an LLM API key for the markdown docs)
+  conda run -n opencode graphify extract task-memory --out .
+  # if no key is set, at least refresh the code graph (no key needed)
+  conda run -n opencode graphify extract . --code-only --no-cluster --out .
+  ```
+  The generated `graphify-out/` is gitignored. This closes the loop: each task → markdown → graph → queried by the next task.
 
 ### 8. CODE REVIEW
 
