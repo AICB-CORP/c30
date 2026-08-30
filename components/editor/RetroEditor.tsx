@@ -181,10 +181,13 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
         }),
       });
       if (!res.ok) throw new Error("upload");
-      const { uploadPath, signedUrl } = await res.json();
-      await fetch(signedUrl, { method: "PUT", body: blob });
-      const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/post-media/${uploadPath}`;
-      editor.chain().focus().insertContent(`<audio controls src="${url}"></audio>`).run();
+      const { signedUrl, publicUrl } = await res.json();
+      await fetch(signedUrl, {
+        method: "PUT",
+        headers: { "Content-Type": blob.type || "audio/webm" },
+        body: blob,
+      });
+      editor.chain().focus().insertContent(`<audio controls src="${publicUrl}"></audio>`).run();
       setShowVoiceRecorder(false);
     } catch {
       setError("Impossible d'enregistrer ta voix.");

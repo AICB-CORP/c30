@@ -75,9 +75,10 @@ export default function MediaUpload({ kind, onUploaded }: MediaUploadProps) {
         throw new Error(body?.error ?? "Upload refusé");
       }
 
-      const { uploadPath, signedUrl } = (await res.json()) as {
+      const { uploadPath, signedUrl, publicUrl } = (await res.json()) as {
         uploadPath: string;
         signedUrl: string;
+        publicUrl: string;
       };
 
       setProgress("Envoi du fichier…");
@@ -91,8 +92,7 @@ export default function MediaUpload({ kind, onUploaded }: MediaUploadProps) {
         throw new Error("Échec du transfert vers le stockage.");
       }
 
-      const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/post-media/${uploadPath}`;
-      onUploaded(uploadPath, url);
+      onUploaded(uploadPath, publicUrl);
       setProgress("Fichier envoyé ! ✨");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erreur pendant l'upload.");
