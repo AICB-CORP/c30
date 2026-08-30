@@ -2,7 +2,10 @@
 
 import { useState } from "react";
 import { useEditor, EditorContent, Extension } from "@tiptap/react";
+import { TextSelection } from "prosemirror-state";
 import StarterKit from "@tiptap/starter-kit";
+import Image from "@tiptap/extension-image";
+import { Rainbow, Marquee, Blink, Blur } from "@/components/editor/retroMarks";
 import { TextStyle, Color, FontFamily, FontSize } from "@tiptap/extension-text-style";
 import TextAlign from "@tiptap/extension-text-align";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -43,6 +46,11 @@ const extensions = [
     link: false,
     heading: { levels: [1, 2] },
   }),
+  Image,
+  Rainbow,
+  Marquee,
+  Blink,
+  Blur,
   TextStyle,
   Color,
   FontFamily,
@@ -113,8 +121,41 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
     const { selection } = editor.state;
     const text = selection.empty
       ? placeholder
-      : escapeHtml(editor.state.doc.textBetween(selection.from, selection.to, " "));
-    editor.chain().focus().deleteSelection().insertContent(`${openTag}${text}${closeTag}`).run();
+      : editor.state.doc.textBetween(selection.from, selection.to, " ");
+    const html = `${openTag}${escapeHtml(text)}${closeTag}`;
+    editor.chain().focus().deleteSelection().insertContent(html).run();
+  }
+
+  function toggleRetroMark(markName: "toggleRainbow" | "toggleMarquee" | "toggleBlink" | "toggleBlur") {
+    const { selection } = editor.state;
+    if (selection.empty) {
+      const placeholder = placeholderFor(markName);
+      editor
+        .chain()
+        .focus()
+        .insertContent(placeholder)
+        .command(({ tr }) => {
+          const pos = tr.selection.$from.pos;
+          tr.setSelection(
+            new TextSelection(
+              tr.doc.resolve(pos - placeholder.length),
+              tr.doc.resolve(pos)
+            )
+          );
+          return true;
+        })
+        [markName]()
+        .run();
+    } else {
+      editor.chain().focus()[markName]().run();
+    }
+  }
+
+  function placeholderFor(cmd: string): string {
+    if (cmd === "toggleRainbow") return "texte arc-en-ciel";
+    if (cmd === "toggleMarquee") return "texte défilant";
+    if (cmd === "toggleBlur") return "texte caché";
+    return "texte clignotant";
   }
 
   async function handleOEmbed(url: string): Promise<{ html?: string } | null> {
@@ -208,7 +249,18 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
         return;
       }
 
-      const html = sanitizeHtml(editor.getHTML());
+      const rawHtml = editor.getHTML();
+      const restored = rawHtml.replace(
+        /<(\w+)\s[^>]*?data-ohtml="([^"]*)"[^>]*?>[\s\S]*?<\/\1>/gi,
+        (_m, _tag, b64) => {
+          try {
+            return atob(b64);
+          } catch {
+            return "";
+          }
+        },
+      );
+      const html = sanitizeHtml(restored);
       const payload = {
         title: title.trim() || null,
         content: html,
@@ -401,30 +453,29 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
               ))}
             </select>
             <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Aligné à gauche"
-              onClick={() => editor.chain().focus().setTextAlign("left").run()}
-            >
-              ⬅
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Centré"
-              onClick={() => editor.chain().focus().setTextAlign("center").run()}
-            >
-              ⬌
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Aligné à droite"
-              onClick={() => editor.chain().focus().setTextAlign("right").run()}
-            >
-              ➡
-            </button>
+            {(
+              [
+                ["left", "⬅", "Aligné à gauche"],
+                ["center", "⬌", "Centré"],
+                ["right", "➡", "Aligné à droite"],
+              ] as const
+            ).map(([align, icon, label]) => {
+              const currentAlign =
+                editor.isActive("heading")
+                  ? (editor.getAttributes("heading").textAlign ?? "left")
+                  : (editor.getAttributes("paragraph").textAlign ?? "left");
+              return (
+                <button
+                  key={align}
+                  type="button"
+                  className={`retro-btn tool-btn${currentAlign === align ? " pushed" : ""}`}
+                  title={label}
+                  onClick={() => editor.chain().focus().setTextAlign(align).run()}
+                >
+                  {icon}
+                </button>
+              );
+            })}
             <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
             <button type="button" className="retro-btn tool-btn" title="Lien" onClick={handleLink}>
               🔗
@@ -446,42 +497,60 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
               ▶️
             </button>
             <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Néon rose"
-              onClick={() =>
-                editor.chain().focus().setMark("textStyle", { textShadow: NEON_SHADOW }).run()
-              }
-            >
-              ⚡ Néon
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Arc-en-ciel"
-              onClick={() =>
-                wrapSelection('<span class="rainbow-text">', "</span>", "texte arc-en-ciel")
-              }
-            >
-              ✨
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Marquee défilant"
-              onClick={() => wrapSelection("<marquee>", "</marquee>", "texte défilant")}
-            >
-              📜
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Clignotant"
-              onClick={() => wrapSelection("<blink>", "</blink>", "texte clignotant")}
-            >
-              💫
-            </button>
+            <div className="flex flex-wrap items-center gap-1">
+              <button
+                type="button"
+                className={`retro-btn tool-btn${editor.getAttributes("textStyle").textShadow === NEON_SHADOW ? " pushed" : ""}`}
+                title="Néon — donne un effet lumineux néon rose au texte"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  const current = editor.getAttributes("textStyle").textShadow;
+                  if (current === NEON_SHADOW) {
+                    editor.chain().focus().setMark("textStyle", { textShadow: null }).run();
+                  } else {
+                    editor.chain().focus().setMark("textStyle", { textShadow: NEON_SHADOW }).run();
+                  }
+                }}
+              >
+                ⚡ Néon
+              </button>
+              <button
+                type="button"
+                className={`retro-btn tool-btn${editor.isActive("rainbow") ? " pushed" : ""}`}
+                title="Arc-en-ciel — le texte défile dans toutes les couleurs"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => toggleRetroMark("toggleRainbow")}
+              >
+                ✨ Arc-en-ciel
+              </button>
+              <button
+                type="button"
+                className={`retro-btn tool-btn${editor.isActive("marqueeMark") ? " pushed" : ""}`}
+                title="Défilant — le texte défile de droite à gauche"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => toggleRetroMark("toggleMarquee")}
+              >
+                📜 Défilant
+              </button>
+              <button
+                type="button"
+                className={`retro-btn tool-btn${editor.isActive("blinkMark") ? " pushed" : ""}`}
+                title="Clignotant — le texte clignote comme un vieux site web"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => toggleRetroMark("toggleBlink")}
+              >
+                💫 Clignotant
+              </button>
+              <button
+                type="button"
+                className={`retro-btn tool-btn${editor.isActive("blurMark") ? " pushed" : ""}`}
+                title="Flou — le texte est caché, survole pour révéler le message secret"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => toggleRetroMark("toggleBlur")}
+              >
+                🔍 Flou
+              </button>
+            </div>
             <button
               type="button"
               className="retro-btn tool-btn"
@@ -496,6 +565,8 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
         <div className="mb-2 flex flex-wrap gap-1.5">
           <MediaUpload
             kind="image"
+            multiple
+            maxFiles={10}
             onUploaded={(_path, url) =>
               editor.chain().focus().insertContent(`<img src="${url}">`).run()
             }
@@ -605,9 +676,28 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
         .retro-btn.tool-btn {
           padding: 0.25rem 0.6rem;
           font-size: 0.8rem;
+          border: 3px outset #ffb6d9;
+          box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4), 0 0 8px rgba(255, 20, 147, 0.3);
+          transition: all 0.08s ease;
         }
-        .retro-btn.tool-btn.active {
-          box-shadow: 0 0 0 2px #fff inset, 0 0 10px rgba(255, 20, 147, 0.5);
+        .retro-btn.tool-btn:active {
+          border-style: inset;
+          box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.4);
+          transform: translateY(1px);
+        }
+        .retro-btn.tool-btn.pushed {
+          border-style: inset;
+          box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(255, 20, 147, 0.4);
+          transform: translateY(1px);
+          background: linear-gradient(180deg, #a0005e, #cc006a);
+        }
+        .editor-area .tiptap .blur-text {
+          filter: blur(6px);
+          transition: filter 0.3s ease;
+          cursor: pointer;
+        }
+        .editor-area .tiptap .blur-text:hover {
+          filter: blur(0);
         }
         .editor-area .tiptap {
           min-height: 180px;

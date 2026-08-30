@@ -6,6 +6,8 @@ import imageCompression from "browser-image-compression";
 interface MediaUploadProps {
   kind: "image" | "video" | "audio";
   onUploaded: (path: string, url: string) => void;
+  multiple?: boolean;
+  maxFiles?: number;
 }
 
 const MAX_RAW_MB = 8;
@@ -15,54 +17,70 @@ const ACCEPT: Record<MediaUploadProps["kind"], string> = {
   audio: "audio/*",
 };
 
-export default function MediaUpload({ kind, onUploaded }: MediaUploadProps) {
+const LABELS: Record<MediaUploadProps["kind"], { icon: string; single: string; multi: string }> = {
+  image: { icon: "🖼️", single: "Photo", multi: "Photos" },
+  video: { icon: "🎬", single: "Vidéo", multi: "Vidéos" },
+  audio: { icon: "🎵", single: "Son", multi: "Sons" },
+};
+
+export default function MediaUpload({
+  kind,
+  onUploaded,
+  multiple = false,
+  maxFiles,
+}: MediaUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [progress, setProgress] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const label =
-    kind === "image"
-      ? "🖼️ Ajouter une photo"
-      : kind === "video"
-        ? "🎬 Ajouter une vidéo"
-        : "🎵 Ajouter un son";
+  const meta = LABELS[kind];
 
-  async function handleFile(file: File) {
-    setError(null);
-    setProgress(null);
-
+  async function uploadSingleFile(file: File, index: number, total: number): Promise<boolean> {
     let uploadFile = file;
 
     if (kind === "image") {
-      setProgress("Compression de l'image…");
+      setProgress(
+        total > 1
+          ? `Compression ${index + 1}/${total}…`
+          : "Compression…",
+      );
       try {
         uploadFile = await imageCompression(file, {
           maxSizeMB: 1.5,
           maxWidthOrHeight: 1600,
           useWebWorker: true,
-          onProgress: (p) => setProgress(`Compression… ${Math.round(p)}%`),
+          onProgress: (p) =>
+            setProgress(
+              total > 1
+                ? `Compression ${index + 1}/${total}… ${Math.round(p)}%`
+                : `Compression… ${Math.round(p)}%`,
+            ),
         });
       } catch {
-        setError("Échec de la compression de l'image.");
+        setError(`Échec compression image ${index + 1}.`);
         setProgress(null);
-        return;
+        return false;
       }
     } else {
       if (file.size > MAX_RAW_MB * 1024 * 1024) {
-        setError(`Fichier trop lourd : plus de ${MAX_RAW_MB} Mo (il n'est pas compressé).`);
+        setError(`Trop lourd : max ${MAX_RAW_MB} Mo.`);
         setProgress(null);
-        return;
+        return false;
       }
     }
 
     if (!uploadFile.type) {
-      setError("Type de fichier inconnu.");
+      setError("Type inconnu.");
       setProgress(null);
-      return;
+      return false;
     }
 
-    setProgress("Création de l'URL signée…");
+    setProgress(
+      total > 1
+        ? `Envoi ${index + 1}/${total}…`
+        : "Envoi…",
+    );
     try {
       const res = await fetch("/api/upload", {
         method: "POST",
@@ -81,7 +99,6 @@ export default function MediaUpload({ kind, onUploaded }: MediaUploadProps) {
         publicUrl: string;
       };
 
-      setProgress("Envoi du fichier…");
       const put = await fetch(signedUrl, {
         method: "PUT",
         headers: { "Content-Type": uploadFile.type },
@@ -89,55 +106,75 @@ export default function MediaUpload({ kind, onUploaded }: MediaUploadProps) {
       });
 
       if (!put.ok) {
-        throw new Error("Échec du transfert vers le stockage.");
+        throw new Error("Échec transfert.");
       }
 
       onUploaded(uploadPath, publicUrl);
-      setProgress("Fichier envoyé ! ✨");
+      return true;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erreur pendant l'upload.");
+      setError(err instanceof Error ? err.message : "Erreur upload.");
+      return false;
     } finally {
       setBusy(false);
+      setProgress(null);
       if (inputRef.current) inputRef.current.value = "";
     }
   }
 
   function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (!file) return;
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
     setBusy(true);
-    void handleFile(file);
+    setError(null);
+    setProgress(null);
+
+    const fileArray = Array.from(files);
+    const limit = maxFiles ? Math.min(fileArray.length, maxFiles) : fileArray.length;
+
+    if (maxFiles && fileArray.length > maxFiles) {
+      setError(`Max ${maxFiles} fichiers.`);
+      setBusy(false);
+      if (inputRef.current) inputRef.current.value = "";
+      return;
+    }
+
+    void (async () => {
+      let ok = 0;
+      for (let i = 0; i < limit; i++) {
+        if (await uploadSingleFile(fileArray[i], i, limit)) ok++;
+      }
+      if (ok > 0) {
+        setProgress(ok > 1 ? `${ok} fichiers envoyés ! ✨` : "Envoyé ! ✨");
+      }
+      setBusy(false);
+    })();
   }
 
   return (
-    <div className="retro-box w-full max-w-sm text-center">
-      <p className="neon-pink mb-2 text-lg">{label}</p>
-
+    <>
       <input
         ref={inputRef}
         type="file"
         accept={ACCEPT[kind]}
-        className="hidden"
+        multiple={multiple}
+        className="absolute h-0 w-0 overflow-hidden opacity-0"
+        style={{ position: "absolute", pointerEvents: "none" }}
         onChange={onInputChange}
         disabled={busy}
+        tabIndex={-1}
       />
       <button
         type="button"
-        className="retro-btn"
+        className="retro-btn tool-btn"
+        title={kind === "image" ? "Ajouter des photos/vidéos" : kind === "video" ? "Ajouter une vidéo" : "Ajouter un son"}
         onClick={() => inputRef.current?.click()}
         disabled={busy}
       >
-        {busy ? "Envoi en cours…" : "Choisir un fichier"}
+        {busy ? "…" : `${meta.icon} ${multiple ? meta.multi : meta.single}`}
       </button>
-
-      {progress && !busy && <p className="mt-2 text-sm opacity-80">{progress}</p>}
-      {busy && progress && <p className="mt-2 text-sm blink">{progress}</p>}
-      {error && <p className="mt-2 text-sm text-[#ff8080]">{error}</p>}
-      {kind !== "image" && (
-        <p className="mt-2 text-xs opacity-60">
-          Max {MAX_RAW_MB} Mo — pas de compression pour les vidéos/sons.
-        </p>
-      )}
-    </div>
+      {progress && <span className="ml-1 text-xs text-[#ffb6d9]">{progress}</span>}
+      {error && <span className="ml-1 text-xs text-[#ff8080]">{error}</span>}
+    </>
   );
 }

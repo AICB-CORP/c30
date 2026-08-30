@@ -10,12 +10,11 @@ interface BestOfItem {
 }
 
 export default function BestOfPost({ posts }: { posts: BestOfItem[] }) {
-  const [pick, setPick] = useState<BestOfItem | null>(() =>
-    posts.length > 0 ? posts[Math.floor(Math.random() * posts.length)] : null,
-  );
+  const [pick, setPick] = useState<BestOfItem | null>(null);
 
   useEffect(() => {
     if (posts.length === 0) return;
+    setPick(posts[Math.floor(Math.random() * posts.length)]);
     const t = setInterval(() => {
       setPick(posts[Math.floor(Math.random() * posts.length)]);
     }, 8000);
