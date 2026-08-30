@@ -326,14 +326,25 @@ supabase/migrations/0002_storage_buckets.sql
 
 ### 14.3 Mise en route (avant tout test)
 
-1. Créer un projet Supabase (gratuit) : https://supabase.com
-2. Appliquer `supabase/migrations/0001_init.sql` puis `0002_storage_buckets.sql` (SQL Editor)
-3. Auth → activer Email/Password, désactiver les inscriptions anonymes
-4. Remplir `.env.local` : NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, NEXT_PUBLIC_BIRTHDAY_DATE ; NEXT_PUBLIC_GIPHY_KEY optionnel
-5. Créer les codes d'invitation : `insert into invites (code, email, role) values ('BESTIE-XXXX', 'ami@mail.fr', 'friend'), ('PRINCESSE-1', null, 'birthday_girl');`
-6. `npm run dev` → tester le parcours inscription (code invité) → post → blab → compteur
-7. Répétition générale (voir skill birthday-reveal) avec comptes factices
-8. Déploiement : Vercel (voir docs/GITHUB-HYBRID.md pour l'automatisation GitHub)
+> **Stockage = Cloudflare R2** (plus Supabase Storage). Voir `docs/LOCAL_DEV.md` pour le setup complet
+> (dev local avec Supabase local + R2 cloud, puis Vercel en prod).
+
+1. **Supabase** : créer un projet (gratuit) sur https://supabase.com **ou** lancer un Supabase local
+   (`supabase start`, nécessite Docker — voir `docs/LOCAL_DEV.md`).
+2. Appliquer **`supabase/migrations/0001_init.sql`** (SQL Editor ou `supabase db reset`).
+   La migration `0002_storage_buckets.sql` a été **supprimée** : le stockage est sur R2, pas Supabase.
+3. Auth → activer Email/Password, désactiver les inscriptions anonymes.
+4. Remplir `.env.local` : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+   `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_BIRTHDAY_DATE`, `NEXT_PUBLIC_GIPHY_KEY` (option),
+   **et les 5 vars R2** : `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`,
+   `R2_BUCKET_NAME`, `R2_PUBLIC_URL` ( voir `.env.example`).
+5. **R2** : créer le bucket, activer l'accès public (URL `https://pub-<hash>.r2.dev`), créer un token
+   API **scopé au bucket en écriture seule**, et configurer le **CORS** pour autoriser `PUT`/`OPTIONS`
+   depuis l'origine (en dev : `http://localhost:3000`).
+6. Créer les codes d'invitation : `insert into invites (code, email, role) values ('BESTIE-XXXX', 'ami@mail.fr', 'friend'), ('PRINCESSE-1', null, 'birthday_girl');`
+7. `npm run dev` → tester le parcours inscription (code invité) → post (upload R2) → blab → compteur.
+8. Répétition générale (voir skill birthday-reveal) avec comptes factices.
+9. Déploiement prod : Vercel, avec les mêmes vars Supabase (hébergé) + R2 côté serveur (jamais `NEXT_PUBLIC_`).
 
 ### 14.4 Sécurité (audit fait — tout pass)
 
