@@ -22,7 +22,7 @@ export default async function DayPage() {
 
   const { data: posts } = await supabase
     .from("posts")
-    .select("*, author:profiles(id, pseudo, avatar_url, mood), media:post_media(*)")
+    .select("*, author:profiles!posts_author_id_fkey(id, pseudo, avatar_url, mood), media:post_media(*)")
     .order("created_at", { ascending: true });
 
   return (

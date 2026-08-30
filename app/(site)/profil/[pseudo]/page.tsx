@@ -36,7 +36,7 @@ export default async function ProfilPage({ params }: { params: Promise<{ pseudo:
 
   const { data: posts } = await supabase
     .from("posts")
-    .select("*, author:profiles(id, pseudo, avatar_url, mood), media:post_media(*)")
+    .select("*, author:profiles!posts_author_id_fkey(id, pseudo, avatar_url, mood), media:post_media(*)")
     .eq("author_id", profile.id)
     .order("created_at", { ascending: false });
 

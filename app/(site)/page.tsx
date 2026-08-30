@@ -15,7 +15,7 @@ export default async function HomePage() {
 
   const { data: posts } = await supabase
     .from("posts")
-    .select("*, author:profiles(id, pseudo, avatar_url, mood), media:post_media(*)")
+    .select("*, author:profiles!posts_author_id_fkey(id, pseudo, avatar_url, mood), media:post_media(*)")
     .or(`scheduled_for.is.null,scheduled_for.lte.${now.toISOString()}`)
     .order("created_at", { ascending: false })
     .order("position", { referencedTable: "post_media", ascending: true })
@@ -50,7 +50,7 @@ export default async function HomePage() {
 
   const { data: bestOfRows } = await supabase
     .from("posts")
-    .select("id, title, created_at, author:profiles(pseudo)")
+    .select("id, title, created_at, author:profiles!posts_author_id_fkey(pseudo)")
     .order("created_at", { ascending: false })
     .limit(5);
   const bestOf = (
