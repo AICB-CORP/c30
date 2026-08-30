@@ -39,9 +39,6 @@ enable_signup = true
 [auth.email]
 enable_confirmations = false
 
-[auth.email.logo_url]
-[auth.external]
-
 [edge_runtime]
 enabled = true
 

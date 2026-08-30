@@ -10,9 +10,3 @@
 // Pour les futurs tests de composants qui en ont besoin, importez jest-dom
 // directement dans le fichier de test concerné :
 //   import "@testing-library/jest-dom/vitest";
-//
-// Ré-activation globale (environnements où l'import ne bloque pas) :
-//   export const ENABLE_JEST_DOM = "1";
-//   if (process.env.ENABLE_JEST_DOM === "1") {
-//     await import("@testing-library/jest-dom/vitest");
-//   }
