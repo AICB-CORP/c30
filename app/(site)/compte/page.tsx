@@ -107,7 +107,11 @@ export default function ComptePage() {
                 👽
               </div>
             )}
-            <MediaUpload kind="image" onUploaded={handleAvatarUploaded} />
+            <MediaUpload
+              kind="image"
+              onUploaded={handleAvatarUploaded}
+              cropAspect={1}
+            />
           </div>
         </div>
 
