@@ -46,6 +46,12 @@ For EVERY task, follow the complete pipeline below. This is the ONLY accepted fl
 - Delegate via the Task tool, respecting their permissions (reviewer and qa are read-only).
 - Integrate their output; fix any compilation issues they leave.
 
+> **⚠️ MANDATORY DELEGATIONS — NEVER SKIP:**
+>
+> - **Security agent (step 6b)** → **for EVERY code change**, even UI-only or copy tweaks. A single `dangerouslySetInnerHTML` or CDN URL can break §10 stealth / §5 RLS. The security gate sits between unit tests and layout tester.
+> - **Layout-tester agent (step 6c, Playwright MCP)** → **for EVERY task that touches UI** (React component, page, CSS, modal, toolbar, retro widget, font, color, animation). If you add/remove a `className`, a `div`, or a pixel of layout, you trigger it. Screenshots must be saved under `task-memory/screenshot/<branch>/` and referenced in the PR `## Screenshots` section.
+>   Skipping either gate is a pipeline violation — state the skip reason explicitly in the PR body only if the diff is pure docs/config/comments with zero runtime impact.
+
 ### 5. UNIT TESTS (via the unit-tester agent)
 
 - After implementation, delegate to `unit-tester`: write/update unit tests covering the new code (pure logic + sanitizer + components).

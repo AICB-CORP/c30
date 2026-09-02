@@ -6,8 +6,17 @@ area: media/carousel
 tags: [carousel, multi-upload, batch, tiptap, sanitize, media]
 status: implemented
 branch: feat/carousel-multi-upload
-related_files: [components/media/MediaUpload.tsx, components/editor/CarouselNode.ts, components/editor/RetroEditor.tsx, lib/sanitize.ts, app/globals.css, components/editor/MediaNodes.ts]
-decisions: [batch-upload-callback, carousel-node, sanitize-data-carousel, responsive-carousel, busy-guard]
+related_files:
+  [
+    components/media/MediaUpload.tsx,
+    components/editor/CarouselNode.ts,
+    components/editor/RetroEditor.tsx,
+    lib/sanitize.ts,
+    app/globals.css,
+    components/editor/MediaNodes.ts,
+  ]
+decisions:
+  [batch-upload-callback, carousel-node, sanitize-data-carousel, responsive-carousel, busy-guard]
 ---
 
 # Carousel pour uploads multiples + fix « seul le dernier reste »
@@ -26,36 +35,42 @@ Quand l'utilisateur sélectionnait plusieurs images (multiple), seul le dernier 
 ## Decision Points
 
 ### DP1 — Batch callback `onBatchUploaded` (MediaUpload)
+
 - **choice** : ajout `onBatchUploaded?: (uploads:{path,url}[])=>void` + `onBusyChange`, `batchUploadsRef`. Quand `onBatchUploaded` existe et `total>1`, `uploadSingleFile` pousse dans `batchUploadsRef` au lieu d'appeler `onUploaded` ; à la fin du lot (`queue empty` dans `processNextInQueue` et `handleCropperConfirm`), on appelle `onBatchUploaded(batch)` une fois puis `setBusy(false)`. Pour `total==1` on garde le chemin per-file pour compat.
 - **rationale** : une seule transaction `insertContent(htmlAvecToutesLesImages)` évite la race et garantit que tout reste ; le carrousel a besoin de tous les URLs d'un coup.
 - **alternatives** : garder per-file et fixer la race via `focus('end')` → moins robuste, ne résout pas le besoin carrousel.
 - **tradeoff** : double API (`onUploaded` + `onBatchUploaded`) mais rétro-compatible (tests sans batch continuent à passer).
 
 ### DP2 — CarouselNode TipTap
+
 - **choice** : `Node.create({name:'carousel', group:'block', content:'inline*', isolating:true, draggable:true, parseHTML:[{tag:'div[data-carousel]'},{tag:'div.retro-carousel'}], renderHTML: div[data-carousel="true"].class=retro-carousel})`, contenu `inline*` pour accueillir des `image` inline.
 - **rationale** : sans nœud, StarterKit drop le wrapper div et les images deviennent des paragraphes séparés ou seul le dernier est gardé. `isolating` évite que le curseur s'échappe au milieu du carrousel.
 - **alternatives** : stocker le carrousel en HTML brut via `RawHtml` data-ohtml → plus générique mais moins sémantique.
 - **tradeoff** : `class` forcée à `retro-carousel` côté parse/render pour éviter l'injection de classes arbitraires (sécu/style).
 
 ### DP3 — Sanitize `data-carousel` restreint
+
 - **choice** : `GLOBAL_ATTRS += "data-carousel"` + hook `afterSanitizeAttributes` qui supprime `data-carousel` si `tag!=="div"` ou `value!=="true"`.
 - **rationale** : permet au carrousel de survivre à `sanitizeHtml` tout en évitant que n'importe quel tag ne porte `data-carousel` pour déclencher le CSS.
 - **alternatives** : mettre `data-carousel` seulement dans `ATTRS_BY_TAG.div` → nécessite création de l'entrée div.
 - **tradeoff** : hook supplémentaire mais négligeable.
 
 ### DP4 — Responsive carrousel
+
 - **choice** : `display:flex; overflow-x:auto; scroll-snap-type:x mandatory; max-width:100%; box-sizing:border-box;` + `img {width:min(280px,70vw); height:clamp(140px,38vw,200px)}` + `@media(max-width:640px){gap/padding 0.5rem}`.
 - **rationale** : 280px fixe déborde sur iPhone 320px (`retro-box w-[95vw]` → ~300px). Le clamp assure que le carrousel reste dans la viewport et que le scroll est interne, pas le page scroll.
 - **alternatives** : largeur fixe + `overflow-x:hidden` → cache images.
 - **tradeoff** : `70vw` dépend de la viewport, pas du conteneur, mais suffisant pour le MVP.
 
 ### DP5 — Guard `mediaBusy` + voix
+
 - **choice** : `MediaUpload` expose `onBusyChange` via `useEffect([busy])`; `RetroEditor` tient `mediaBusy` et désactive Publier (`disabled={saving||mediaBusy}`) + message « Envoi en cours… ». `handleVoiceRecorded` fait `setMediaBusy(true)…finally{false}`.
 - **rationale** : empêche de sauvegarder un post incomplet (images manquantes). La voix faisait son propre fetch hors `MediaUpload`, donc non couvert avant.
 - **alternatives** : bloquer côté `handleSave` via `editor.getHTML().includes("blob:")` → fragile.
 - **tradeoff** : un état de plus, mais simple.
 
 ### DP6 — Toggle Carrousel
+
 - **choice** : checkbox `useCarousel` (défaut true) à côté du bouton Photos ; `onBatchUploaded` choisit `if(useCarousel && uploads.length>1) => div.retro-carousel else => imgs inline`.
 - **rationale** : l'utilisateur veut l'option carrousel vs inline.
 - **alternatives** : toujours carrousel pour >1 → moins flexible.

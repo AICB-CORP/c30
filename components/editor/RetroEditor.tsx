@@ -13,7 +13,7 @@ import Link from "@tiptap/extension-link";
 import { VideoNode, AudioNode } from "@/components/editor/MediaNodes";
 import { CarouselNode } from "@/components/editor/CarouselNode";
 import { createClient } from "@/lib/supabase/client";
-import { sanitizeHtml } from "@/lib/sanitize";
+import { isSafeIframe, sanitizeHtml } from "@/lib/sanitize";
 import MediaUpload from "@/components/media/MediaUpload";
 import GifPicker from "@/components/media/GifPicker";
 import VoiceRecorder from "@/components/media/VoiceRecorder";
@@ -101,7 +101,13 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
   const [showGifPicker, setShowGifPicker] = useState(false);
   const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
   const [useCarousel, setUseCarousel] = useState(true);
-  const [mediaBusy, setMediaBusy] = useState(false);
+  const [busyMap, setBusyMap] = useState<Record<string, boolean>>({});
+  const mediaBusy = Object.values(busyMap).some(Boolean);
+  const handleBusy =
+    (id: string) =>
+    (busy: boolean): void => {
+      setBusyMap((prev) => ({ ...prev, [id]: busy }));
+    };
 
   const editor = useEditor({
     extensions,
@@ -218,7 +224,7 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
 
   async function handleVoiceRecorded(blob: Blob) {
     setError(null);
-    setMediaBusy(true);
+    handleBusy("voice")(true);
     try {
       const rawType = blob.type || "audio/webm";
       const normalizedType = rawType.split(";")[0].trim().toLowerCase() || "audio/webm";
@@ -242,7 +248,7 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
     } catch {
       setError("Impossible d'enregistrer ta voix.");
     } finally {
-      setMediaBusy(false);
+      handleBusy("voice")(false);
     }
   }
 
@@ -306,407 +312,429 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-2 py-6 md:items-center">
-      <div className="retro-box w-[95vw] max-w-3xl">
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          <h3 className="neon-pink retro-title text-2xl">
-            {existing ? "✏️ Modifier le post" : "✏️ Nouveau post"}
-          </h3>
-          <button type="button" className="text-sm opacity-70 hover:opacity-100" onClick={onCancel}>
-            ✖ Fermer
-          </button>
-        </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-black/80 p-2">
+      <div className="retro-box flex w-[95vw] max-w-3xl max-h-[90vh] flex-col overflow-hidden">
+        {/* Header — always visible */}
+        <div className="flex-shrink-0">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <h3 className="neon-pink retro-title text-2xl">
+              {existing ? "✏️ Modifier le post" : "✏️ Nouveau post"}
+            </h3>
+            <button
+              type="button"
+              className="text-sm opacity-70 hover:opacity-100"
+              onClick={onCancel}
+            >
+              ✖ Fermer
+            </button>
+          </div>
 
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Titre de ton post…"
-          className="mb-3 w-full rounded-lg border-2 border-[#ff69b4] bg-black/60 px-3 py-2 text-white outline-none placeholder:text-white/40"
-        />
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Titre de ton post…"
+            className="mb-3 w-full rounded-lg border-2 border-[#ff69b4] bg-black/60 px-3 py-2 text-white outline-none placeholder:text-white/40"
+          />
 
-        <div className="mb-3 flex gap-2">
-          <button
-            type="button"
-            className={`retro-btn tool-btn${!isPrivate ? " active" : ""}`}
-            onClick={() => setIsPrivate(false)}
-          >
-            🌍 Public
-          </button>
-          <button
-            type="button"
-            className={`retro-btn tool-btn${isPrivate ? " active" : ""}`}
-            onClick={() => setIsPrivate(true)}
-          >
-            🔒 Privé
-          </button>
-          <span className="ml-auto self-center text-xs opacity-70">
-            Privé = visible seulement par la destinataire
-          </span>
-        </div>
-
-        <div className="mb-2 rounded-lg border-2 border-[#ff69b4]/60 bg-black/40 p-2">
-          <div className="flex flex-wrap items-center gap-1.5">
+          <div className="mb-3 flex gap-2">
             <button
               type="button"
-              className="retro-btn tool-btn font-bold"
-              title="Gras"
-              onClick={() => editor.chain().focus().toggleBold().run()}
+              className={`retro-btn tool-btn${!isPrivate ? " active" : ""}`}
+              onClick={() => setIsPrivate(false)}
             >
-              B
+              🌍 Public
             </button>
             <button
               type="button"
-              className="retro-btn tool-btn italic"
-              title="Italique"
-              onClick={() => editor.chain().focus().toggleItalic().run()}
+              className={`retro-btn tool-btn${isPrivate ? " active" : ""}`}
+              onClick={() => setIsPrivate(true)}
             >
-              I
+              🔒 Privé
             </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn underline"
-              title="Souligné"
-              onClick={() => editor.chain().focus().toggleUnderline().run()}
-            >
-              U
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn line-through"
-              title="Barré"
-              onClick={() => editor.chain().focus().toggleStrike().run()}
-            >
-              S
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Titre 1"
-              onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-            >
-              H1
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Titre 2"
-              onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-            >
-              H2
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Liste"
-              onClick={() => editor.chain().focus().toggleBulletList().run()}
-            >
-              • Liste
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Liste numérotée"
-              onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            >
-              1. Liste
-            </button>
-            <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
-            <input
-              type="color"
-              title="Couleur du texte"
-              value={editor.getAttributes("textStyle").color ?? "#FF69B4"}
-              onChange={(e) => editor.chain().focus().setColor(e.target.value).run()}
-              className="h-7 w-9 cursor-pointer border-2 border-[#ffb6d9] bg-transparent p-0"
-            />
-            {SWATCHES.map((c) => (
-              <button
-                key={c}
-                type="button"
-                title={c}
-                className="h-5 w-5 rounded-full border border-white/50"
-                style={{ backgroundColor: c }}
-                onClick={() => editor.chain().focus().setColor(c).run()}
-              />
-            ))}
-            <select
-              title="Police"
-              className="retro-btn tool-btn"
-              value={editor.getAttributes("textStyle").fontFamily ?? ""}
-              onChange={(e) => {
-                const v = e.target.value;
-                if (v) editor.chain().focus().setFontFamily(v).run();
-                else editor.chain().focus().unsetFontFamily().run();
-              }}
-            >
-              <option value="">Police</option>
-              {FONTS.map((f) => (
-                <option key={f.value} value={f.value}>
-                  {f.label}
-                </option>
-              ))}
-            </select>
-            <select
-              title="Taille du texte"
-              className="retro-btn tool-btn"
-              value={editor.getAttributes("textStyle").fontSize ?? ""}
-              onChange={(e) => {
-                const v = e.target.value;
-                if (v) editor.chain().focus().setFontSize(`${v}px`).run();
-                else editor.chain().focus().unsetFontSize().run();
-              }}
-            >
-              <option value="">Taille</option>
-              {FONT_SIZES.map((s) => (
-                <option key={s} value={String(s)}>
-                  {s}px
-                </option>
-              ))}
-            </select>
-            <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
-            {(
-              [
-                ["left", "⬅", "Aligné à gauche"],
-                ["center", "⬌", "Centré"],
-                ["right", "➡", "Aligné à droite"],
-              ] as const
-            ).map(([align, icon, label]) => {
-              const currentAlign = editor.isActive("heading")
-                ? (editor.getAttributes("heading").textAlign ?? "left")
-                : (editor.getAttributes("paragraph").textAlign ?? "left");
-              return (
-                <button
-                  key={align}
-                  type="button"
-                  className={`retro-btn tool-btn${currentAlign === align ? " pushed" : ""}`}
-                  title={label}
-                  onClick={() => editor.chain().focus().setTextAlign(align).run()}
-                >
-                  {icon}
-                </button>
-              );
-            })}
-            <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
-            <button type="button" className="retro-btn tool-btn" title="Lien" onClick={handleLink}>
-              🔗
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Musique (Spotify…)"
-              onClick={handleAddMusic}
-            >
-              🎵
-            </button>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Vidéo YouTube"
-              onClick={handleAddVideo}
-            >
-              ▶️
-            </button>
-            <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
-            <div className="flex flex-wrap items-center gap-1">
-              <button
-                type="button"
-                className={`retro-btn tool-btn${editor.getAttributes("textStyle").textShadow === NEON_SHADOW ? " pushed" : ""}`}
-                title="Néon — donne un effet lumineux néon rose au texte"
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => {
-                  const current = editor.getAttributes("textStyle").textShadow;
-                  if (current === NEON_SHADOW) {
-                    editor.chain().focus().setMark("textStyle", { textShadow: null }).run();
-                  } else {
-                    editor.chain().focus().setMark("textStyle", { textShadow: NEON_SHADOW }).run();
-                  }
-                }}
-              >
-                ⚡ Néon
-              </button>
-              <button
-                type="button"
-                className={`retro-btn tool-btn${editor.isActive("rainbow") ? " pushed" : ""}`}
-                title="Arc-en-ciel — le texte défile dans toutes les couleurs"
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => toggleRetroMark("toggleRainbow")}
-              >
-                ✨ Arc-en-ciel
-              </button>
-              <button
-                type="button"
-                className={`retro-btn tool-btn${editor.isActive("marqueeMark") ? " pushed" : ""}`}
-                title="Défilant — le texte défile de droite à gauche"
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => toggleRetroMark("toggleMarquee")}
-              >
-                📜 Défilant
-              </button>
-              <button
-                type="button"
-                className={`retro-btn tool-btn${editor.isActive("blinkMark") ? " pushed" : ""}`}
-                title="Clignotant — le texte clignote comme un vieux site web"
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => toggleRetroMark("toggleBlink")}
-              >
-                💫 Clignotant
-              </button>
-              <button
-                type="button"
-                className={`retro-btn tool-btn${editor.isActive("blurMark") ? " pushed" : ""}`}
-                title="Flou — le texte est caché, survole pour révéler le message secret"
-                onMouseDown={(e) => e.preventDefault()}
-                onClick={() => toggleRetroMark("toggleBlur")}
-              >
-                🔍 Flou
-              </button>
-            </div>
-            <button
-              type="button"
-              className="retro-btn tool-btn"
-              title="Mode HTML"
-              onClick={toggleHtmlMode}
-            >
-              ⚙️ HTML
-            </button>
+            <span className="ml-auto self-center text-xs opacity-70">
+              Privé = visible seulement par la destinataire
+            </span>
           </div>
         </div>
 
-        <div className="mb-2 flex flex-wrap gap-1.5">
-          <div className="flex items-center gap-1.5">
-            <MediaUpload
-              kind="image"
-              multiple
-              maxFiles={10}
-              onUploaded={(_path, url) =>
-                editor.chain().focus().insertContent(`<img src="${url}">`).run()
-              }
-              onBatchUploaded={(uploads) => {
-                if (uploads.length === 0) return;
-                if (useCarousel && uploads.length > 1) {
-                  const imgs = uploads.map((u) => `<img src="${u.url}" alt="">`).join("");
-                  const html = `<div class="retro-carousel" data-carousel="true">${imgs}</div>`;
-                  editor.chain().focus().insertContent(html).run();
-                } else {
-                  const html = uploads.map((u) => `<img src="${u.url}" alt="">`).join("");
-                  editor.chain().focus().insertContent(html).run();
-                }
-              }}
-              onBusyChange={setMediaBusy}
-            />
-            <label
-              className="flex items-center gap-1 text-xs opacity-80"
-              title="Groupe les photos en carrousel quand tu en sélectionnes plusieurs"
-            >
-              <input
-                type="checkbox"
-                checked={useCarousel}
-                onChange={(e) => setUseCarousel(e.target.checked)}
-                className="h-3 w-3 accent-[#ff69b4]"
-              />
-              Carrousel
-            </label>
-          </div>
-          <MediaUpload
-            kind="video"
-            onUploaded={(_path, url) =>
-              editor.chain().focus().insertContent(`<video controls src="${url}"></video>`).run()
-            }
-            onBusyChange={setMediaBusy}
-          />
-          <MediaUpload
-            kind="audio"
-            onUploaded={(_path, url) =>
-              editor.chain().focus().insertContent(`<audio controls src="${url}"></audio>`).run()
-            }
-            onBusyChange={setMediaBusy}
-          />
-          <button
-            type="button"
-            className="retro-btn tool-btn"
-            onClick={() => setShowGifPicker(true)}
-          >
-            💬 GIF
-          </button>
-          <button
-            type="button"
-            className="retro-btn tool-btn"
-            onClick={() => setShowVoiceRecorder(true)}
-          >
-            🎙 Voix
-          </button>
-        </div>
-
-        {showGifPicker ? (
-          <GifPicker
-            onSelect={(src) => {
-              editor.chain().focus().insertContent(`<img src="${src}">`).run();
-              setShowGifPicker(false);
-            }}
-            onClose={() => setShowGifPicker(false)}
-          />
-        ) : null}
-
-        {showVoiceRecorder ? <VoiceRecorder onRecorded={handleVoiceRecorded} /> : null}
-
-        {musicEmbed ? (
-          <div className="mb-2 rounded-lg border-2 border-dashed border-[#ff69b4] p-2">
-            <div className="mb-1 flex items-center justify-between">
-              <span className="text-xs">🎵 Musique du post</span>
+        {/* Scrollable middle — toolbar + media + editor; toolbar sticky, editor scrolls */}
+        <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-hidden pr-1">
+          <div className="sticky top-0 z-10 rounded-lg border-2 border-[#ff69b4]/60 bg-black/40 p-2 backdrop-blur-sm">
+            <div className="flex flex-nowrap items-center gap-1.5 overflow-x-auto overscroll-x-contain touch-pan-x pb-1 scrollbar-thin">
               <button
                 type="button"
-                className="text-xs underline"
-                onClick={() => setMusicEmbed(null)}
+                className="retro-btn tool-btn font-bold"
+                title="Gras"
+                onClick={() => editor.chain().focus().toggleBold().run()}
               >
-                Retirer
+                B
               </button>
-            </div>
-            <div dangerouslySetInnerHTML={{ __html: musicEmbed }} />
-          </div>
-        ) : null}
-
-        {htmlMode ? (
-          <div className="mb-2">
-            <textarea
-              value={htmlText}
-              onChange={(e) => setHtmlText(e.target.value)}
-              className="h-64 w-full rounded-lg border-2 border-[#ff69b4] bg-black p-2 font-mono text-xs text-white outline-none"
-              spellCheck={false}
-            />
-            <div className="mt-2 flex gap-2">
-              <button type="button" className="retro-btn tool-btn" onClick={toggleHtmlMode}>
-                ✔ Appliquer le HTML
+              <button
+                type="button"
+                className="retro-btn tool-btn italic"
+                title="Italique"
+                onClick={() => editor.chain().focus().toggleItalic().run()}
+              >
+                I
+              </button>
+              <button
+                type="button"
+                className="retro-btn tool-btn underline"
+                title="Souligné"
+                onClick={() => editor.chain().focus().toggleUnderline().run()}
+              >
+                U
+              </button>
+              <button
+                type="button"
+                className="retro-btn tool-btn line-through"
+                title="Barré"
+                onClick={() => editor.chain().focus().toggleStrike().run()}
+              >
+                S
               </button>
               <button
                 type="button"
                 className="retro-btn tool-btn"
-                onClick={() => {
-                  setHtmlMode(false);
+                title="Titre 1"
+                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+              >
+                H1
+              </button>
+              <button
+                type="button"
+                className="retro-btn tool-btn"
+                title="Titre 2"
+                onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+              >
+                H2
+              </button>
+              <button
+                type="button"
+                className="retro-btn tool-btn"
+                title="Liste"
+                onClick={() => editor.chain().focus().toggleBulletList().run()}
+              >
+                • Liste
+              </button>
+              <button
+                type="button"
+                className="retro-btn tool-btn"
+                title="Liste numérotée"
+                onClick={() => editor.chain().focus().toggleOrderedList().run()}
+              >
+                1. Liste
+              </button>
+              <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
+              <input
+                type="color"
+                title="Couleur du texte"
+                value={editor.getAttributes("textStyle").color ?? "#FF69B4"}
+                onChange={(e) => editor.chain().focus().setColor(e.target.value).run()}
+                className="h-7 w-9 cursor-pointer border-2 border-[#ffb6d9] bg-transparent p-0"
+              />
+              {SWATCHES.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  title={c}
+                  className="h-5 w-5 rounded-full border border-white/50"
+                  style={{ backgroundColor: c }}
+                  onClick={() => editor.chain().focus().setColor(c).run()}
+                />
+              ))}
+              <select
+                title="Police"
+                className="retro-btn tool-btn"
+                value={editor.getAttributes("textStyle").fontFamily ?? ""}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  if (v) editor.chain().focus().setFontFamily(v).run();
+                  else editor.chain().focus().unsetFontFamily().run();
                 }}
               >
-                Annuler
+                <option value="">Police</option>
+                {FONTS.map((f) => (
+                  <option key={f.value} value={f.value}>
+                    {f.label}
+                  </option>
+                ))}
+              </select>
+              <select
+                title="Taille du texte"
+                className="retro-btn tool-btn"
+                value={editor.getAttributes("textStyle").fontSize ?? ""}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  if (v) editor.chain().focus().setFontSize(`${v}px`).run();
+                  else editor.chain().focus().unsetFontSize().run();
+                }}
+              >
+                <option value="">Taille</option>
+                {FONT_SIZES.map((s) => (
+                  <option key={s} value={String(s)}>
+                    {s}px
+                  </option>
+                ))}
+              </select>
+              <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
+              {(
+                [
+                  ["left", "⬅", "Aligné à gauche"],
+                  ["center", "⬌", "Centré"],
+                  ["right", "➡", "Aligné à droite"],
+                ] as const
+              ).map(([align, icon, label]) => {
+                const currentAlign = editor.isActive("heading")
+                  ? (editor.getAttributes("heading").textAlign ?? "left")
+                  : (editor.getAttributes("paragraph").textAlign ?? "left");
+                return (
+                  <button
+                    key={align}
+                    type="button"
+                    className={`retro-btn tool-btn${currentAlign === align ? " pushed" : ""}`}
+                    title={label}
+                    onClick={() => editor.chain().focus().setTextAlign(align).run()}
+                  >
+                    {icon}
+                  </button>
+                );
+              })}
+              <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
+              <button
+                type="button"
+                className="retro-btn tool-btn"
+                title="Lien"
+                onClick={handleLink}
+              >
+                🔗
+              </button>
+              <button
+                type="button"
+                className="retro-btn tool-btn"
+                title="Musique (Spotify…)"
+                onClick={handleAddMusic}
+              >
+                🎵
+              </button>
+              <button
+                type="button"
+                className="retro-btn tool-btn"
+                title="Vidéo YouTube"
+                onClick={handleAddVideo}
+              >
+                ▶️
+              </button>
+              <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
+              <div className="flex flex-wrap items-center gap-1">
+                <button
+                  type="button"
+                  className={`retro-btn tool-btn${editor.getAttributes("textStyle").textShadow === NEON_SHADOW ? " pushed" : ""}`}
+                  title="Néon — donne un effet lumineux néon rose au texte"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => {
+                    const current = editor.getAttributes("textStyle").textShadow;
+                    if (current === NEON_SHADOW) {
+                      editor.chain().focus().setMark("textStyle", { textShadow: null }).run();
+                    } else {
+                      editor
+                        .chain()
+                        .focus()
+                        .setMark("textStyle", { textShadow: NEON_SHADOW })
+                        .run();
+                    }
+                  }}
+                >
+                  ⚡ Néon
+                </button>
+                <button
+                  type="button"
+                  className={`retro-btn tool-btn${editor.isActive("rainbow") ? " pushed" : ""}`}
+                  title="Arc-en-ciel — le texte défile dans toutes les couleurs"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => toggleRetroMark("toggleRainbow")}
+                >
+                  ✨ Arc-en-ciel
+                </button>
+                <button
+                  type="button"
+                  className={`retro-btn tool-btn${editor.isActive("marqueeMark") ? " pushed" : ""}`}
+                  title="Défilant — le texte défile de droite à gauche"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => toggleRetroMark("toggleMarquee")}
+                >
+                  📜 Défilant
+                </button>
+                <button
+                  type="button"
+                  className={`retro-btn tool-btn${editor.isActive("blinkMark") ? " pushed" : ""}`}
+                  title="Clignotant — le texte clignote comme un vieux site web"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => toggleRetroMark("toggleBlink")}
+                >
+                  💫 Clignotant
+                </button>
+                <button
+                  type="button"
+                  className={`retro-btn tool-btn${editor.isActive("blurMark") ? " pushed" : ""}`}
+                  title="Flou — le texte est caché, survole pour révéler le message secret"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => toggleRetroMark("toggleBlur")}
+                >
+                  🔍 Flou
+                </button>
+              </div>
+              <button
+                type="button"
+                className="retro-btn tool-btn"
+                title="Mode HTML"
+                onClick={toggleHtmlMode}
+              >
+                ⚙️ HTML
               </button>
             </div>
           </div>
-        ) : (
-          <div className="editor-area mb-2">
-            <EditorContent editor={editor} />
+
+          <div className="mb-2 flex flex-wrap gap-1.5">
+            <div className="flex items-center gap-1.5">
+              <MediaUpload
+                kind="image"
+                multiple
+                maxFiles={10}
+                onUploaded={(_path, url) =>
+                  editor.chain().focus().insertContent(`<img src="${url}">`).run()
+                }
+                onBatchUploaded={(uploads) => {
+                  if (uploads.length === 0) return;
+                  if (useCarousel && uploads.length > 1) {
+                    const imgs = uploads.map((u) => `<img src="${u.url}" alt="">`).join("");
+                    const html = `<div class="retro-carousel" data-carousel="true">${imgs}</div>`;
+                    editor.chain().focus().insertContent(html).run();
+                  } else {
+                    const html = uploads.map((u) => `<img src="${u.url}" alt="">`).join("");
+                    editor.chain().focus().insertContent(html).run();
+                  }
+                }}
+                onBusyChange={handleBusy("image")}
+              />
+              <label
+                className="flex items-center gap-1 text-xs opacity-80"
+                title="Groupe les photos en carrousel quand tu en sélectionnes plusieurs"
+              >
+                <input
+                  type="checkbox"
+                  checked={useCarousel}
+                  onChange={(e) => setUseCarousel(e.target.checked)}
+                  className="h-3 w-3 accent-[#ff69b4]"
+                />
+                Carrousel
+              </label>
+            </div>
+            <MediaUpload
+              kind="video"
+              onUploaded={(_path, url) =>
+                editor.chain().focus().insertContent(`<video controls src="${url}"></video>`).run()
+              }
+              onBusyChange={handleBusy("video")}
+            />
+            <MediaUpload
+              kind="audio"
+              onUploaded={(_path, url) =>
+                editor.chain().focus().insertContent(`<audio controls src="${url}"></audio>`).run()
+              }
+              onBusyChange={handleBusy("audio")}
+            />
+            <button
+              type="button"
+              className="retro-btn tool-btn"
+              onClick={() => setShowGifPicker(true)}
+            >
+              💬 GIF
+            </button>
+            <button
+              type="button"
+              className="retro-btn tool-btn"
+              onClick={() => setShowVoiceRecorder(true)}
+            >
+              🎙 Voix
+            </button>
           </div>
-        )}
 
-        {mediaBusy ? (
-          <p className="mb-2 rounded-lg border-2 border-[#ff69b4] bg-black/60 px-3 py-2 text-xs text-[#ffb6d9]">
-            ⏳ Envoi en cours… attends la fin avant de publier
-          </p>
-        ) : null}
+          {showGifPicker ? (
+            <GifPicker
+              onSelect={(src) => {
+                editor.chain().focus().insertContent(`<img src="${src}">`).run();
+                setShowGifPicker(false);
+              }}
+              onClose={() => setShowGifPicker(false)}
+            />
+          ) : null}
 
-        {error ? (
-          <p className="mb-2 rounded-lg border-2 border-red-400 bg-red-900/50 px-3 py-2 text-sm text-red-100">
-            {error}
-          </p>
-        ) : null}
+          {showVoiceRecorder ? <VoiceRecorder onRecorded={handleVoiceRecorded} /> : null}
 
-        <div className="flex gap-2">
+          {musicEmbed && isSafeIframe(musicEmbed) ? (
+            <div className="mb-2 rounded-lg border-2 border-dashed border-[#ff69b4] p-2">
+              <div className="mb-1 flex items-center justify-between">
+                <span className="text-xs">🎵 Musique du post</span>
+                <button
+                  type="button"
+                  className="text-xs underline"
+                  onClick={() => setMusicEmbed(null)}
+                >
+                  Retirer
+                </button>
+              </div>
+              <div dangerouslySetInnerHTML={{ __html: musicEmbed }} />
+            </div>
+          ) : null}
+
+          {htmlMode ? (
+            <div className="mb-2 flex min-h-0 flex-col overflow-hidden">
+              <textarea
+                value={htmlText}
+                onChange={(e) => setHtmlText(e.target.value)}
+                className="h-64 max-h-[45vh] w-full overflow-y-auto rounded-lg border-2 border-[#ff69b4] bg-black p-2 font-mono text-xs text-white outline-none md:max-h-[50vh]"
+                spellCheck={false}
+              />
+              <div className="mt-2 flex gap-2">
+                <button type="button" className="retro-btn tool-btn" onClick={toggleHtmlMode}>
+                  ✔ Appliquer le HTML
+                </button>
+                <button
+                  type="button"
+                  className="retro-btn tool-btn"
+                  onClick={() => {
+                    setHtmlMode(false);
+                  }}
+                >
+                  Annuler
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="editor-area mb-2 flex min-h-[180px] flex-col overflow-hidden rounded-lg border-2 border-[#ff69b4]/30 bg-black/20">
+              <div className="min-h-[180px] flex-1 overflow-y-auto overflow-x-hidden p-2">
+                <EditorContent editor={editor} />
+              </div>
+            </div>
+          )}
+
+          {mediaBusy ? (
+            <p className="mb-2 rounded-lg border-2 border-[#ff69b4] bg-black/60 px-3 py-2 text-xs text-[#ffb6d9]">
+              ⏳ Envoi en cours… attends la fin avant de publier
+            </p>
+          ) : null}
+
+          {error ? (
+            <p className="mb-2 rounded-lg border-2 border-red-400 bg-red-900/50 px-3 py-2 text-sm text-red-100">
+              {error}
+            </p>
+          ) : null}
+        </div>
+
+        {/* Footer — always visible */}
+        <div className="flex flex-shrink-0 gap-2 border-t border-[#ff69b4]/20 pt-3">
           <button
             type="button"
             className="retro-btn"
@@ -735,6 +763,7 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
           border: 3px outset #ffb6d9;
           box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4), 0 0 8px rgba(255, 20, 147, 0.3);
           transition: all 0.08s ease;
+          white-space: nowrap;
         }
         .retro-btn.tool-btn:active {
           border-style: inset;
