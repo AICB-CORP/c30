@@ -46,4 +46,5 @@ Chaque tâche = un fichier `YYYY-MM-DD-<slug>.md` avec :
 | 2026-08-30 | supabase-key-format-change | infra/supabase  | implemented | [2026-08-30-supabase-key-format-change.md](./2026-08-30-supabase-key-format-change.md) |
 | 2026-08-30 | posts-query-ambiguity-fix | query/rls        | implemented | [2026-08-30-posts-query-ambiguity-fix.md](./2026-08-30-posts-query-ambiguity-fix.md) |
 | 2026-09-01 | image-cropper-compression | media/editor     | implemented | [2026-09-01-image-cropper-compression.md](./2026-09-01-image-cropper-compression.md) |
+| 2026-09-02 | video-audio-upload-fix | media/upload | implemented | [2026-09-02-video-audio-upload-fix.md](./2026-09-02-video-audio-upload-fix.md) |
 // screenshot update

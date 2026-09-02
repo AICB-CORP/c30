@@ -105,6 +105,7 @@ Fix all blocking + important findings, re-run the affected checks, then continue
 ## Screenshots
 
 ### Before / after — cropper modal
+
 ![cropper mobile](https://raw.githubusercontent.com/AICB-CORP/c30/<branch>/task-memory/screenshot/<branch>/cropper-mobile.png)
 ![cropper desktop](https://raw.githubusercontent.com/AICB-CORP/c30/<branch>/task-memory/screenshot/<branch>/cropper-desktop.png)
 ...

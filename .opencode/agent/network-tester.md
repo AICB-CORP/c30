@@ -57,6 +57,7 @@ Read PROJECT_PLAN.md in full first. §7 (features) defines expected interactions
 ## Tools
 
 Use Playwright MCP exclusively:
+
 - `playwright_browser_navigate` to load pages.
 - `playwright_browser_network_requests` to list all network calls.
 - `playwright_browser_network_request` to inspect individual request/response details.
@@ -71,6 +72,7 @@ Use Playwright MCP exclusively:
 ## Network & Interaction Test Report — <date>
 
 ### Summary
+
 - Pages tested: X
 - Network requests monitored: X
 - PASS: X / FAIL: X
@@ -79,37 +81,43 @@ Use Playwright MCP exclusively:
 ### Network call audit
 
 #### Page: <page name>
-| Request | Method | Status | Response Time | Notes |
-|---------|--------|--------|---------------|-------|
-| /api/... | GET | 200 | 45ms | OK |
-| /api/... | POST | 401 | 120ms | Expected: no auth |
+
+| Request  | Method | Status | Response Time | Notes             |
+| -------- | ------ | ------ | ------------- | ----------------- |
+| /api/... | GET    | 200    | 45ms          | OK                |
+| /api/... | POST   | 401    | 120ms         | Expected: no auth |
 
 ### API endpoint results
 
 #### POST /api/auth/signup
+
 - Valid code → 201 ✓
 - Invalid code → 403 ✓
 - Duplicate email → 409 ✓
 
 #### POST /api/upload
+
 - Valid file → presigned URL returned ✓
 - Invalid type → rejected ✓
 
 ### Page source checks
 
 | Page | Title | noindex | robots disallow | CSS loaded | JS loaded |
-|------|-------|---------|-----------------|------------|-----------|
-| / | ✓ | ✓ | ✓ | ✓ | ✓ |
+| ---- | ----- | ------- | --------------- | ---------- | --------- |
+| /    | ✓     | ✓       | ✓               | ✓          | ✓         |
 
 ### Console errors
+
 1. **[ERROR]** `<page>` — `<error message>` — severity: <high/medium/low>
 
 ### RLS verification
+
 - Unauthenticated REST call → 401 ✓
 - Friend A sees own private posts ✓
 - Friend A does NOT see Friend B private posts ✓
 
 ### Issues found
+
 1. **[FAIL]** <endpoint/page> — <check> — <description> — severity: <high/medium/low>
 ```
 

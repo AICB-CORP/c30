@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import imageCompression from "browser-image-compression";
 import ImageCropper from "./ImageCropper";
 import { isCropableImage, MAX_INPUT_BYTES } from "@/lib/imageCrop";
+import { CONTENT_TYPE_EXT, normalizeContentType } from "@/lib/mediaTypes";
 
 interface MediaUploadProps {
   kind: "image" | "video" | "audio";
@@ -24,7 +25,7 @@ interface MediaUploadProps {
   cropAspect?: number;
 }
 
-const MAX_RAW_MB = 8;
+const MAX_RAW_MB = 50;
 const ACCEPT: Record<MediaUploadProps["kind"], string> = {
   image: "image/*",
   video: "video/*",
@@ -99,6 +100,42 @@ export default function MediaUpload({
    * Resolves to the next File to process (or null if the queue is empty).
    * Triggers the cropper modal when needed.
    */
+  /**
+   * Best-effort inference of a content-type from a filename extension
+   * when the browser reports an empty `file.type` (common on some
+   * mobile browsers / renamed files). Uses the KIND hint to disambiguate
+   * ambiguous extensions like .webm / .ogg.
+   */
+  function inferContentTypeFromFilename(name: string): string | null {
+    const ext = name.split(".").pop()?.toLowerCase();
+    if (!ext) return null;
+    const map: Record<string, string> = {
+      jpg: "image/jpeg",
+      jpeg: "image/jpeg",
+      png: "image/png",
+      gif: "image/gif",
+      webp: "image/webp",
+      bmp: "image/bmp",
+      mp4: kind === "audio" ? "audio/mp4" : "video/mp4",
+      mov: "video/quicktime",
+      webm: kind === "video" ? "video/webm" : kind === "audio" ? "audio/webm" : "video/webm",
+      ogv: "video/ogg",
+      mpeg: "video/mpeg",
+      mpg: "video/mpeg",
+      avi: "video/x-msvideo",
+      mkv: "video/x-matroska",
+      mp3: "audio/mpeg",
+      wav: "audio/wav",
+      wave: "audio/wav",
+      m4a: "audio/mp4",
+      aac: "audio/aac",
+      flac: "audio/flac",
+      oga: "audio/ogg",
+      ogg: kind === "video" ? "video/ogg" : "audio/ogg",
+    };
+    return map[ext] ?? null;
+  }
+
   function processNextInQueue(): void {
     const next = queueRef.current.shift();
     if (!next) {
@@ -108,6 +145,7 @@ export default function MediaUpload({
         objectUrlRef.current = null;
       }
       currentIndexRef.current = 0;
+      setBusy(false);
       return;
     }
     // Per-file sanity cap: a 50 MB+ raw upload would crash
@@ -139,7 +177,18 @@ export default function MediaUpload({
       const index = currentIndexRef.current;
       const total = queueRef.current.length + 1 + index;
       currentIndexRef.current = index + 1;
-      void uploadSingleFile(next, index, total);
+      void uploadSingleFile(next, index, total).then(() => {
+        if (queueRef.current.length > 0) {
+          processNextInQueue();
+        } else {
+          if (objectUrlRef.current) {
+            URL.revokeObjectURL(objectUrlRef.current);
+            objectUrlRef.current = null;
+          }
+          currentIndexRef.current = 0;
+          setBusy(false);
+        }
+      });
     }
   }
 
@@ -188,7 +237,8 @@ export default function MediaUpload({
     // Normalise the Blob into a File so R2 has a filename to derive an
     // extension from if the caller hands us a raw Blob (from the cropper).
     if (!(uploadFile instanceof File)) {
-      const ext = uploadFile.type === "image/png" ? "png" : "jpg";
+      const normalized = normalizeContentType(uploadFile.type);
+      const ext = CONTENT_TYPE_EXT[normalized] ?? "jpg";
       uploadFile = new File([uploadFile], `cropped-${Date.now()}.${ext}`, {
         type: uploadFile.type,
       });
@@ -196,8 +246,20 @@ export default function MediaUpload({
 
     const finalFile = uploadFile as File;
 
-    if (!finalFile.type) {
-      setError("Type inconnu.");
+    // Normalize Content-Type: strip codecs param (“audio/webm;codecs=opus” → “audio/webm”),
+    // lowercase, and handle empty type via filename inference (common on mobile).
+    let effectiveType = normalizeContentType(finalFile.type);
+    if (!effectiveType) {
+      const inferred = inferContentTypeFromFilename(finalFile.name);
+      if (inferred) effectiveType = inferred;
+    }
+    if (!effectiveType) {
+      setError("Type inconnu — renomme ton fichier avec une extension (.mp4, .mp3, .wav…).");
+      setProgress(null);
+      return false;
+    }
+    if (!CONTENT_TYPE_EXT[effectiveType]) {
+      setError(`Type non supporté : ${effectiveType}`);
       setProgress(null);
       return false;
     }
@@ -209,7 +271,7 @@ export default function MediaUpload({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           bucket: "post-media",
-          contentType: finalFile.type,
+          contentType: effectiveType,
         }),
       });
 
@@ -226,7 +288,7 @@ export default function MediaUpload({
 
       const put = await fetch(signedUrl, {
         method: "PUT",
-        headers: { "Content-Type": finalFile.type },
+        headers: { "Content-Type": effectiveType },
         body: finalFile,
       });
 

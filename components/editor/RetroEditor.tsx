@@ -10,6 +10,7 @@ import { TextStyle, Color, FontFamily, FontSize } from "@tiptap/extension-text-s
 import TextAlign from "@tiptap/extension-text-align";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
+import { VideoNode, AudioNode } from "@/components/editor/MediaNodes";
 import { createClient } from "@/lib/supabase/client";
 import { sanitizeHtml } from "@/lib/sanitize";
 import MediaUpload from "@/components/media/MediaUpload";
@@ -47,6 +48,8 @@ const extensions = [
     heading: { levels: [1, 2] },
   }),
   Image,
+  VideoNode,
+  AudioNode,
   Rainbow,
   Marquee,
   Blink,
@@ -126,7 +129,9 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
     editor.chain().focus().deleteSelection().insertContent(html).run();
   }
 
-  function toggleRetroMark(markName: "toggleRainbow" | "toggleMarquee" | "toggleBlink" | "toggleBlur") {
+  function toggleRetroMark(
+    markName: "toggleRainbow" | "toggleMarquee" | "toggleBlink" | "toggleBlur",
+  ) {
     const { selection } = editor.state;
     if (selection.empty) {
       const placeholder = placeholderFor(markName);
@@ -137,10 +142,7 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
         .command(({ tr }) => {
           const pos = tr.selection.$from.pos;
           tr.setSelection(
-            new TextSelection(
-              tr.doc.resolve(pos - placeholder.length),
-              tr.doc.resolve(pos)
-            )
+            new TextSelection(tr.doc.resolve(pos - placeholder.length), tr.doc.resolve(pos)),
           );
           return true;
         })
@@ -213,19 +215,21 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
   async function handleVoiceRecorded(blob: Blob) {
     setError(null);
     try {
+      const rawType = blob.type || "audio/webm";
+      const normalizedType = rawType.split(";")[0].trim().toLowerCase() || "audio/webm";
       const res = await fetch("/api/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           bucket: "post-media",
-          contentType: blob.type || "audio/webm",
+          contentType: normalizedType,
         }),
       });
       if (!res.ok) throw new Error("upload");
       const { signedUrl, publicUrl } = await res.json();
       await fetch(signedUrl, {
         method: "PUT",
-        headers: { "Content-Type": blob.type || "audio/webm" },
+        headers: { "Content-Type": normalizedType },
         body: blob,
       });
       editor.chain().focus().insertContent(`<audio controls src="${publicUrl}"></audio>`).run();
@@ -460,10 +464,9 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
                 ["right", "➡", "Aligné à droite"],
               ] as const
             ).map(([align, icon, label]) => {
-              const currentAlign =
-                editor.isActive("heading")
-                  ? (editor.getAttributes("heading").textAlign ?? "left")
-                  : (editor.getAttributes("paragraph").textAlign ?? "left");
+              const currentAlign = editor.isActive("heading")
+                ? (editor.getAttributes("heading").textAlign ?? "left")
+                : (editor.getAttributes("paragraph").textAlign ?? "left");
               return (
                 <button
                   key={align}

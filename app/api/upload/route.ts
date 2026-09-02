@@ -1,10 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
-import {
-  ALLOWED_BUCKETS,
-  ALLOWED_CONTENT_TYPES,
-  buildUploadPath,
-  createPresignedUploadUrl,
-} from "@/lib/r2";
+import { ALLOWED_BUCKETS, buildUploadPath, createPresignedUploadUrl } from "@/lib/r2";
+import { isAllowedContentType, normalizeContentType } from "@/lib/mediaTypes";
 
 export const runtime = "nodejs"; // R2 SDK needs Node runtime (not Edge)
 
@@ -33,14 +29,19 @@ export async function POST(request: Request) {
     return Response.json({ error: "Bucket invalide" }, { status: 400 });
   }
 
-  if (typeof contentType !== "string" || !ALLOWED_CONTENT_TYPES.has(contentType)) {
+  if (typeof contentType !== "string") {
     return Response.json({ error: "Type de contenu non autorisé" }, { status: 400 });
   }
 
-  const uploadPath = buildUploadPath(user.id, contentType);
+  const normalizedType = normalizeContentType(contentType);
+  if (!isAllowedContentType(normalizedType)) {
+    return Response.json({ error: "Type de contenu non autorisé" }, { status: 400 });
+  }
+
+  const uploadPath = buildUploadPath(user.id, normalizedType);
 
   try {
-    const { signedUrl, publicUrl } = await createPresignedUploadUrl(uploadPath, contentType);
+    const { signedUrl, publicUrl } = await createPresignedUploadUrl(uploadPath, normalizedType);
     return Response.json({ uploadPath, signedUrl, publicUrl });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Erreur inconnue";
