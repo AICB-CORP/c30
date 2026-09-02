@@ -45,4 +45,5 @@ Chaque tâche = un fichier `YYYY-MM-DD-<slug>.md` avec :
 | 2026-08-29 | r2-storage-and-local-dev | storage/r2 + infra | review    | [2026-08-29-r2-storage-and-local-dev.md](./2026-08-29-r2-storage-and-local-dev.md) |
 | 2026-08-30 | supabase-key-format-change | infra/supabase  | implemented | [2026-08-30-supabase-key-format-change.md](./2026-08-30-supabase-key-format-change.md) |
 | 2026-08-30 | posts-query-ambiguity-fix | query/rls        | implemented | [2026-08-30-posts-query-ambiguity-fix.md](./2026-08-30-posts-query-ambiguity-fix.md) |
+| 2026-09-01 | image-cropper-compression | media/editor     | implemented | [2026-09-01-image-cropper-compression.md](./2026-09-01-image-cropper-compression.md) |
 // screenshot update
