@@ -52,10 +52,10 @@ Reconstruire un **Skyblog à l'identique de l'époque (2000-2010)** comme cadeau
 | ----------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | Frontend          | **Next.js 15+ (App Router) + TypeScript**                  | Hébergement gratuit sur Vercel                                                 |
 | Styling           | **Tailwind CSS v4 + CSS custom**                           | Tailwind pour la structure, CSS main pour les effets rétro                     |
-| Backend           | **Supabase** (tier gratuit)                                | Postgres + Auth + Storage + RLS unifiés                                        |
+| Backend           | **Supabase** (tier gratuit)                                | Postgres + Auth + RLS unifiés                                                 |
 | Auth              | Supabase Auth (email/password)                             | Gratuit, inscription anonyme désactivée, gate par code d'invitation            |
 | Base de données   | Supabase Postgres                                          | Schéma relationnel adapté                                                      |
-| Stockage          | Supabase Storage (1 Go gratuit)                            | Photos, vidéos, vocaux                                                         |
+| Stockage          | **Cloudflare R2** (10 Go gratuits, egress gratuit)         | Photos, vidéos, vocaux — S3-compatible, presigned URLs côté client             |
 | Éditeur riche     | **TipTap** (MIT)                                           | Extensible : couleurs, polices, text-shadow néon, marquee                      |
 | Sanitisation HTML | **DOMPurify**                                              | Mode HTML brut (comme le vrai Skyblog), whitelist strict côté client + serveur |
 | GIFs              | **Giphy SDK** (clé gratuite) + dossier local de gifs rétro | Sélecteur de gifs                                                              |
@@ -183,7 +183,7 @@ app/
     day/                                  # LA VUE DE CAROLINE (jour J)
   api/
     oembed/                               # proxy youtube/spotify → iframe
-    upload/                               # urls signees supabase storage
+    upload/                               # urls presignees R2 (S3-compatible)
 components/
   editor/        # TipTap retro toolbar (polices, couleurs, neon, marquee, gif picker, medias)
   widgets/       # compteur, compte a rebours, lecteur musique, classement
@@ -199,7 +199,7 @@ components/
 - **Comptes** : Supabase Auth, signup soumis à code d'invitation, pseudo unique.
 - **Posts multiples** : illimités ; page personnelle `/profil/pseudo` (mini-skyblog).
 - **Toggle public/privé** : par post → géré par RLS.
-- **Photos & vidéos** : upload → Supabase Storage, compression client (`browser-image-compression`, compression vidéo) car 1 Go se remplit vite.
+- **Photos & vidéos** : upload → Cloudflare R2 (presigned PUT), compression client (`browser-image-compression`, compression vidéo) pour optimiser le stockage.
 - **Notes vocales** : UI MediaRecorder (appuyer-pour-enregistrer), WebM, lecteur à barres.
 - **Liens** : détection d'URL dans l'éditeur → linkify.
 - **YouTube** : coller une URL → résolue via `api/oembed` → iframe (façon Instagram).
@@ -269,7 +269,7 @@ Total : **~1 à 2 semaines de soirées**, coût 0 €.
 
 ## 12. Pièges de coût à éviter
 
-- **Storage Supabase 1 Go** : la vidéo est le tueur — compresser côté client (viser 2-5 Mo par clip). Alternative Cloudflare R2 (10 Go gratuits, egress gratuit) si les amis abusent des vidéos.
+- **Storage R2** : compresser côté client (viser 2-5 Mo par clip) pour garder le stockage sous les 10 Go gratuits. L'egress est gratuit sur R2.
 - **Fonctions Vercel** : garder le proxy oEmbed minimal ; fetch côté client quand possible.
 - **Email** : 100/jour Resend largement suffisant pour ~15 invitations.
 
@@ -293,7 +293,7 @@ Total : **~1 à 2 semaines de soirées**, coût 0 €.
 ### 14.1 Décisions d'implémentation
 
 1. **Médias intégrés inline dans le HTML du contenu** (`posts.content`) — la table `post_media` existe dans le schéma mais n'est pas utilisée par l'éditeur. Simplification assumée.
-2. **Buckets storage publics en lecture** (`avatars`, `post-media`) : chemins = `{uid}/{uuid}.{ext}` non devinables ; le site est invite-only + noindex → compromis accepté.
+2. **Stockage R2** : fichiers dans un seul bucket R2, chemins = `{uid}/{uuid}.{ext}` non devinables ; le site est invite-only + noindex → compromis accepté. Accès public en lecture via `R2_PUBLIC_URL`.
 3. **Sanitisation étendue** par rapport au plan : `video`, `audio` autorisés (src/controls), `iframe` autorisé UNIQUEMENT pour hosts youtube.com / spotify.com (vérif dans `lib/sanitize.ts`). `lib/sanitize.ts` = couche de sécurité obligatoire à TOUT rendu de contenu utilisateur.
 4. **Publication programmée** : filtre `scheduled_for is null or <= now()` côté requêtes — les posts apparaissent à 00:01 le jour J. Option (b) du §9 retenue par défaut.
 5. **Date d'anniversaire** configurable via `NEXT_PUBLIC_BIRTHDAY_DATE` (défaut : 31/12/2026) — à régler AVANT le déploiement.
@@ -321,19 +321,29 @@ lib/sanitize.ts                      # DOMPurify whitelist
 lib/supabase/{client,server}.ts      # clients SSR
 proxy.ts                             # garde d'auth (Next 16)
 supabase/migrations/0001_init.sql    # schéma + RLS
-supabase/migrations/0002_storage_buckets.sql
 ```
 
 ### 14.3 Mise en route (avant tout test)
 
-1. Créer un projet Supabase (gratuit) : https://supabase.com
-2. Appliquer `supabase/migrations/0001_init.sql` puis `0002_storage_buckets.sql` (SQL Editor)
-3. Auth → activer Email/Password, désactiver les inscriptions anonymes
-4. Remplir `.env.local` : NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, NEXT_PUBLIC_BIRTHDAY_DATE ; NEXT_PUBLIC_GIPHY_KEY optionnel
-5. Créer les codes d'invitation : `insert into invites (code, email, role) values ('BESTIE-XXXX', 'ami@mail.fr', 'friend'), ('PRINCESSE-1', null, 'birthday_girl');`
-6. `npm run dev` → tester le parcours inscription (code invité) → post → blab → compteur
-7. Répétition générale (voir skill birthday-reveal) avec comptes factices
-8. Déploiement : Vercel (voir docs/GITHUB-HYBRID.md pour l'automatisation GitHub)
+> **Stockage = Cloudflare R2** (plus Supabase Storage). Voir `docs/LOCAL_DEV.md` pour le setup complet
+> (dev local avec Supabase local + R2 cloud, puis Vercel en prod).
+
+1. **Supabase** : créer un projet (gratuit) sur https://supabase.com **ou** lancer un Supabase local
+   (`supabase start`, nécessite Docker — voir `docs/LOCAL_DEV.md`).
+2. Appliquer **`supabase/migrations/0001_init.sql`** (SQL Editor ou `supabase db reset`).
+   La migration `0002_storage_buckets.sql` a été **supprimée** : le stockage est sur R2, pas Supabase.
+3. Auth → activer Email/Password, désactiver les inscriptions anonymes.
+4. Remplir `.env.local` : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`,
+   `SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_BIRTHDAY_DATE`, `NEXT_PUBLIC_GIPHY_KEY` (option),
+   **et les 5 vars R2** : `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`,
+   `R2_BUCKET_NAME`, `R2_PUBLIC_URL` ( voir `.env.example`).
+5. **R2** : créer le bucket, activer l'accès public (URL `https://pub-<hash>.r2.dev`), créer un token
+   API **scopé au bucket en écriture seule**, et configurer le **CORS** pour autoriser `PUT`/`OPTIONS`
+   depuis l'origine (en dev : `http://localhost:3000`).
+6. Créer les codes d'invitation : `insert into invites (code, email, role) values ('BESTIE-XXXX', 'ami@mail.fr', 'friend'), ('PRINCESSE-1', null, 'birthday_girl');`
+7. `npm run dev` → tester le parcours inscription (code invité) → post (upload R2) → blab → compteur.
+8. Répétition générale (voir skill birthday-reveal) avec comptes factices.
+9. Déploiement prod : Vercel, avec les mêmes vars Supabase (hébergé) + R2 côté serveur (jamais `NEXT_PUBLIC_`).
 
 ### 14.4 Sécurité (audit fait — tout pass)
 

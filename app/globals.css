@@ -96,6 +96,16 @@ body {
   }
 }
 
+.blur-text {
+  filter: blur(6px);
+  transition: filter 0.3s ease;
+  cursor: pointer;
+}
+
+.blur-text:hover {
+  filter: blur(0);
+}
+
 /* ---- Marquee (défilement) ---- */
 @keyframes marquee {
   from {
@@ -124,7 +134,8 @@ body {
   }
 }
 
-.blink {
+.blink,
+blink {
   animation: blink 1s step-start infinite;
 }
 

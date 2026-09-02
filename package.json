@@ -12,11 +12,14 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1121.0",
+    "@aws-sdk/s3-request-presigner": "^3.1121.0",
     "@giphy/js-fetch-api": "^5.8.0",
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.112.3",
     "@tiptap/extension-color": "^3.30.0",
     "@tiptap/extension-font-family": "^3.30.0",
+    "@tiptap/extension-image": "^3.30.0",
     "@tiptap/extension-placeholder": "^3.30.0",
     "@tiptap/extension-text-align": "^3.30.0",
     "@tiptap/extension-text-style": "^3.30.0",
@@ -27,7 +30,8 @@
     "dompurify": "^3.4.13",
     "next": "16.3.0",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "react-easy-crop": "^6.2.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
