@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import imageCompression from "browser-image-compression";
 import ImageCropper from "./ImageCropper";
-import { isCropableImage } from "@/lib/imageCrop";
+import { isCropableImage, MAX_INPUT_BYTES } from "@/lib/imageCrop";
 
 interface MediaUploadProps {
   kind: "image" | "video" | "audio";
@@ -108,6 +108,19 @@ export default function MediaUpload({
         objectUrlRef.current = null;
       }
       currentIndexRef.current = 0;
+      return;
+    }
+    // Per-file sanity cap: a 50 MB+ raw upload would crash
+    // `browser-image-compression` (it reads the whole file into memory
+    // before compressing). Reject early and skip the rest of the batch.
+    if (next.size > MAX_INPUT_BYTES) {
+      setError(`Trop lourd : max ${Math.round(MAX_INPUT_BYTES / 1024 / 1024)} Mo.`);
+      // Drain remaining queue and reset state.
+      queueRef.current = [];
+      currentIndexRef.current = 0;
+      setBusy(false);
+      setProgress(null);
+      if (inputRef.current) inputRef.current.value = "";
       return;
     }
     if (kind === "image" && enableCropper && isCropableImage(next)) {
@@ -269,12 +282,15 @@ export default function MediaUpload({
   }
 
   async function handleCropperConfirm(blob: Blob) {
-    if (!pendingCrop) return;
+    // Snapshot the crop context BEFORE clearing pendingCrop — a stale read
+    // here would silently upload at the wrong index in the batch.
+    const ctx = pendingCrop;
+    if (!ctx) return;
     setPendingCrop(null);
-    const ok = await uploadSingleFile(blob, pendingCrop.index, pendingCrop.total);
+    const ok = await uploadSingleFile(blob, ctx.index, ctx.total);
     // After upload, move on to next item in queue (or close out).
-    if (ok && pendingCrop.total > 1) {
-      setProgress(`Photo ${pendingCrop.index + 1}/${pendingCrop.total} envoyée ✨`);
+    if (ok && ctx.total > 1) {
+      setProgress(`Photo ${ctx.index + 1}/${ctx.total} envoyée ✨`);
     }
     // Schedule next crop or finish.
     if (queueRef.current.length > 0) {

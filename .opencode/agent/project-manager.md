@@ -61,6 +61,57 @@ Run in order, fix everything you broke:
 4. `npm test`
 5. `npm run build`
 
+### 6b. SECURITY REVIEW (via the security agent) — mandatory for every task
+
+Security is a **gate**, not a nice-to-have — it sits between unit tests and layout/review. Even tasks that don't "feel" security-relevant (UI tweaks, copy changes, layout) get this pass, because a stray `dangerouslySetInnerHTML`, a missing `rel="noopener"`, or a slipped third-party URL can break PROJECT_PLAN §10 (stealth) and §5 (RLS).
+
+Delegate to the `security` agent (read-only) with:
+
+- The branch name and the changed file list (`git diff main --name-only` or `git diff --name-only <base>`).
+- A pointer to PROJECT_PLAN.md §5 (RLS matrix) and §10 (stealth/privacy checklist).
+- An explicit ask for: (a) sanitizer (DOMPurify) bypass attempts, (b) RLS regression scan if any DB-touching file changed, (c) secrets/gitignore scan, (d) third-party / CDN check (stealth).
+
+The agent returns a report. Categorize findings:
+
+- **blocking** — must fix before merge (XSS, RLS hole, secret leak).
+- **important** — should fix in this PR (missing `rel="noopener"`, header hardening).
+- **nit** — log in task-memory for a future cleanup PR.
+
+Fix all blocking findings, re-run the affected checks (usually just `npm test`), then continue.
+
+Skip this step only if the diff is **truly** pure config/docs/comments with zero runtime impact. State the skip reason explicitly in the PR body.
+
+### 6c. LAYOUT & VISUAL TESTING (via the layout-tester agent) — mandatory when UI changes
+
+**Trigger**: any task that adds, removes, or visibly modifies a React component, page, layout primitive, modal, CSS class, font, color, animation, or interactive widget. Examples that trigger this gate: new modal/dialog, new form field, redesigned toolbar, retro widget, page-level CSS change. Examples that **don't** trigger it: pure backend SQL migration, sanitizer logic, env-var docs, tests-only change.
+
+Delegate to the `layout-tester` agent (read-only, uses Playwright MCP) with:
+
+- The branch name and the list of UI files touched.
+- The expected behaviour (e.g. "cropper opens on top of a post-creation page; expects aspect presets visible; mobile 375 px must not overflow").
+- A specific instruction to produce a **layout screenshot set** saved under `task-memory/screenshot/<branch>/<page>-<viewport>.png` — see "Screenshots in PR" below.
+
+The agent returns a report. Categorize findings:
+
+- **blocking** — element invisible, modal unclosable, layout breaks at 375 px.
+- **important** — touch targets < 44 px, retro aesthetic lost, marquee overflow.
+- **nit** — alignment polish, font-weight tweak.
+
+Fix all blocking + important findings, re-run the affected checks, then continue.
+
+**Screenshots in PR.** For any task that triggered this gate, the PR body **MUST** include a `## Screenshots` section with markdown image references:
+
+```markdown
+## Screenshots
+
+### Before / after — cropper modal
+![cropper mobile](https://raw.githubusercontent.com/AICB-CORP/c30/<branch>/task-memory/screenshot/<branch>/cropper-mobile.png)
+![cropper desktop](https://raw.githubusercontent.com/AICB-CORP/c30/<branch>/task-memory/screenshot/<branch>/cropper-desktop.png)
+...
+```
+
+The screenshots stay under `task-memory/screenshot/<branch>/` in the repo (already gitignored or treated as task reasoning — see `.gitignore`). If you prefer them public, commit them under `docs/screenshots/<branch>/` and reference them by their committed path. Either way, the human reviewer must be able to **see** the layout change in the PR without cloning.
+
 ### 7. SAVE TASK REASONING (task-memory)
 
 - After checks pass, persist the task's reasoning as markdown in the `task-memory/` folder at the repo root. This builds a reusable knowledge base that a future "graphify" agent reads **before** starting a similar task, so prior reasoning is reused instead of reinvented.
@@ -98,9 +149,12 @@ Run in order, fix everything you broke:
   ```
   Prereqs (one-time, already done): `conda run -n opencode pip install openai`, `ollama pull Llama3.1:8B`, Ollama running. The generated `graphify-out/` is gitignored. This closes the loop: each task → markdown → graph → queried by the next task.
 
-### 8. CODE REVIEW
+### 8. CODE REVIEW (after security + layout have passed)
 
-- Request a review from the reviewer agent (read-only). Fix all blocking findings, re-run affected checks.
+- The security agent already ran in step 6b and the layout-tester in step 6c (if applicable). Both gates are gates; blocking findings there have already been fixed.
+- Request a final review from the `reviewer` agent (read-only). The reviewer focuses on **code-level correctness, design choices, and edge cases** that the security + layout agents did not already cover.
+- Fix all blocking findings from the reviewer, re-run affected checks, then continue.
+- Note in the PR body which agents ran in 6b/6c and reference their reports in `task-memory/screenshot/<branch>/` and `task-memory/<date>-security-<slug>.md` (created by the security agent).
 
 ### 9. COMMIT
 
@@ -133,7 +187,7 @@ Run in order, fix everything you broke:
 
   ## Agents appelés
 
-  (Table: agent | rôle | ce qu'il a fait | fichiers produits)
+  (Table: agent | rôle | ce qu'il a fait | fichiers produits. Include security, layout-tester, unit-tester, reviewer.)
 
   ## Implémentation
 
@@ -146,6 +200,14 @@ Run in order, fix everything you broke:
   ## Vérifications
 
   (Checklist with results: prettier ✓, lint ✓, tsc ✓, tests ✓, build ✓)
+
+  ## Revue sécurité
+
+  (Summary of the security agent report — what was audited, blocking findings fixed, residual nits. Skip this section only if the security agent was skipped AND a one-line reason is given.)
+
+  ## Screenshots
+
+  (Required for any UI-changing task. Markdown image references to layout screenshots saved under task-memory/screenshot/<branch>/. Skip only if the task has zero UI impact — state that explicitly. See step 6c for the rule.)
 
   ## À vérifier par le reviewer humain
 

@@ -150,8 +150,14 @@ export default function ImageCropper({
               key={preset.label}
               type="button"
               onClick={() => setCurrentAspect(preset.value)}
-              className={`retro-btn tool-btn ${
-                currentAspect === preset.value ? "tool-btn--active" : ""
+              // NOTE: deliberately NOT using `.tool-btn` here — that class
+              // shrinks the button to ~31 px tall (defined in RetroEditor's
+              // <style> block, scoped globally), which is below the 44 px
+              // iOS HIG touch target. We also force `min-h-[44px]` because
+              // the wrapping `text-xs` would otherwise cascade `font-size:
+              // 12px` into the button and pull its height below 44 px.
+              className={`retro-btn min-h-[44px]${
+                currentAspect === preset.value ? " opacity-90" : ""
               }`}
               disabled={busy}
               data-testid={`aspect-${preset.label.replace(":", "-")}`}
@@ -192,8 +198,9 @@ export default function ImageCropper({
           <button
             type="button"
             onClick={() => setRotation(0)}
-            className="retro-btn tool-btn"
+            className="retro-btn min-h-[44px]"
             disabled={busy || rotation === 0}
+            aria-label="Remettre la rotation à zéro"
             title="Remettre à zéro"
           >
             0°

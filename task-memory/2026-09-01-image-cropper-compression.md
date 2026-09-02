@@ -15,6 +15,8 @@ related_files:
   - lib/imageCrop.test.ts
   - components/media/ImageCropper.test.tsx
   - components/media/MediaUpload.test.tsx
+  - .opencode/agent/project-manager.md
+  - task-memory/screenshot/feat-image-cropper-compression/
 decisions:
   - react-easy-crop-over-react-image-crop
   - per-image-sequential-cropper-not-bulk
@@ -23,6 +25,12 @@ decisions:
   - even-dimensions-rounding
   - free-aspect-by-default-with-presets
   - black-anchored-bug-clamp-fix
+  - multi-image-monotonic-index
+  - libre-aspect-not-silently-coerced
+  - exif-docstring-corrected
+  - pendingCrop-snapshot-before-clear
+  - max-input-bytes-wired-into-mediaupload
+  - min-h-44px-for-touch-targets
 ---
 
 # Image Cropper + Tighter Image Compression
@@ -211,6 +219,58 @@ Constraints:
 - **alternatives considered**: switch to `createImageBitmap` (slightly
   more code, no real benefit for our use case).
 - **tradeoff**: none.
+
+### `pendingCrop` closure after `setPendingCrop(null)` (security I-1)
+
+- **choice**: snapshot `pendingCrop` into a local `ctx` BEFORE
+  `setPendingCrop(null)`, then use `ctx.index` / `ctx.total`.
+- **rationale**: caught by the **security agent**. The original code
+  read `pendingCrop.index` / `pendingCrop.total` after the `await`
+  inside the same render closure. Today it's safe (React 19's
+  concurrent rendering doesn't restart a regular `onClick` handler),
+  but the pattern is fragile: any future move to `useTransition` or
+  a concurrent-friendly handler would re-run with `pendingCrop = null`
+  → silent wrong-index uploads.
+- **alternatives considered**: leave as-is (current behaviour is
+  correct) and document the gotcha.
+- **tradeoff**: one extra local variable. Trivial.
+
+### `MAX_INPUT_BYTES` is exported but never imported (security N-2)
+
+- **choice**: wire `MAX_INPUT_BYTES` into `MediaUpload.processNextInQueue`
+  as an early-rejection gate before `imageCompression` is invoked.
+- **rationale**: caught by the **security agent** as dead-code-on-PR.
+  `browser-image-compression` reads the entire file into memory
+  before compressing; a 200 MB image would OOM the tab. The new gate
+  rejects at 50 MB and surfaces a clear French error.
+- **alternatives considered**:
+  - Drop the export — keeps the helper minimal.
+  - Push the cap to the server route — same effect, but the client
+    wastes a network round-trip on a known-bad payload.
+- **tradeoff**: the cap is per-file, not per-batch. A user with
+  3× 49 MB files would see 3 errors instead of one. Acceptable.
+
+### `.tool-btn` and `.text-xs` cascade → sub-44 px touch targets (layout I-1)
+
+- **choice**: drop `.tool-btn` from the aspect-preset buttons and the
+  "0°" reset, AND add `min-h-[44px]` to the same buttons.
+- **rationale**: caught by the **layout-tester agent** in two passes.
+  First pass: buttons were 31 px (the `RetroEditor.tsx` `<style>`
+  block has `.retro-btn.tool-btn { padding: 0.25rem 0.6rem;
+  font-size: 0.8rem }` — globally scoped, not actually scoped).
+  After dropping `.tool-btn`: 38 px (the wrapping `text-xs` div
+  cascaded `font-size: 12px` to the buttons). After adding
+  `min-h-[44px]`: exactly 44 px — WCAG 2.5.5 / Apple HIG floor met.
+- **alternatives considered**:
+  - Add a `.retro-btn { min-height: 44px }` rule globally — would
+    affect every button in the app, breaking some layouts.
+  - Remove `text-xs` from the wrapping div — would also enlarge the
+    "Format :" / "Zoom" / "Rotation" labels.
+  - Use `style={{ minHeight: 44 }}` inline — works, less clean than
+    a Tailwind class.
+- **tradeoff**: 44 px is the floor, not over it. The layout-tester
+  notes that any future change to `.retro-btn`'s `min-height` could
+  silently re-break this. Worth a follow-up — but out of scope here.
 
 ## Implementation Approach
 

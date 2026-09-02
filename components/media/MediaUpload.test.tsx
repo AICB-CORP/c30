@@ -367,4 +367,22 @@ describe("<MediaUpload /> — cropper gating", () => {
     expect(onUploaded).not.toHaveBeenCalled();
     expect(fetchCalls).toHaveLength(0);
   });
+
+  it("rejects files larger than MAX_INPUT_BYTES (50 MB) without uploading", async () => {
+    const onUploaded = vi.fn();
+    render(<MediaUpload kind="image" onUploaded={onUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    // 60 MB > 50 MB MAX_INPUT_BYTES cap.
+    const huge = new File([new Uint8Array(60 * 1024 * 1024)], "huge.jpg", {
+      type: "image/jpeg",
+    });
+    dispatchFileChange(input, huge);
+
+    await new Promise((r) => setTimeout(r, 20));
+    expect(screen.queryByTestId("image-cropper-modal")).toBeNull();
+    expect(fetchCalls).toHaveLength(0);
+    expect(onUploaded).not.toHaveBeenCalled();
+    expect(screen.queryByText(/Trop lourd/)).toBeTruthy();
+  });
 });
