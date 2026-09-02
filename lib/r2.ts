@@ -11,27 +11,20 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-// ---------------------------------------------------------------------------
-// Content-type allowlist (matches app/api/upload/route.ts)
-// ---------------------------------------------------------------------------
+import {
+  CONTENT_TYPE_EXT,
+  ALLOWED_CONTENT_TYPES,
+  normalizeContentType,
+  isAllowedContentType,
+} from "./mediaTypes";
 
-export const CONTENT_TYPE_EXT: Record<string, string> = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/gif": "gif",
-  "image/webp": "webp",
-  "video/mp4": "mp4",
-  "video/webm": "mp4", // R2 doesn't care about ext, but we normalise
-  "audio/webm": "webm",
-  "audio/mp3": "mp3",
-  "audio/ogg": "ogg",
+// Re-export for callers that still import from "@/lib/r2"
+export {
+  CONTENT_TYPE_EXT,
+  ALLOWED_CONTENT_TYPES,
+  normalizeContentType,
+  isAllowedContentType,
 };
-
-export const ALLOWED_CONTENT_TYPES = new Set(Object.keys(CONTENT_TYPE_EXT));
-
-export function isAllowedContentType(ct: string): boolean {
-  return ALLOWED_CONTENT_TYPES.has(ct);
-}
 
 // ---------------------------------------------------------------------------
 // Bucket allowlist (defense-in-depth — route.ts also validates)
@@ -124,7 +117,8 @@ export function buildPublicUrl(key: string): string {
 // ---------------------------------------------------------------------------
 
 export function buildUploadPath(userId: string, contentType: string): string {
-  const ext = CONTENT_TYPE_EXT[contentType];
+  const normalized = normalizeContentType(contentType);
+  const ext = CONTENT_TYPE_EXT[normalized];
   if (!ext) throw new Error(`Type de contenu non autorisé : ${contentType}`);
   return `${userId}/${crypto.randomUUID()}.${ext}`;
 }

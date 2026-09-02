@@ -54,7 +54,8 @@ export default function VoiceRecorder({ onRecorded }: VoiceRecorderProps) {
       };
 
       recorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: mimeType });
+        const normalizedType = mimeType.split(";")[0].trim().toLowerCase();
+        const blob = new Blob(chunksRef.current, { type: normalizedType });
         setBlobUrl(URL.createObjectURL(blob));
         onRecorded(blob);
       };

@@ -44,6 +44,7 @@ Read PROJECT_PLAN.md in full first. §8 (aesthetic) is your visual reference —
 ## Tools
 
 Use Playwright MCP exclusively:
+
 - `playwright_browser_navigate` to load pages.
 - `playwright_browser_resize` for viewport changes.
 - `playwright_browser_take_screenshot` for full-page and element screenshots.
@@ -56,6 +57,7 @@ Use Playwright MCP exclusively:
 ## Layout Test Report — <date>
 
 ### Summary
+
 - Pages tested: X
 - Viewports tested: desktop (1280×800), mobile (375×812)
 - Total screenshots: X
@@ -64,23 +66,27 @@ Use Playwright MCP exclusively:
 ### Per-page results
 
 #### <page name>
-| Viewport | Element | Status | Notes |
-|----------|---------|--------|-------|
-| mobile   | header  | PASS   | visible, pink bg |
+
+| Viewport | Element | Status | Notes                    |
+| -------- | ------- | ------ | ------------------------ |
+| mobile   | header  | PASS   | visible, pink bg         |
 | desktop  | sidebar | FAIL   | widgets cut off on right |
 
 ### Screenshots
+
 - `task-memory/screenshot/homepage-desktop.png`
 - `task-memory/screenshot/homepage-mobile.png`
 - ...
 
 ### Retro aesthetic check
+
 - [ ] Neon colors applied
 - [ ] Marquee scrolling
 - [ ] Retro fonts loaded
 - [ ] GIFs/images rendering
 
 ### Issues found
+
 1. **[FAIL]** <page> — <element> — <description> — severity: <high/medium/low>
 ```
 

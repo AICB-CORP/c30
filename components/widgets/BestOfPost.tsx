@@ -14,6 +14,7 @@ export default function BestOfPost({ posts }: { posts: BestOfItem[] }) {
 
   useEffect(() => {
     if (posts.length === 0) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- random rotation is intentional, runs once per posts change
     setPick(posts[Math.floor(Math.random() * posts.length)]);
     const t = setInterval(() => {
       setPick(posts[Math.floor(Math.random() * posts.length)]);
