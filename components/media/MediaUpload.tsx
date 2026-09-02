@@ -9,6 +9,10 @@ import { CONTENT_TYPE_EXT, normalizeContentType } from "@/lib/mediaTypes";
 interface MediaUploadProps {
   kind: "image" | "video" | "audio";
   onUploaded: (path: string, url: string) => void;
+  /** Called once with all uploads when a batch (multiple files) completes. Preferred for carousel. */
+  onBatchUploaded?: (uploads: Array<{ path: string; url: string }>) => void;
+  /** Notifies parent when internal busy state changes (for disabling save). */
+  onBusyChange?: (busy: boolean) => void;
   multiple?: boolean;
   maxFiles?: number;
   /**
@@ -55,6 +59,8 @@ const COMPRESSION_OPTIONS = {
 export default function MediaUpload({
   kind,
   onUploaded,
+  onBatchUploaded,
+  onBusyChange,
   multiple = false,
   maxFiles,
   enableCropper = true,
@@ -79,6 +85,8 @@ export default function MediaUpload({
   // `processNextInQueue` so the user sees "Compression 1/3", "2/3",
   // "3/3" instead of "1/3", "1/2", "1/1".
   const currentIndexRef = useRef(0);
+  // Collect uploads for batch callback (carousel). Cleared at start of batch.
+  const batchUploadsRef = useRef<Array<{ path: string; url: string }>>([]);
 
   const meta = LABELS[kind];
 
@@ -90,6 +98,11 @@ export default function MediaUpload({
       }
     };
   }, []);
+
+  // Notify parent of busy state for disabling save while uploads in flight.
+  useEffect(() => {
+    onBusyChange?.(busy);
+  }, [busy, onBusyChange]);
 
   function setObjectUrl(url: string) {
     if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
@@ -145,6 +158,12 @@ export default function MediaUpload({
         objectUrlRef.current = null;
       }
       currentIndexRef.current = 0;
+      // If a batch callback exists and we collected >0 uploads, fire it once with all.
+      if (onBatchUploaded && batchUploadsRef.current.length > 0) {
+        const batch = [...batchUploadsRef.current];
+        batchUploadsRef.current = [];
+        onBatchUploaded(batch);
+      }
       setBusy(false);
       return;
     }
@@ -155,6 +174,7 @@ export default function MediaUpload({
       setError(`Trop lourd : max ${Math.round(MAX_INPUT_BYTES / 1024 / 1024)} Mo.`);
       // Drain remaining queue and reset state.
       queueRef.current = [];
+      batchUploadsRef.current = [];
       currentIndexRef.current = 0;
       setBusy(false);
       setProgress(null);
@@ -186,6 +206,11 @@ export default function MediaUpload({
             objectUrlRef.current = null;
           }
           currentIndexRef.current = 0;
+          if (onBatchUploaded && batchUploadsRef.current.length > 0) {
+            const batch = [...batchUploadsRef.current];
+            batchUploadsRef.current = [];
+            onBatchUploaded(batch);
+          }
           setBusy(false);
         }
       });
@@ -296,7 +321,12 @@ export default function MediaUpload({
         throw new Error("Échec transfert.");
       }
 
-      onUploaded(uploadPath, publicUrl);
+      // Batch mode: collect for carousel, don't fire per-file callback.
+      if (onBatchUploaded && total > 1) {
+        batchUploadsRef.current.push({ path: uploadPath, url: publicUrl });
+      } else {
+        onUploaded(uploadPath, publicUrl);
+      }
       return true;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Erreur upload.");
@@ -311,6 +341,7 @@ export default function MediaUpload({
     const limit = maxFiles ? Math.min(files.length, maxFiles) : files.length;
     queueRef.current = files.slice(0, limit);
     currentIndexRef.current = 0;
+    batchUploadsRef.current = [];
     if (maxFiles && files.length > maxFiles) {
       setError(`Max ${maxFiles} fichiers.`);
     }
@@ -333,6 +364,7 @@ export default function MediaUpload({
       // Open the cropper for the first image and queue the rest.
       queueRef.current = fileArray;
       currentIndexRef.current = 0;
+      batchUploadsRef.current = [];
       setBusy(true);
       setError(null);
       setProgress(null);
@@ -363,6 +395,11 @@ export default function MediaUpload({
         objectUrlRef.current = null;
       }
       currentIndexRef.current = 0;
+      if (onBatchUploaded && batchUploadsRef.current.length > 0) {
+        const batch = [...batchUploadsRef.current];
+        batchUploadsRef.current = [];
+        onBatchUploaded(batch);
+      }
       setBusy(false);
     }
   }
@@ -371,6 +408,7 @@ export default function MediaUpload({
     setPendingCrop(null);
     // Drop the rest of the queue — user opted out.
     queueRef.current = [];
+    batchUploadsRef.current = [];
     currentIndexRef.current = 0;
     if (objectUrlRef.current) {
       URL.revokeObjectURL(objectUrlRef.current);

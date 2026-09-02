@@ -57,6 +57,7 @@ silently returned `null` instead of throwing, making all post feeds show "Aucun 
 ## Implementation approach
 
 Changed 4 files, 4 queries:
+
 - `app/(site)/page.tsx` line 18: home feed + line 53: best-of query
 - `app/(site)/day/page.tsx` line 25: Caroline's reveal view
 - `app/(site)/profil/[pseudo]/page.tsx` line 39: user's mini-skyblog

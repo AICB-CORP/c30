@@ -82,7 +82,8 @@ vi.mock("@/lib/r2", () => {
     CONTENT_TYPE_EXT: Object.fromEntries(Array.from(allowed).map((k) => [k, k.split("/")[1]])),
     normalizeContentType,
     isAllowedContentType: (ct: string) => allowed.has(normalizeContentType(ct)),
-    buildUploadPath: (...args: unknown[]) => (mockBuildUploadPath as unknown as (...a: unknown[]) => unknown)(...args),
+    buildUploadPath: (...args: unknown[]) =>
+      (mockBuildUploadPath as unknown as (...a: unknown[]) => unknown)(...args),
     createPresignedUploadUrl: (...args: unknown[]) => mockCreatePresignedUploadUrl(...args),
   };
 });
@@ -224,7 +225,10 @@ describe("POST /api/upload", () => {
     expect(body.uploadPath).toBe("user-123/test-uuid.webm");
     // route should have normalized before calling buildUploadPath / createPresignedUploadUrl
     expect(mockBuildUploadPath).toHaveBeenCalledWith("user-123", "audio/webm");
-    expect(mockCreatePresignedUploadUrl).toHaveBeenCalledWith("user-123/test-uuid.webm", "audio/webm");
+    expect(mockCreatePresignedUploadUrl).toHaveBeenCalledWith(
+      "user-123/test-uuid.webm",
+      "audio/webm",
+    );
   });
 
   it("accepts video/webm;codecs=vp8 (normalized) and returns 200", async () => {

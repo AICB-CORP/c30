@@ -228,6 +228,60 @@ blink {
   margin: 0.5rem 0;
 }
 
+/* ---- Carrousel rétro ---- */
+.retro-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  margin: 0.75rem 0;
+  border: 3px ridge var(--sky-hotpink);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #1a001a 0%, #0d0011 100%);
+  box-shadow:
+    0 0 12px rgba(255, 20, 147, 0.35),
+    inset 0 0 18px rgba(255, 105, 180, 0.12);
+  scrollbar-width: thin;
+  scrollbar-color: var(--sky-hotpink) #1a001a;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.retro-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.retro-carousel::-webkit-scrollbar-track {
+  background: #1a001a;
+  border-radius: 999px;
+}
+
+.retro-carousel::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--sky-hotpink), #a0005e);
+  border-radius: 999px;
+}
+
+.retro-carousel img {
+  flex: 0 0 auto;
+  width: min(280px, 70vw);
+  height: clamp(140px, 38vw, 200px);
+  object-fit: cover;
+  scroll-snap-align: start;
+  border: 2px solid var(--sky-pink);
+  border-radius: 8px;
+  margin: 0;
+  box-shadow: 0 0 8px rgba(255, 105, 180, 0.5);
+}
+
+@media (max-width: 640px) {
+  .retro-carousel {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+}
+
 @media (max-width: 640px) {
   .retro-title {
     font-size: 1.6rem;

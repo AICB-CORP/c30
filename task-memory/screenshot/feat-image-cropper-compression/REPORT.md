@@ -11,11 +11,11 @@
 
 #### Post editor toolbar (homepage → ✏️ Écrire un post)
 
-| Viewport | Element | Status | Notes |
-|----------|---------|--------|-------|
-| desktop (1280×800) | toolbar Photos button | PASS | "🖼️ Photos" button visible alongside Vidéo / Son / GIF / Voix |
-| mobile (375×812) | toolbar Photos button | PASS | wraps cleanly; no overflow (`docScrollWidth = 375`) |
-| mobile (360×800) | toolbar button heights | **FAIL (Important)** | 33 px tall — below 44 px iOS HIG minimum (pre-existing pattern across the whole toolbar, not introduced by this PR) |
+| Viewport           | Element                | Status               | Notes                                                                                                               |
+| ------------------ | ---------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| desktop (1280×800) | toolbar Photos button  | PASS                 | "🖼️ Photos" button visible alongside Vidéo / Son / GIF / Voix                                                       |
+| mobile (375×812)   | toolbar Photos button  | PASS                 | wraps cleanly; no overflow (`docScrollWidth = 375`)                                                                 |
+| mobile (360×800)   | toolbar button heights | **FAIL (Important)** | 33 px tall — below 44 px iOS HIG minimum (pre-existing pattern across the whole toolbar, not introduced by this PR) |
 
 Screenshots:
 
@@ -24,11 +24,11 @@ Screenshots:
 
 #### /compte avatar flow
 
-| Viewport | Element | Status | Notes |
-|----------|---------|--------|-------|
-| desktop (1280×800) | avatar "🖼️ Photo" button | PASS | visible in the Avatar card; chosen-file UX intact |
-| mobile (375×812) | avatar "🖼️ Photo" button | PASS | no overflow; layout single-column |
-| any | single file input (no `multiple`) | PASS | only one `<input type="file">` present, `accept="image/*"` |
+| Viewport           | Element                           | Status | Notes                                                      |
+| ------------------ | --------------------------------- | ------ | ---------------------------------------------------------- |
+| desktop (1280×800) | avatar "🖼️ Photo" button          | PASS   | visible in the Avatar card; chosen-file UX intact          |
+| mobile (375×812)   | avatar "🖼️ Photo" button          | PASS   | no overflow; layout single-column                          |
+| any                | single file input (no `multiple`) | PASS   | only one `<input type="file">` present, `accept="image/*"` |
 
 Screenshots:
 
@@ -37,50 +37,50 @@ Screenshots:
 
 #### Cropper modal — default (Libre / zoom 1 / rotation 0)
 
-| Viewport | Element | Status | Notes |
-|----------|---------|--------|-------|
-| desktop (1280×800) | full modal | PASS | modal covers 1280×800 (overlay `bg-black/80`); retro-panel sits centred with `max-w-2xl`; 55 vh crop area |
-| desktop (1280×800) | title "✂️ Recadrer l'image" | PASS | class `neon-pink` → 4-layer pink `text-shadow` (rgb(255,105,180) × rgb(255,20,147)) |
-| desktop (1280×800) | crop area border | PASS | `2px dashed rgb(255, 20, 147)` — pink dashed as required |
-| desktop (1280×800) | aspect presets Libre / 1:1 / 4:3 / 16:9 | PASS | all four buttons rendered with `data-testid="aspect-..."`; "Libre" highlighted by default |
-| desktop (1280×800) | Zoom slider, Rotation slider | PASS | values `1` and `0` on mount; `accent-[var(--sky-hotpink)]` |
-| desktop (1280×800) | "0°" reset | PASS | disabled until rotation ≠ 0 |
-| desktop (1280×800) | Annuler / Recadrer buttons | PASS | 103×46 and 116×46 — well above 44 px |
-| mobile (375×812) | full modal | PASS | modal = 375×812 (fills viewport), panel = 351 px wide (12 px margin each side) |
-| mobile (375×812) | overflow check | PASS | `documentElement.scrollWidth = 375` — no horizontal scroll |
-| mobile (375×812) | crop area | PASS | 323 px wide free-aspect at mobile |
-| mobile (375×812) | aspect preset buttons | **FAIL (Important)** | 31 px tall — below 44 px iOS HIG minimum |
-| mobile (375×812) | "0°" reset | **FAIL (Important)** | 31 px tall — below 44 px iOS HIG minimum |
-| mobile (375×812) | Annuler / Recadrer | PASS | 46 px tall |
-| narrow mobile (360×800) | full modal | PASS | panel wraps "16:9" to a second line (flex-wrap working) |
-| narrow mobile (360×800) | overflow check | PASS | `documentElement.scrollWidth = 360` — no horizontal scroll |
-| narrow mobile (360×800) | aspect preset heights | PARTIAL | 38 px (wrap reflow improves them); still < 44 px |
+| Viewport                | Element                                 | Status               | Notes                                                                                                     |
+| ----------------------- | --------------------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------- |
+| desktop (1280×800)      | full modal                              | PASS                 | modal covers 1280×800 (overlay `bg-black/80`); retro-panel sits centred with `max-w-2xl`; 55 vh crop area |
+| desktop (1280×800)      | title "✂️ Recadrer l'image"             | PASS                 | class `neon-pink` → 4-layer pink `text-shadow` (rgb(255,105,180) × rgb(255,20,147))                       |
+| desktop (1280×800)      | crop area border                        | PASS                 | `2px dashed rgb(255, 20, 147)` — pink dashed as required                                                  |
+| desktop (1280×800)      | aspect presets Libre / 1:1 / 4:3 / 16:9 | PASS                 | all four buttons rendered with `data-testid="aspect-..."`; "Libre" highlighted by default                 |
+| desktop (1280×800)      | Zoom slider, Rotation slider            | PASS                 | values `1` and `0` on mount; `accent-[var(--sky-hotpink)]`                                                |
+| desktop (1280×800)      | "0°" reset                              | PASS                 | disabled until rotation ≠ 0                                                                               |
+| desktop (1280×800)      | Annuler / Recadrer buttons              | PASS                 | 103×46 and 116×46 — well above 44 px                                                                      |
+| mobile (375×812)        | full modal                              | PASS                 | modal = 375×812 (fills viewport), panel = 351 px wide (12 px margin each side)                            |
+| mobile (375×812)        | overflow check                          | PASS                 | `documentElement.scrollWidth = 375` — no horizontal scroll                                                |
+| mobile (375×812)        | crop area                               | PASS                 | 323 px wide free-aspect at mobile                                                                         |
+| mobile (375×812)        | aspect preset buttons                   | **FAIL (Important)** | 31 px tall — below 44 px iOS HIG minimum                                                                  |
+| mobile (375×812)        | "0°" reset                              | **FAIL (Important)** | 31 px tall — below 44 px iOS HIG minimum                                                                  |
+| mobile (375×812)        | Annuler / Recadrer                      | PASS                 | 46 px tall                                                                                                |
+| narrow mobile (360×800) | full modal                              | PASS                 | panel wraps "16:9" to a second line (flex-wrap working)                                                   |
+| narrow mobile (360×800) | overflow check                          | PASS                 | `documentElement.scrollWidth = 360` — no horizontal scroll                                                |
+| narrow mobile (360×800) | aspect preset heights                   | PARTIAL              | 38 px (wrap reflow improves them); still < 44 px                                                          |
 
 Screenshots:
 
 - `task-memory/screenshot/feat-image-cropper-compression/cropper-default-desktop.png`
 - `task-memory/screenshot/feat-image-cropper-compression/cropper-default-mobile.png`
-- `task-memory/screenshot/feat-image-cropper-compression/cropper-360px.png` *(bonus — narrowest mobile width)*
+- `task-memory/screenshot/feat-image-cropper-compression/cropper-360px.png` _(bonus — narrowest mobile width)_
 
 #### Cropper modal — 1:1 preset (avatar flow lock)
 
-| Viewport | Element | Status | Notes |
-|----------|---------|--------|-------|
-| mobile (375×812) | Libre → 1:1 click | PASS | crop area becomes 323×323 (perfect square) |
-| mobile (375×812) | active preset | PASS | "1:1" button gains `tool-btn--active` class |
-| desktop (1280×800) | opened from /compte | PASS | `cropAspect={1}` honored — active preset is "1:1" on mount, crop area is square |
-| desktop (1280×800) | crop area (real 64×64 input) | PASS | crop box matches the source image dimensions (64×64) |
+| Viewport           | Element                      | Status | Notes                                                                           |
+| ------------------ | ---------------------------- | ------ | ------------------------------------------------------------------------------- |
+| mobile (375×812)   | Libre → 1:1 click            | PASS   | crop area becomes 323×323 (perfect square)                                      |
+| mobile (375×812)   | active preset                | PASS   | "1:1" button gains `tool-btn--active` class                                     |
+| desktop (1280×800) | opened from /compte          | PASS   | `cropAspect={1}` honored — active preset is "1:1" on mount, crop area is square |
+| desktop (1280×800) | crop area (real 64×64 input) | PASS   | crop box matches the source image dimensions (64×64)                            |
 
 Screenshots:
 
 - `task-memory/screenshot/feat-image-cropper-compression/cropper-aspect-1-1.png`
-- `task-memory/screenshot/feat-image-cropper-compression/cropper-compte-avatar-1-1.png` *(bonus — proves avatar `cropAspect={1}`)*
+- `task-memory/screenshot/feat-image-cropper-compression/cropper-compte-avatar-1-1.png` _(bonus — proves avatar `cropAspect={1}`)_
 
 #### Cropper modal — rotation
 
-| Viewport | Element | Status | Notes |
-|----------|---------|--------|-------|
-| desktop (1280×800) | rotation slider @ 45° | PASS | image visibly rotated in the Cropper; crop area tracked the rotated image |
+| Viewport           | Element               | Status | Notes                                                                     |
+| ------------------ | --------------------- | ------ | ------------------------------------------------------------------------- |
+| desktop (1280×800) | rotation slider @ 45° | PASS   | image visibly rotated in the Cropper; crop area tracked the rotated image |
 
 Screenshot:
 
@@ -88,17 +88,17 @@ Screenshot:
 
 #### Modal escape / close behaviour
 
-| Surface | Test | Status | Notes |
-|---------|------|--------|-------|
-| cropper modal | Escape key | PASS | modal unmounts; `cancelRef` correctly invokes `onCancel` and the parent shows "Recadrage annulé." feedback |
-| cropper modal | "Annuler" button | PASS | visible (did not click — same code path as Escape) |
-| cropper modal | "Recadrer" button | PASS | visible; disabled while `croppedAreaPixels` is null |
+| Surface       | Test              | Status | Notes                                                                                                      |
+| ------------- | ----------------- | ------ | ---------------------------------------------------------------------------------------------------------- |
+| cropper modal | Escape key        | PASS   | modal unmounts; `cancelRef` correctly invokes `onCancel` and the parent shows "Recadrage annulé." feedback |
+| cropper modal | "Annuler" button  | PASS   | visible (did not click — same code path as Escape)                                                         |
+| cropper modal | "Recadrer" button | PASS   | visible; disabled while `croppedAreaPixels` is null                                                        |
 
 #### GIF / non-croppable upload bypass
 
-| Surface | Test | Status | Notes |
-|---------|------|--------|-------|
-| /compte avatar uploader | GIF file (image/gif) | PASS | modal does NOT open — `isCropableImage()` correctly returns false and the GIF flows through `uploadSingleFile` untouched (per task spec point 6) |
+| Surface                 | Test                 | Status | Notes                                                                                                                                            |
+| ----------------------- | -------------------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| /compte avatar uploader | GIF file (image/gif) | PASS   | modal does NOT open — `isCropableImage()` correctly returns false and the GIF flows through `uploadSingleFile` untouched (per task spec point 6) |
 
 ### Retro aesthetic check (PROJECT_PLAN §8)
 
@@ -112,7 +112,8 @@ Screenshot:
 ### Findings — categorised
 
 #### Blocking
-*(none — cropper opens, displays, switches aspects, rotates, closes on Escape, honors 1:1 avatar lock, bypasses GIFs, no overflow at any tested width)*
+
+_(none — cropper opens, displays, switches aspects, rotates, closes on Escape, honors 1:1 avatar lock, bypasses GIFs, no overflow at any tested width)_
 
 #### Important
 
@@ -130,18 +131,18 @@ Screenshot:
 
 ### Screenshots produced (10)
 
-| Path | Content |
-| --- | --- |
-| `task-memory/screenshot/feat-image-cropper-compression/editor-toolbar-desktop.png` | Post editor toolbar with "🖼️ Photos" button (no cropper open) — 1280×800 |
-| `task-memory/screenshot/feat-image-cropper-compression/editor-toolbar-mobile.png` | Same, 375×812 |
-| `task-memory/screenshot/feat-image-cropper-compression/compte-avatar-desktop.png` | /compte avatar uploader (no cropper open) — 1280×800 |
-| `task-memory/screenshot/feat-image-cropper-compression/compte-avatar-mobile.png` | Same, 375×812 |
-| `task-memory/screenshot/feat-image-cropper-compression/cropper-default-desktop.png` | Cropper modal at Libre / zoom 1 / rotation 0 — 1280×800 |
-| `task-memory/screenshot/feat-image-cropper-compression/cropper-default-mobile.png` | Same, 375×812 |
-| `task-memory/screenshot/feat-image-cropper-compression/cropper-aspect-1-1.png` | Cropper with 1:1 selected (square crop box) — 375×812 |
-| `task-memory/screenshot/feat-image-cropper-compression/cropper-rotation.png` | Cropper with rotation slider moved to 45° — 1280×800 |
-| `task-memory/screenshot/feat-image-cropper-compression/cropper-360px.png` | Bonus — narrowest mobile (360×800), shows flex-wrap of "16:9" |
-| `task-memory/screenshot/feat-image-cropper-compression/cropper-compte-avatar-1-1.png` | Bonus — cropper opened from /compte, proving `cropAspect={1}` |
+| Path                                                                                  | Content                                                                  |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `task-memory/screenshot/feat-image-cropper-compression/editor-toolbar-desktop.png`    | Post editor toolbar with "🖼️ Photos" button (no cropper open) — 1280×800 |
+| `task-memory/screenshot/feat-image-cropper-compression/editor-toolbar-mobile.png`     | Same, 375×812                                                            |
+| `task-memory/screenshot/feat-image-cropper-compression/compte-avatar-desktop.png`     | /compte avatar uploader (no cropper open) — 1280×800                     |
+| `task-memory/screenshot/feat-image-cropper-compression/compte-avatar-mobile.png`      | Same, 375×812                                                            |
+| `task-memory/screenshot/feat-image-cropper-compression/cropper-default-desktop.png`   | Cropper modal at Libre / zoom 1 / rotation 0 — 1280×800                  |
+| `task-memory/screenshot/feat-image-cropper-compression/cropper-default-mobile.png`    | Same, 375×812                                                            |
+| `task-memory/screenshot/feat-image-cropper-compression/cropper-aspect-1-1.png`        | Cropper with 1:1 selected (square crop box) — 375×812                    |
+| `task-memory/screenshot/feat-image-cropper-compression/cropper-rotation.png`          | Cropper with rotation slider moved to 45° — 1280×800                     |
+| `task-memory/screenshot/feat-image-cropper-compression/cropper-360px.png`             | Bonus — narrowest mobile (360×800), shows flex-wrap of "16:9"            |
+| `task-memory/screenshot/feat-image-cropper-compression/cropper-compte-avatar-1-1.png` | Bonus — cropper opened from /compte, proving `cropAspect={1}`            |
 
 ### Verdict
 
@@ -149,6 +150,6 @@ Screenshot:
 
 ### Spotlight for the reviewer
 
-1. **Mobile touch targets inside the modal** (preset buttons and "0°" reset at 31 px). Easy fix in CSS: bump padding to `px-3 py-2` or add `min-h-[44px]` to `.tool-btn` *within* the modal scope.
+1. **Mobile touch targets inside the modal** (preset buttons and "0°" reset at 31 px). Easy fix in CSS: bump padding to `px-3 py-2` or add `min-h-[44px]` to `.tool-btn` _within_ the modal scope.
 2. **Avatar `cropAspect={1}` wiring** (`compte/page.tsx:64`) — verified end-to-end: opening from /compte lands on the 1:1 preset and produces a square crop box. No bug here; flagging it because it's the single most user-facing behaviour of the avatar flow.
 3. **Escape-to-cancel** (`ImageCropper.tsx:73-78`): `cancelRef` correctly avoids re-binding on every render, but worth confirming in the review that the `useEffect` deps array (`[busy]`) doesn't unmount/remount the listener more than needed.

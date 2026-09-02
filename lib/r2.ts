@@ -19,12 +19,7 @@ import {
 } from "./mediaTypes";
 
 // Re-export for callers that still import from "@/lib/r2"
-export {
-  CONTENT_TYPE_EXT,
-  ALLOWED_CONTENT_TYPES,
-  normalizeContentType,
-  isAllowedContentType,
-};
+export { CONTENT_TYPE_EXT, ALLOWED_CONTENT_TYPES, normalizeContentType, isAllowedContentType };
 
 // ---------------------------------------------------------------------------
 // Bucket allowlist (defense-in-depth — route.ts also validates)

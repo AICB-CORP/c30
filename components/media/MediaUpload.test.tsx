@@ -81,6 +81,36 @@ function setupFetchMock(): void {
   );
 }
 
+/**
+ * Variant of setupFetchMock that returns a distinct uploadPath/publicUrl
+ * per presign call, so we can assert that batch correctly collects each.
+ */
+function setupFetchMockCounter(): void {
+  fetchCalls.length = 0;
+  let counter = 0;
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url: string, init?: RequestInit) => {
+      fetchCalls.push({ url, init });
+      if (url === "/api/upload") {
+        counter += 1;
+        return new Response(
+          JSON.stringify({
+            uploadPath: `user-123/counter-${counter}.jpg`,
+            signedUrl: "https://r2.example.com/signed",
+            publicUrl: `https://pub-test.r2.dev/user-123/counter-${counter}.jpg`,
+          }),
+          { status: 200, headers: { "Content-Type": "application/json" } },
+        );
+      }
+      if (url === "https://r2.example.com/signed") {
+        return new Response(null, { status: 200 });
+      }
+      return new Response(null, { status: 404 });
+    }) as unknown as typeof fetch,
+  );
+}
+
 let objectUrlCounter = 0;
 function setupUrlMock(): void {
   objectUrlCounter = 0;
@@ -445,7 +475,9 @@ describe("<MediaUpload /> — video/audio normalization & inference", () => {
     let input = document.querySelector('input[type="file"]') as HTMLInputElement;
     dispatchFileChange(input, makeFile("clip.webm", "video/webm"));
     await waitFor(() => expect(onUploadedVideo).toHaveBeenCalledTimes(1));
-    expect(JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString())).toMatchObject({
+    expect(
+      JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString()),
+    ).toMatchObject({
       contentType: "video/webm",
     });
     cleanup();
@@ -456,7 +488,9 @@ describe("<MediaUpload /> — video/audio normalization & inference", () => {
     input = document.querySelector('input[type="file"]') as HTMLInputElement;
     dispatchFileChange(input, makeFile("note.webm", "audio/webm"));
     await waitFor(() => expect(onUploadedAudio).toHaveBeenCalledTimes(1));
-    expect(JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString())).toMatchObject({
+    expect(
+      JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString()),
+    ).toMatchObject({
       contentType: "audio/webm",
     });
     // avoid double cleanup warning
@@ -555,7 +589,9 @@ describe("<MediaUpload /> — video/audio normalization & inference", () => {
     Object.defineProperty(file, "type", { value: "" });
     dispatchFileChange(input, file);
     await waitFor(() => expect(onUploadedVideo).toHaveBeenCalledTimes(1));
-    expect(JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString())).toMatchObject({
+    expect(
+      JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString()),
+    ).toMatchObject({
       contentType: "video/webm",
     });
     cleanup();
@@ -569,7 +605,9 @@ describe("<MediaUpload /> — video/audio normalization & inference", () => {
     Object.defineProperty(file, "type", { value: "" });
     dispatchFileChange(input, file);
     await waitFor(() => expect(onUploadedAudio).toHaveBeenCalledTimes(1));
-    expect(JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString())).toMatchObject({
+    expect(
+      JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString()),
+    ).toMatchObject({
       contentType: "audio/webm",
     });
   });
@@ -583,7 +621,9 @@ describe("<MediaUpload /> — video/audio normalization & inference", () => {
     Object.defineProperty(file, "type", { value: "" });
     dispatchFileChange(input, file);
     await waitFor(() => expect(onUploaded).toHaveBeenCalledTimes(1));
-    expect(JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString())).toMatchObject({
+    expect(
+      JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString()),
+    ).toMatchObject({
       contentType: "audio/wav",
     });
     cleanup();
@@ -596,7 +636,9 @@ describe("<MediaUpload /> — video/audio normalization & inference", () => {
     Object.defineProperty(file, "type", { value: "" });
     dispatchFileChange(input, file);
     await waitFor(() => expect(onUploaded2).toHaveBeenCalledTimes(1));
-    expect(JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString())).toMatchObject({
+    expect(
+      JSON.parse(fetchCalls.find((c) => c.url === "/api/upload")!.init!.body!.toString()),
+    ).toMatchObject({
       contentType: "audio/ogg",
     });
   });
@@ -756,5 +798,378 @@ describe("<MediaUpload /> — video/audio normalization & inference", () => {
     expect(bodies[0]).toMatchObject({ contentType: "audio/mpeg" });
     expect(bodies[1]).toMatchObject({ contentType: "audio/wav" });
     expect(bodies[2]).toMatchObject({ contentType: "audio/ogg" });
+  });
+});
+
+describe("<MediaUpload /> — batch callback (carousel)", () => {
+  it("when 3 cropable images with onBatchUploaded, onUploaded NOT called per-file, onBatchUploaded called once with 3 entries", async () => {
+    setupFetchMockCounter();
+    const onUploaded = vi.fn();
+    const onBatchUploaded = vi.fn();
+    render(<MediaUpload kind="image" onUploaded={onUploaded} onBatchUploaded={onBatchUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, [
+      makeFile("a.jpg", "image/jpeg"),
+      makeFile("b.jpg", "image/jpeg"),
+      makeFile("c.jpg", "image/jpeg"),
+    ]);
+
+    // 1st
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-confirm"));
+    // Wait for first upload to finish but batch not yet fired
+    await waitFor(() => expect(fetchCalls.filter((c) => c.url === "/api/upload")).toHaveLength(1));
+    expect(onUploaded).not.toHaveBeenCalled();
+    expect(onBatchUploaded).not.toHaveBeenCalled();
+
+    // 2nd
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-confirm"));
+    await waitFor(() => expect(fetchCalls.filter((c) => c.url === "/api/upload")).toHaveLength(2));
+    expect(onUploaded).not.toHaveBeenCalled();
+    expect(onBatchUploaded).not.toHaveBeenCalled();
+
+    // 3rd — after final confirm, batch should fire once
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-confirm"));
+    await waitFor(() => expect(onBatchUploaded).toHaveBeenCalledTimes(1));
+    expect(onUploaded).not.toHaveBeenCalled();
+    expect(onBatchUploaded).toHaveBeenCalledWith([
+      { path: "user-123/counter-1.jpg", url: "https://pub-test.r2.dev/user-123/counter-1.jpg" },
+      { path: "user-123/counter-2.jpg", url: "https://pub-test.r2.dev/user-123/counter-2.jpg" },
+      { path: "user-123/counter-3.jpg", url: "https://pub-test.r2.dev/user-123/counter-3.jpg" },
+    ]);
+    expect(fetchCalls.filter((c) => c.url === "/api/upload")).toHaveLength(3);
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeNull());
+  });
+
+  it("when 3 GIFs (direct path) with onBatchUploaded, batch called once, onUploaded not called per-file", async () => {
+    setupFetchMockCounter();
+    const onUploaded = vi.fn();
+    const onBatchUploaded = vi.fn();
+    render(<MediaUpload kind="image" onUploaded={onUploaded} onBatchUploaded={onBatchUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, [
+      makeFile("a.gif", "image/gif"),
+      makeFile("b.gif", "image/gif"),
+      makeFile("c.gif", "image/gif"),
+    ]);
+
+    // GIFs skip cropper → direct uploads, no modal
+    expect(screen.queryByTestId("image-cropper-modal")).toBeNull();
+    await waitFor(() => expect(onBatchUploaded).toHaveBeenCalledTimes(1));
+    expect(onUploaded).not.toHaveBeenCalled();
+    expect(onBatchUploaded).toHaveBeenCalledWith([
+      { path: "user-123/counter-1.jpg", url: "https://pub-test.r2.dev/user-123/counter-1.jpg" },
+      { path: "user-123/counter-2.jpg", url: "https://pub-test.r2.dev/user-123/counter-2.jpg" },
+      { path: "user-123/counter-3.jpg", url: "https://pub-test.r2.dev/user-123/counter-3.jpg" },
+    ]);
+    expect(fetchCalls.filter((c) => c.url === "/api/upload")).toHaveLength(3);
+  });
+
+  it("when single file with onBatchUploaded, per-file still called and batch not called (cropper path)", async () => {
+    const onUploaded = vi.fn();
+    const onBatchUploaded = vi.fn();
+    render(<MediaUpload kind="image" onUploaded={onUploaded} onBatchUploaded={onBatchUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, makeFile("single.jpg", "image/jpeg"));
+
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-confirm"));
+
+    await waitFor(() => expect(onUploaded).toHaveBeenCalledTimes(1));
+    expect(onUploaded).toHaveBeenCalledWith(
+      "user-123/abc.jpg",
+      "https://pub-test.r2.dev/user-123/abc.jpg",
+    );
+    // batch should NOT be called for total==1
+    await new Promise((r) => setTimeout(r, 20));
+    expect(onBatchUploaded).not.toHaveBeenCalled();
+  });
+
+  it("when single GIF with onBatchUploaded, per-file still called and batch not called (direct path)", async () => {
+    const onUploaded = vi.fn();
+    const onBatchUploaded = vi.fn();
+    render(<MediaUpload kind="image" onUploaded={onUploaded} onBatchUploaded={onBatchUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, makeFile("single.gif", "image/gif"));
+
+    expect(screen.queryByTestId("image-cropper-modal")).toBeNull();
+    await waitFor(() => expect(onUploaded).toHaveBeenCalledTimes(1));
+    expect(onBatchUploaded).not.toHaveBeenCalled();
+  });
+
+  it("when onBatchUploaded not provided, per-file still works for batch (3 images → 3 onUploaded)", async () => {
+    const onUploaded = vi.fn();
+    render(<MediaUpload kind="image" onUploaded={onUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, [
+      makeFile("a.jpg", "image/jpeg"),
+      makeFile("b.jpg", "image/jpeg"),
+      makeFile("c.jpg", "image/jpeg"),
+    ]);
+
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-confirm"));
+    await waitFor(() => expect(onUploaded).toHaveBeenCalledTimes(1));
+
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-confirm"));
+    await waitFor(() => expect(onUploaded).toHaveBeenCalledTimes(2));
+
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-confirm"));
+    await waitFor(() => expect(onUploaded).toHaveBeenCalledTimes(3));
+  });
+
+  it("onBusyChange called correctly for cropper batch (true on start, false on end)", async () => {
+    const onUploaded = vi.fn();
+    const onBusyChange = vi.fn();
+    const onBatchUploaded = vi.fn();
+    render(
+      <MediaUpload
+        kind="image"
+        onUploaded={onUploaded}
+        onBatchUploaded={onBatchUploaded}
+        onBusyChange={onBusyChange}
+      />,
+    );
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, [makeFile("a.jpg", "image/jpeg"), makeFile("b.jpg", "image/jpeg")]);
+
+    // initial false is called on mount, then true when batch starts
+    await waitFor(() => expect(onBusyChange).toHaveBeenCalledWith(true));
+
+    // Confirm both and wait for batch to complete (busy should go false)
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-confirm"));
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-confirm"));
+
+    await waitFor(() => expect(onBatchUploaded).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(onBusyChange.mock.calls.at(-1)?.[0]).toBe(false));
+    // at least one true
+    expect(onBusyChange.mock.calls.some((c) => c[0] === true)).toBe(true);
+    // should have at least true and final false, plus initial false
+    expect(onBusyChange.mock.calls.filter((c) => c[0] === false).length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("onBusyChange called correctly for direct batch (GIF)", async () => {
+    const onUploaded = vi.fn();
+    const onBusyChange = vi.fn();
+    const onBatchUploaded = vi.fn();
+    render(
+      <MediaUpload
+        kind="image"
+        onUploaded={onUploaded}
+        onBatchUploaded={onBatchUploaded}
+        onBusyChange={onBusyChange}
+      />,
+    );
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, [makeFile("a.gif", "image/gif"), makeFile("b.gif", "image/gif")]);
+
+    await waitFor(() => expect(onBusyChange).toHaveBeenCalledWith(true));
+    await waitFor(() => expect(onBatchUploaded).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(onBusyChange).toHaveBeenCalledWith(false));
+    expect(onBusyChange.mock.calls.at(-1)?.[0]).toBe(false);
+  });
+
+  it("batch collects correct path/url from presigned mock (distinct per file, cropper)", async () => {
+    setupFetchMockCounter();
+    const onBatchUploaded = vi.fn();
+    render(<MediaUpload kind="image" onUploaded={vi.fn()} onBatchUploaded={onBatchUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, [
+      makeFile("x.jpg", "image/jpeg"),
+      makeFile("y.jpg", "image/jpeg"),
+      makeFile("z.jpg", "image/jpeg"),
+    ]);
+
+    for (let i = 0; i < 3; i++) {
+      await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+      fireEvent.click(screen.getByTestId("cropper-confirm"));
+    }
+
+    await waitFor(() => expect(onBatchUploaded).toHaveBeenCalledTimes(1));
+    const batch = onBatchUploaded.mock.calls[0][0] as Array<{ path: string; url: string }>;
+    expect(batch).toHaveLength(3);
+    expect(batch[0].path).toBe("user-123/counter-1.jpg");
+    expect(batch[0].url).toBe("https://pub-test.r2.dev/user-123/counter-1.jpg");
+    expect(batch[2].path).toBe("user-123/counter-3.jpg");
+  });
+
+  it("batch collects correct path/url for direct GIF batch", async () => {
+    setupFetchMockCounter();
+    const onBatchUploaded = vi.fn();
+    render(<MediaUpload kind="image" onUploaded={vi.fn()} onBatchUploaded={onBatchUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, [makeFile("a.gif", "image/gif"), makeFile("b.gif", "image/gif")]);
+
+    await waitFor(() => expect(onBatchUploaded).toHaveBeenCalledTimes(1));
+    const batch = onBatchUploaded.mock.calls[0][0];
+    expect(batch).toHaveLength(2);
+    expect(batch[0]).toEqual({
+      path: "user-123/counter-1.jpg",
+      url: "https://pub-test.r2.dev/user-123/counter-1.jpg",
+    });
+  });
+
+  it("cancel clears batch (no batch callback) after first success", async () => {
+    const onBatchUploaded = vi.fn();
+    const onUploaded = vi.fn();
+    render(<MediaUpload kind="image" onUploaded={onUploaded} onBatchUploaded={onBatchUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, [
+      makeFile("a.jpg", "image/jpeg"),
+      makeFile("b.jpg", "image/jpeg"),
+      makeFile("c.jpg", "image/jpeg"),
+    ]);
+
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-confirm"));
+    // after first upload, batch is collecting but not yet fired
+    await waitFor(() => expect(fetchCalls.filter((c) => c.url === "/api/upload")).toHaveLength(1));
+    expect(onBatchUploaded).not.toHaveBeenCalled();
+    expect(onUploaded).not.toHaveBeenCalled();
+
+    // Cancel second modal → should clear batchUploads and queue
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-cancel"));
+
+    await new Promise((r) => setTimeout(r, 30));
+    expect(onBatchUploaded).not.toHaveBeenCalled();
+    expect(onUploaded).not.toHaveBeenCalled();
+    expect(screen.queryByTestId("image-cropper-modal")).toBeNull();
+  });
+
+  it("cancel before any upload clears batch (no callback, no upload)", async () => {
+    const onBatchUploaded = vi.fn();
+    const onUploaded = vi.fn();
+    render(<MediaUpload kind="image" onUploaded={onUploaded} onBatchUploaded={onBatchUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, [makeFile("a.jpg", "image/jpeg"), makeFile("b.jpg", "image/jpeg")]);
+
+    await waitFor(() => expect(screen.queryByTestId("image-cropper-modal")).toBeTruthy());
+    fireEvent.click(screen.getByTestId("cropper-cancel"));
+
+    await new Promise((r) => setTimeout(r, 20));
+    expect(onBatchUploaded).not.toHaveBeenCalled();
+    expect(onUploaded).not.toHaveBeenCalled();
+    expect(fetchCalls).toHaveLength(0);
+  });
+
+  it("infer and normalize still work in batch context — empty type with .webm via video batch and codecs", async () => {
+    // video batch with infer (empty type) and normalize (codecs)
+    const onUploaded = vi.fn();
+    const onBatchUploaded = vi.fn();
+    // Use video kind where direct batch (no cropper) is used
+    render(
+      <MediaUpload
+        kind="video"
+        onUploaded={onUploaded}
+        onBatchUploaded={onBatchUploaded}
+        multiple
+        maxFiles={3}
+      />,
+    );
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const f1 = makeFile("clip.webm", "");
+    Object.defineProperty(f1, "type", { value: "" });
+    const f2 = makeFile("clip2.webm", "video/webm;codecs=vp8");
+    const f3 = makeFile("clip3.mov", "video/quicktime");
+    dispatchFileChange(input, [f1, f2, f3]);
+
+    // total >1 with onBatchUploaded → per-file suppressed, batch fired once
+    await waitFor(() => expect(onBatchUploaded).toHaveBeenCalledTimes(1));
+    expect(onUploaded).not.toHaveBeenCalled();
+    expect(onBatchUploaded.mock.calls[0][0]).toHaveLength(3);
+    // Verify presign contentTypes were correctly inferred/normalized
+    const presigns = fetchCalls.filter((c) => c.url === "/api/upload");
+    expect(presigns).toHaveLength(3);
+    const bodies = presigns.map((c) => JSON.parse(c.init!.body!.toString()));
+    expect(bodies[0]).toMatchObject({ contentType: "video/webm" }); // inferred
+    expect(bodies[1]).toMatchObject({ contentType: "video/webm" }); // normalized
+    expect(bodies[2]).toMatchObject({ contentType: "video/quicktime" });
+  });
+
+  it("infer for audio batch with empty type and onBatchUploaded", async () => {
+    const onUploaded = vi.fn();
+    const onBatchUploaded = vi.fn();
+    render(
+      <MediaUpload
+        kind="audio"
+        onUploaded={onUploaded}
+        onBatchUploaded={onBatchUploaded}
+        multiple
+        maxFiles={3}
+      />,
+    );
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const f1 = makeFile("track.mp3", "");
+    Object.defineProperty(f1, "type", { value: "" });
+    const f2 = makeFile("voice.webm", "audio/webm;codecs=opus");
+    dispatchFileChange(input, [f1, f2]);
+
+    await waitFor(() => expect(onBatchUploaded).toHaveBeenCalledTimes(1));
+    expect(onUploaded).not.toHaveBeenCalled();
+    const presigns = fetchCalls.filter((c) => c.url === "/api/upload");
+    const bodies = presigns.map((c) => JSON.parse(c.init!.body!.toString()));
+    expect(bodies[0]).toMatchObject({ contentType: "audio/mpeg" }); // inferred .mp3
+    expect(bodies[1]).toMatchObject({ contentType: "audio/webm" }); // normalized
+  });
+
+  it("image batch with enableCropper false still uses batch (direct path)", async () => {
+    setupFetchMockCounter();
+    const onUploaded = vi.fn();
+    const onBatchUploaded = vi.fn();
+    render(
+      <MediaUpload
+        kind="image"
+        enableCropper={false}
+        onUploaded={onUploaded}
+        onBatchUploaded={onBatchUploaded}
+        multiple
+        maxFiles={3}
+      />,
+    );
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    dispatchFileChange(input, [makeFile("a.jpg", "image/jpeg"), makeFile("b.jpg", "image/jpeg")]);
+
+    expect(screen.queryByTestId("image-cropper-modal")).toBeNull();
+    await waitFor(() => expect(onBatchUploaded).toHaveBeenCalledTimes(1));
+    expect(onUploaded).not.toHaveBeenCalled();
+    expect(onBatchUploaded.mock.calls[0][0]).toHaveLength(2);
+  });
+
+  it("huge file in batch clears batchUploads and does not fire batch", async () => {
+    const onBatchUploaded = vi.fn();
+    const onUploaded = vi.fn();
+    render(<MediaUpload kind="image" onUploaded={onUploaded} onBatchUploaded={onBatchUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const huge = makeFile("huge.jpg", "image/jpeg", 1024);
+    Object.defineProperty(huge, "size", { value: 60 * 1024 * 1024 });
+    // Dispatch single huge file — should error, no batch
+    dispatchFileChange(input, huge);
+
+    await waitFor(() => expect(screen.queryByText(/Trop lourd/)).toBeTruthy());
+    expect(onBatchUploaded).not.toHaveBeenCalled();
+    expect(onUploaded).not.toHaveBeenCalled();
+    expect(fetchCalls).toHaveLength(0);
   });
 });

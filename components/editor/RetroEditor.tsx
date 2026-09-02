@@ -11,6 +11,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import Placeholder from "@tiptap/extension-placeholder";
 import Link from "@tiptap/extension-link";
 import { VideoNode, AudioNode } from "@/components/editor/MediaNodes";
+import { CarouselNode } from "@/components/editor/CarouselNode";
 import { createClient } from "@/lib/supabase/client";
 import { sanitizeHtml } from "@/lib/sanitize";
 import MediaUpload from "@/components/media/MediaUpload";
@@ -50,6 +51,7 @@ const extensions = [
   Image,
   VideoNode,
   AudioNode,
+  CarouselNode,
   Rainbow,
   Marquee,
   Blink,
@@ -98,6 +100,8 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
   const [htmlText, setHtmlText] = useState("");
   const [showGifPicker, setShowGifPicker] = useState(false);
   const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
+  const [useCarousel, setUseCarousel] = useState(true);
+  const [mediaBusy, setMediaBusy] = useState(false);
 
   const editor = useEditor({
     extensions,
@@ -214,6 +218,7 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
 
   async function handleVoiceRecorded(blob: Blob) {
     setError(null);
+    setMediaBusy(true);
     try {
       const rawType = blob.type || "audio/webm";
       const normalizedType = rawType.split(";")[0].trim().toLowerCase() || "audio/webm";
@@ -236,6 +241,8 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
       setShowVoiceRecorder(false);
     } catch {
       setError("Impossible d'enregistrer ta voix.");
+    } finally {
+      setMediaBusy(false);
     }
   }
 
@@ -566,25 +573,53 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
         </div>
 
         <div className="mb-2 flex flex-wrap gap-1.5">
-          <MediaUpload
-            kind="image"
-            multiple
-            maxFiles={10}
-            onUploaded={(_path, url) =>
-              editor.chain().focus().insertContent(`<img src="${url}">`).run()
-            }
-          />
+          <div className="flex items-center gap-1.5">
+            <MediaUpload
+              kind="image"
+              multiple
+              maxFiles={10}
+              onUploaded={(_path, url) =>
+                editor.chain().focus().insertContent(`<img src="${url}">`).run()
+              }
+              onBatchUploaded={(uploads) => {
+                if (uploads.length === 0) return;
+                if (useCarousel && uploads.length > 1) {
+                  const imgs = uploads.map((u) => `<img src="${u.url}" alt="">`).join("");
+                  const html = `<div class="retro-carousel" data-carousel="true">${imgs}</div>`;
+                  editor.chain().focus().insertContent(html).run();
+                } else {
+                  const html = uploads.map((u) => `<img src="${u.url}" alt="">`).join("");
+                  editor.chain().focus().insertContent(html).run();
+                }
+              }}
+              onBusyChange={setMediaBusy}
+            />
+            <label
+              className="flex items-center gap-1 text-xs opacity-80"
+              title="Groupe les photos en carrousel quand tu en sélectionnes plusieurs"
+            >
+              <input
+                type="checkbox"
+                checked={useCarousel}
+                onChange={(e) => setUseCarousel(e.target.checked)}
+                className="h-3 w-3 accent-[#ff69b4]"
+              />
+              Carrousel
+            </label>
+          </div>
           <MediaUpload
             kind="video"
             onUploaded={(_path, url) =>
               editor.chain().focus().insertContent(`<video controls src="${url}"></video>`).run()
             }
+            onBusyChange={setMediaBusy}
           />
           <MediaUpload
             kind="audio"
             onUploaded={(_path, url) =>
               editor.chain().focus().insertContent(`<audio controls src="${url}"></audio>`).run()
             }
+            onBusyChange={setMediaBusy}
           />
           <button
             type="button"
@@ -659,6 +694,12 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
           </div>
         )}
 
+        {mediaBusy ? (
+          <p className="mb-2 rounded-lg border-2 border-[#ff69b4] bg-black/60 px-3 py-2 text-xs text-[#ffb6d9]">
+            ⏳ Envoi en cours… attends la fin avant de publier
+          </p>
+        ) : null}
+
         {error ? (
           <p className="mb-2 rounded-lg border-2 border-red-400 bg-red-900/50 px-3 py-2 text-sm text-red-100">
             {error}
@@ -666,8 +707,20 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
         ) : null}
 
         <div className="flex gap-2">
-          <button type="button" className="retro-btn" onClick={handleSave} disabled={saving}>
-            {saving ? "Enregistrement…" : existing ? "💾 Enregistrer" : "💾 Publier"}
+          <button
+            type="button"
+            className="retro-btn"
+            onClick={handleSave}
+            disabled={saving || mediaBusy}
+            title={mediaBusy ? "Upload en cours…" : undefined}
+          >
+            {saving
+              ? "Enregistrement…"
+              : mediaBusy
+                ? "⏳ Envoi…"
+                : existing
+                  ? "💾 Enregistrer"
+                  : "💾 Publier"}
           </button>
           <button type="button" className="retro-btn" onClick={onCancel} disabled={saving}>
             Annuler
@@ -725,6 +778,34 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
         .editor-area .tiptap audio {
           max-width: 100%;
           border-radius: 8px;
+        }
+        .editor-area .tiptap .retro-carousel {
+          display: flex;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          gap: 0.75rem;
+          padding: 0.75rem;
+          margin: 0.75rem 0;
+          border: 3px ridge #ff69b4;
+          border-radius: 12px;
+          background: linear-gradient(180deg, #1a001a 0%, #0d0011 100%);
+          max-width: 100%;
+          box-sizing: border-box;
+        }
+        .editor-area .tiptap .retro-carousel img {
+          flex: 0 0 auto;
+          width: min(280px, 70vw);
+          height: clamp(140px, 38vw, 200px);
+          object-fit: cover;
+          scroll-snap-align: start;
+          border: 2px solid #ff69b4;
+          border-radius: 8px;
+        }
+        @media (max-width: 640px) {
+          .editor-area .tiptap .retro-carousel {
+            gap: 0.5rem;
+            padding: 0.5rem;
+          }
         }
         .editor-area .tiptap h1 {
           font-size: 1.6em;

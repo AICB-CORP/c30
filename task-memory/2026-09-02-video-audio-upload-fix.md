@@ -6,8 +6,26 @@ area: media/upload
 tags: [video, audio, r2, upload, presigned-url, mime, codecs, sanitize, tiptap]
 status: implemented
 branch: fix/video-audio-upload
-related_files: [lib/mediaTypes.ts, lib/r2.ts, app/api/upload/route.ts, components/media/MediaUpload.tsx, components/media/VoiceRecorder.tsx, components/editor/RetroEditor.tsx, components/editor/MediaNodes.ts, lib/sanitize.ts]
-decisions: [expand-allowlist, normalize-content-type, increase-max-size, fix-busy-state, add-tiptap-media-nodes, infer-extension-fallback]
+related_files:
+  [
+    lib/mediaTypes.ts,
+    lib/r2.ts,
+    app/api/upload/route.ts,
+    components/media/MediaUpload.tsx,
+    components/media/VoiceRecorder.tsx,
+    components/editor/RetroEditor.tsx,
+    components/editor/MediaNodes.ts,
+    lib/sanitize.ts,
+  ]
+decisions:
+  [
+    expand-allowlist,
+    normalize-content-type,
+    increase-max-size,
+    fix-busy-state,
+    add-tiptap-media-nodes,
+    infer-extension-fallback,
+  ]
 ---
 
 # Fix : vidéos et audios qui ne s'uploadent pas
@@ -28,42 +46,49 @@ Les uploads vidéo et audio échouaient silencieusement ou renvoyaient `400 Type
 ## Decision Points
 
 ### DP1 — Expand allowlist 9→22 entries (lib/mediaTypes.ts)
+
 - **choice** : ajouter `video/quicktime→mov`, `video/ogg→ogv`, `video/mpeg→mpeg`, `video/x-msvideo→avi`, `video/x-matroska→mkv`, `audio/mpeg→mp3`, `audio/wav/x-wav/wave→wav`, `audio/mp4→mp4`, `audio/aac→aac`, `audio/flac/x-flac→flac`; corriger `video/webm→webm`.
 - **rationale** : reflète les MIMEs réels observés sur Chrome/Firefox/Safari/iOS ; 22 entrées couvrent >99% des fichiers utilisateur sans ouvrir `application/pdf`/`text/html`.
 - **alternatives** : wildcard `video/*`/`audio/*` → rejeté (risque XSS stocké via `text/html`/`image/svg+xml`), allowlist dynamique par extension → moins sûr.
 - **tradeoff** : chaque entrée = un `ext` mappé, mais reste trivial côté stockage (clé `{userId}/{uuid}.{ext}`).
 
 ### DP2 — normalizeContentType() (strip `;codecs`, lowerCase, trim)
+
 - **choice** : helper partagé `lib/mediaTypes.ts` qui fait `String(ct).toLowerCase().trim().split(';')[0].trim()`, utilisé partout (server `route.ts`, client `MediaUpload`, `VoiceRecorder`, `RetroEditor`, `buildUploadPath`).
 - **rationale** : un seul point de vérité ; gère `audio/webm;codecs=opus`, casse différente, espaces. Le PUT et le presign utilisent la forme normalisée → signature cohérente.
 - **alternatives** : regex plus stricte → inutile, split suffit.
 - **tradeoff** : on perd l'info codec mais R2 ne s'en soucie pas (l'extension reste correcte).
 
 ### DP3 — Increase MAX_RAW_MB 8→50
+
 - **choice** : aligner sur `MAX_INPUT_BYTES = 50 MB` (déjà utilisé pour le garde-fou image). 50 Mo ≈ 30s de vidéo 720p, reste < 10 Go budget (20 amis × 5 vidéos × 50 Mo = 5 Go worst-case, improbable).
 - **rationale** : débloque iPhone .mov sans autoriser 500 Mo qui saturerait R2 gratuit.
 - **alternatives** : compression vidéo client (ffmpeg.wasm) → trop lourd pour MVP, hors scope.
 - **tradeoff** : risque de stockage plus élevé si tous postent 50 Mo, mais le free tier 10 Go reste suffisant pour l'usage prévu (birthday gift, pas archive).
 
 ### DP4 — Fix busy/queue for non-image
+
 - **choice** : `processNextInQueue` direct-upload branche → `void uploadSingleFile(...).then(() => { if (queue.length) processNextInQueue() else { revoke; setBusy(false) } })`; `processNextInQueue` empty case → `setBusy(false)`; `MAX_INPUT_BYTES` guard aussi `setBusy(false)`.
 - **rationale** : uploadSingleFile est async, l'ancien `void` ne continuait jamais la queue et ne libérait jamais `busy`.
 - **alternatives** : refacto en boucle `for await` → changement plus invasif, gardé minimal.
 - **tradeoff** : `.then` vs `await` — `.then` évite de rendre `processNextInQueue` async et de gérer re-entrance.
 
 ### DP5 — Add TipTap VideoNode/AudioNode (components/editor/MediaNodes.ts)
+
 - **choice** : deux `Node.create` atom block `video`/`audio` avec `parseHTML [{tag}]` et `renderHTML mergeAttributes(...,{controls:true})`, ajoutés à `extensions`.
 - **rationale** : sans nœud, StarterKit drop les tags inconnus → `editor.getHTML()` ne contient plus `<video>`/`<audio>` → `sanitizeHtml` ne les voit jamais → post vide. Les nœuds garantissent round-trip DB → render.
 - **alternatives** : stocker HTML brut séparé du doc TipTap → divergence modèle, plus complexe.
 - **tradeoff** : atom=true empêche d'éditer l'intérieur, mais c'est souhaité (media = bloc).
 
 ### DP6 — Extract lib/mediaTypes.ts (client-safe)
+
 - **choice** : déplacer `CONTENT_TYPE_EXT`, `ALLOWED_CONTENT_TYPES`, `normalizeContentType`, `isAllowedContentType` hors de `lib/r2.ts` (qui importe `@aws-sdk/client-s3` et `process.env` serveurs). `lib/r2.ts` ré-exporte pour compatibilité ; clients importent depuis `mediaTypes`.
 - **rationale** : éviter de bundler l'AWS SDK (≈ +300k) dans le JS client et d'exposer des erreurs bundler ; séparation nette client/server.
 - **alternatives** : laisser tel quel (build passait quand même car Turbopack tree-shake) → fragile, coût bundle inutile.
 - **tradeoff** : un fichier de plus, import path à mettre à jour.
 
 ### DP7 — Fallback extension inference (inferContentTypeFromFilename)
+
 - **choice** : si `file.type === ""` (mobile browsers, fichiers renommés), inférer via extension `.mov→video/quicktime`, `.mp3→audio/mpeg`, `.webm/.ogg` disambigué par `kind`, etc., sinon erreur explicite « renomme avec extension ».
 - **rationale** : améliore UX sans deviner le type à l'aveugle.
 - **tradeoff** : logique de mapping dupliquée avec CONTENT_TYPE_EXT, maintenue locale au composant pour ne pas polluer le shared module avec du `kind`.

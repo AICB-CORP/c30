@@ -12,7 +12,9 @@ export default async function PostPage({ params }: { params: Promise<{ id: strin
 
   const { data: post } = await supabase
     .from("posts")
-    .select("*, author:profiles!posts_author_id_fkey(id, pseudo, avatar_url, mood), media:post_media(*)")
+    .select(
+      "*, author:profiles!posts_author_id_fkey(id, pseudo, avatar_url, mood), media:post_media(*)",
+    )
     .eq("id", id)
     .maybeSingle();
 
