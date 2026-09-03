@@ -358,10 +358,10 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
           </div>
         </div>
 
-        {/* Scrollable middle — toolbar + media + editor; toolbar sticky, editor scrolls */}
-        <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-hidden pr-1">
-          <div className="sticky top-0 z-10 rounded-lg border-2 border-[#ff69b4]/60 bg-black/40 p-2 backdrop-blur-sm">
-            <div className="flex flex-nowrap items-center gap-1.5 overflow-x-auto overscroll-x-contain touch-pan-x pb-1 scrollbar-thin">
+        {/* Middle — toolbar block (not scrollable, sticky) + editor scrollable */}
+        <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pr-1">
+          <div className="sticky top-0 z-10 flex-shrink-0 rounded-lg border-2 border-[#ff69b4]/60 bg-black/40 p-2 backdrop-blur-sm">
+            <div className="flex flex-wrap items-center gap-1.5">
               <button
                 type="button"
                 className="retro-btn tool-btn font-bold"
@@ -690,7 +690,7 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
           ) : null}
 
           {htmlMode ? (
-            <div className="mb-2 flex min-h-0 flex-col overflow-hidden">
+            <div className="mb-2 flex min-h-0 flex-col">
               <textarea
                 value={htmlText}
                 onChange={(e) => setHtmlText(e.target.value)}
@@ -713,10 +713,8 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
               </div>
             </div>
           ) : (
-            <div className="editor-area mb-2 flex min-h-[180px] flex-col overflow-hidden rounded-lg border-2 border-[#ff69b4]/30 bg-black/20">
-              <div className="min-h-[180px] flex-1 overflow-y-auto overflow-x-hidden p-2">
-                <EditorContent editor={editor} />
-              </div>
+            <div className="editor-area mb-2 flex min-h-[280px] flex-col rounded-lg border-2 border-[#ff69b4]/30 bg-black/20 p-2">
+              <EditorContent editor={editor} />
             </div>
           )}
 
