@@ -49,4 +49,5 @@ Chaque tâche = un fichier `YYYY-MM-DD-<slug>.md` avec :
 | 2026-09-02           | video-audio-upload-fix     | media/upload       | implemented | [2026-09-02-video-audio-upload-fix.md](./2026-09-02-video-audio-upload-fix.md)         |
 | 2026-09-02           | carousel-multi-upload      | media/carousel     | implemented | [2026-09-02-carousel-multi-upload.md](./2026-09-02-carousel-multi-upload.md)           |
 | 2026-09-03           | editor-scrollable          | editor/layout      | implemented | [2026-09-03-editor-scrollable.md](./2026-09-03-editor-scrollable.md)                   |
+| 2026-09-03           | carousel-fix               | editor/carousel    | implemented | [2026-09-03-carousel-fix.md](./2026-09-03-carousel-fix.md)                             |
 | // screenshot update |

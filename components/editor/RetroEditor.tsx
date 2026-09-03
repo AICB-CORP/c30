@@ -48,7 +48,7 @@ const extensions = [
     link: false,
     heading: { levels: [1, 2] },
   }),
-  Image,
+  Image.configure({ inline: true }),
   VideoNode,
   AudioNode,
   CarouselNode,
@@ -608,9 +608,9 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
                 onBatchUploaded={(uploads) => {
                   if (uploads.length === 0) return;
                   if (useCarousel && uploads.length > 1) {
-                    const imgs = uploads.map((u) => `<img src="${u.url}" alt="">`).join("");
-                    const html = `<div class="retro-carousel" data-carousel="true">${imgs}</div>`;
-                    editor.chain().focus().insertContent(html).run();
+                    // Use TipTap node insertion for reliable parsing (avoids HTML string race where only last img survives)
+                    const urls = uploads.map((u) => u.url);
+                    editor.chain().focus().insertCarousel({ urls }).run();
                   } else {
                     const html = uploads.map((u) => `<img src="${u.url}" alt="">`).join("");
                     editor.chain().focus().insertContent(html).run();
