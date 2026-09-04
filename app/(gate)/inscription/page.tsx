@@ -88,16 +88,26 @@ export default function InscriptionPage() {
           <label htmlFor="password" className="mb-1 block text-sm font-bold">
             Mot de passe
           </label>
-          <input
-            id="password"
-            type="password"
-            required
-            autoComplete="new-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={inputClass}
-            placeholder="8 caractères minimum"
-          />
+            <div className="relative">
+              <input
+                id="password"
+                type="password"
+                required
+                autoComplete="new-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={inputClass}="password-input"
+                placeholder="8 caractères minimum"
+              />
+              <button
+                type="button"
+                className="absolute right-2 top-8 text-white/60 hover:text-white"
+                onClick={() => setPasswordVisible(!passwordVisible)}
+              >
+                {passwordVisible ? 'Hide' : 'Show'}
+              </button>
+            </div>
+
         </div>
         <div>
           <label htmlFor="inviteCode" className="mb-1 block text-sm font-bold">
