@@ -9,6 +9,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -55,16 +56,29 @@ export default function LoginPage() {
           <label htmlFor="password" className="mb-1 block text-sm font-bold">
             Mot de passe
           </label>
-          <input
-            id="password"
-            type="password"
-            required
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-lg border-2 border-white/40 bg-black/40 px-3 py-2 text-white outline-none focus:border-white"
-            placeholder="••••••••"
-          />
+          <div className="relative">
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-lg border-2 border-white/40 bg-black/40 px-3 py-2 pr-12 text-white outline-none focus:border-white"
+              placeholder="••••••••"
+            />
+            <button
+              type="button"
+              aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+              aria-pressed={showPassword}
+              onClick={() => setShowPassword((v) => !v)}
+              className="absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+            >
+              <span aria-hidden="true" className="text-base leading-none">
+                {showPassword ? "🙈" : "👁️"}
+              </span>
+            </button>
+          </div>
         </div>
 
         {error && (

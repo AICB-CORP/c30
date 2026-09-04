@@ -111,6 +111,12 @@ Fix all blocking + important findings, re-run the affected checks, then continue
 ...
 ```
 
+> **Private repo note:** `raw.githubusercontent.com` with a branch containing a slash (`feat/...`, `fix/...`) is ambiguous and returns **404** in anonymous `curl` (GitHub parses `feat` as branch + `password-toggle/...` as path). The files **are** on the branch (verify via `git ls-tree -r origin/<branch> --name-only`). For private repos, prefer the GitHub UI blob URL rendered via camo for collaborators:
+> `https://github.com/AICB-CORP/c30/blob/<branch>/task-memory/screenshot/<branch>/cropper-mobile.png?raw=true`
+> or the commit-SHA raw URL:
+> `https://raw.githubusercontent.com/AICB-CORP/c30/<sha>/task-memory/screenshot/<branch>/cropper-mobile.png`
+> Either is valid for `AICB-CORP` collaborators viewing the PR while logged in. Public repos can keep the `raw.githubusercontent.com/<branch>/...` form.
+
 The screenshots stay under `task-memory/screenshot/<branch>/` in the repo (already gitignored or treated as task reasoning — see `.gitignore`). If you prefer them public, commit them under `docs/screenshots/<branch>/` and reference them by their committed path. Either way, the human reviewer must be able to **see** the layout change in the PR without cloning.
 
 ### 7. SAVE TASK REASONING (task-memory)
