@@ -50,4 +50,4 @@ Chaque tâche = un fichier `YYYY-MM-DD-<slug>.md` avec :
 | 2026-09-03 | password-toggle            | auth/gate          | implemented | [2026-09-03-password-toggle.md](./2026-09-03-password-toggle.md)                       |
 | 2026-09-03 | verify-password            | auth/gate          | implemented | [2026-09-03-verify-password.md](./2026-09-03-verify-password.md)                       |
 | 2026-09-03           | editor-scrollable          | editor/layout      | implemented | [2026-09-03-editor-scrollable.md](./2026-09-03-editor-scrollable.md)                   |
-| // screenshot update |
+| 2026-09-03           | carousel-fix               | editor/carousel    | implemented | [2026-09-03-carousel-fix.md](./2026-09-03-carousel-fix.md)                             |

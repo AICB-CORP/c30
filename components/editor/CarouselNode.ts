@@ -1,5 +1,13 @@
 import { Node, mergeAttributes } from "@tiptap/core";
 
+declare module "@tiptap/core" {
+  interface Commands<ReturnType> {
+    carousel: {
+      insertCarousel: (attrs: { urls: string[] }) => ReturnType;
+    };
+  }
+}
+
 /**
  * Retro carousel — a block node that groups several images.
  * Renders as <div data-carousel="true" class="retro-carousel"><img …><img …></div>
@@ -10,7 +18,7 @@ import { Node, mergeAttributes } from "@tiptap/core";
 export const CarouselNode = Node.create({
   name: "carousel",
   group: "block",
-  content: "inline*",
+  content: "image*",
   isolating: true,
   selectable: true,
   draggable: true,
@@ -47,5 +55,25 @@ export const CarouselNode = Node.create({
       mergeAttributes(HTMLAttributes, { "data-carousel": "true", class: "retro-carousel" }),
       0,
     ];
+  },
+
+  addCommands() {
+    return {
+      insertCarousel:
+        (attrs: { urls: string[] }) =>
+        ({ chain }) => {
+          const images = attrs.urls.map((url) => ({
+            type: "image",
+            attrs: { src: url, alt: "" },
+          }));
+          return chain()
+            .insertContent({
+              type: this.name,
+              attrs: { "data-carousel": "true", class: "retro-carousel" },
+              content: images,
+            })
+            .run();
+        },
+    };
   },
 });

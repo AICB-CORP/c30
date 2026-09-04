@@ -1,0 +1,2950 @@
+{
+  "generatedAt": "2026-09-03T15:30:36.296Z",
+  "branch": "fix/carousel-not-working",
+  "description": "Carousel fix validation: CarouselNode content image* + Image inline:true + insertCarousel via JSON; carousel should be block flex horizontal scroll, images visible, publish still visible, toolbar block, editor scrollable. At 1280/375/360 carousel visible, images inside, scrollable, not clipped, insideBox true.",
+  "expectations": {
+    "carousel": "display:flex horizontal scroll, flex-direction row, overflow-x auto, scroll-snap mandatory, images flex 0 0 auto width min(280px,70vw) height clamp, visible, scrollable, insideBox true",
+    "publish": "insideBox true and inViewport true at all viewports even after middle scroll",
+    "toolbar": "flex-wrap block not scrollable",
+    "editor": "middle overflow-y-auto scrollable, min-h 280",
+    "noHorizontalPageOverflow": true
+  },
+  "results": {
+    "editor-carousel-desktop": {
+      "metrics": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "docScrollWidth": 1280,
+        "bodyScrollWidth": 1280,
+        "horizontalOverflow": false,
+        "outer": {
+          "display": "flex",
+          "overflow": "hidden",
+          "overflowY": "hidden",
+          "overflowX": "hidden",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        "box": {
+          "rect": {
+            "x": 256,
+            "y": 40,
+            "w": 768,
+            "h": 720,
+            "top": 40,
+            "bottom": 760,
+            "left": 256,
+            "right": 1024
+          },
+          "display": "flex",
+          "flexDirection": "column",
+          "overflow": "hidden",
+          "maxHeight": "720px",
+          "w": 768,
+          "h": 720
+        },
+        "middle": {
+          "rect": {
+            "x": 275,
+            "y": 231.9,
+            "w": 730,
+            "h": 450.1,
+            "top": 231.9,
+            "bottom": 682,
+            "left": 275,
+            "right": 1005
+          },
+          "overflowY": "auto",
+          "overflowX": "auto",
+          "overflow": "auto",
+          "flex": "1 1 0%",
+          "minHeight": "0px",
+          "hasScroll": true,
+          "scrollHeight": 1849,
+          "clientHeight": 450,
+          "scrollTop": 0
+        },
+        "toolbar": {
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflowY": "visible",
+          "scrollWidth": 706,
+          "clientWidth": 706,
+          "scrollable": false,
+          "isWrap": true,
+          "isBlock": true,
+          "rect": {
+            "x": 285,
+            "y": 241.9,
+            "w": 706,
+            "h": 255,
+            "top": 241.9,
+            "bottom": 496.9,
+            "left": 285,
+            "right": 991
+          },
+          "outerRect": {
+            "x": 275,
+            "y": 231.9,
+            "w": 726,
+            "h": 275,
+            "top": 231.9,
+            "bottom": 506.9,
+            "left": 275,
+            "right": 1001
+          }
+        },
+        "publish": {
+          "rect": {
+            "x": 275,
+            "y": 695,
+            "w": 124.8,
+            "h": 46,
+            "top": 695,
+            "bottom": 741,
+            "left": 275,
+            "right": 399.8
+          },
+          "inViewport": true,
+          "insideBox": true,
+          "display": "block"
+        },
+        "publishRow": {
+          "rect": {
+            "x": 275,
+            "y": 682,
+            "w": 730,
+            "h": 59,
+            "top": 682,
+            "bottom": 741,
+            "left": 275,
+            "right": 1005
+          },
+          "insideBox": true
+        },
+        "editorArea": {
+          "rect": {
+            "x": 275,
+            "y": 576.9,
+            "w": 726,
+            "h": 280,
+            "top": 576.9,
+            "bottom": 856.9,
+            "left": 275,
+            "right": 1001
+          },
+          "display": "flex"
+        },
+        "carousel": {
+          "exists": true,
+          "rect": {
+            "x": 285,
+            "y": 646.9,
+            "w": 706,
+            "h": 230,
+            "top": 646.9,
+            "bottom": 876.9,
+            "left": 285,
+            "right": 991
+          },
+          "computed": {
+            "display": "flex",
+            "flexDirection": "row",
+            "overflowX": "auto",
+            "overflowY": "auto",
+            "overflow": "auto",
+            "scrollSnapType": "x mandatory",
+            "gap": "12px",
+            "padding": "12px",
+            "margin": "12px 0px",
+            "maxWidth": "100%",
+            "boxSizing": "border-box",
+            "border": "3px ridge rgb(255, 20, 147)",
+            "width": "706px",
+            "height": "230px"
+          },
+          "attrs": {
+            "hasDataCarousel": true,
+            "dataCarouselVal": "true",
+            "hasRetroClass": true
+          },
+          "scroll": {
+            "scrollWidth": 1472,
+            "clientWidth": 700,
+            "scrollHeight": 224,
+            "clientHeight": 224,
+            "horizontalScrollable": true,
+            "horizontalNeedsScroll": true
+          },
+          "checks": {
+            "isFlex": true,
+            "isFlexRow": true,
+            "overflowXAuto": true,
+            "scrollSnapIsMandatory": true,
+            "isBlockWithFlex": true,
+            "allImagesVisible": true,
+            "allImagesFlex": true,
+            "gapIsCorrect": true,
+            "maxWidthIs100": true,
+            "boxSizingIsBorderBox": true,
+            "carouselInsideBoxH": true,
+            "noPageHorizontalOverflow": true,
+            "boxInsideH": true,
+            "hasCarouselOverflowHiddenParent": false
+          },
+          "imgCount": 5,
+          "imgMetrics": [
+            {
+              "w": 280,
+              "h": 200,
+              "x": 288,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 580,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 872,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 1164,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 1456,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            }
+          ]
+        },
+        "carouselInsideMiddleViewport": false,
+        "carouselPartiallyVisibleInMiddle": true,
+        "noHorizontalOverflow": true,
+        "pageScrollY": 0
+      },
+      "afterScrollMetrics": {
+        "middleScrollTop": 1399,
+        "middleScrollHeight": 1849,
+        "middleClientHeight": 450,
+        "middleRect": {
+          "top": 231.9375,
+          "bottom": 682
+        },
+        "publish": {
+          "top": 695,
+          "bottom": 741,
+          "inViewport": true,
+          "insideBox": true
+        },
+        "box": {
+          "top": 40,
+          "bottom": 760
+        },
+        "carousel": {
+          "top": -752.0625,
+          "bottom": -522.0625,
+          "y": -752.0625,
+          "h": 230,
+          "visibleInMiddle": false,
+          "insideBoxH": true
+        },
+        "pageScrollY": 0
+      },
+      "afterCarouselScrollMetrics": {
+        "scrollLeft": 304,
+        "scrollWidth": 1472,
+        "clientWidth": 700,
+        "maxScroll": 772,
+        "imgs": [
+          {
+            "x": -4,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 288,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 580,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 872,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 1164,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          }
+        ],
+        "rect": {
+          "x": 285,
+          "y": 646.9375,
+          "width": 706,
+          "height": 230,
+          "top": 646.9375,
+          "right": 991,
+          "bottom": 876.9375,
+          "left": 285
+        }
+      },
+      "usedCompiledCss": true
+    },
+    "editor-carousel-mobile-375": {
+      "metrics": {
+        "viewport": {
+          "w": 375,
+          "h": 812
+        },
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "horizontalOverflow": false,
+        "outer": {
+          "display": "flex",
+          "overflow": "hidden",
+          "overflowY": "hidden",
+          "overflowX": "hidden",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        "box": {
+          "rect": {
+            "x": 9.4,
+            "y": 40.6,
+            "w": 356.3,
+            "h": 730.8,
+            "top": 40.6,
+            "bottom": 771.4,
+            "left": 9.4,
+            "right": 365.6
+          },
+          "display": "flex",
+          "flexDirection": "column",
+          "overflow": "hidden",
+          "maxHeight": "730.8px",
+          "w": 356.3,
+          "h": 730.8
+        },
+        "middle": {
+          "rect": {
+            "x": 24.4,
+            "y": 239.7,
+            "w": 326.3,
+            "h": 457.7,
+            "top": 239.7,
+            "bottom": 697.4,
+            "left": 24.4,
+            "right": 350.6
+          },
+          "overflowY": "auto",
+          "overflowX": "auto",
+          "overflow": "auto",
+          "flex": "1 1 0%",
+          "minHeight": "0px",
+          "hasScroll": true,
+          "scrollHeight": 1967,
+          "clientHeight": 458,
+          "scrollTop": 0
+        },
+        "toolbar": {
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflowY": "visible",
+          "scrollWidth": 302,
+          "clientWidth": 302,
+          "scrollable": false,
+          "isWrap": true,
+          "isBlock": true,
+          "rect": {
+            "x": 34.4,
+            "y": 249.7,
+            "w": 302.3,
+            "h": 511,
+            "top": 249.7,
+            "bottom": 760.7,
+            "left": 34.4,
+            "right": 336.6
+          },
+          "outerRect": {
+            "x": 24.4,
+            "y": 239.7,
+            "w": 322.3,
+            "h": 531,
+            "top": 239.7,
+            "bottom": 770.7,
+            "left": 24.4,
+            "right": 346.6
+          }
+        },
+        "publish": {
+          "rect": {
+            "x": 24.4,
+            "y": 710.4,
+            "w": 124.8,
+            "h": 46,
+            "top": 710.4,
+            "bottom": 756.4,
+            "left": 24.4,
+            "right": 149.2
+          },
+          "inViewport": true,
+          "insideBox": true,
+          "display": "block"
+        },
+        "publishRow": {
+          "rect": {
+            "x": 24.4,
+            "y": 697.4,
+            "w": 326.3,
+            "h": 59,
+            "top": 697.4,
+            "bottom": 756.4,
+            "left": 24.4,
+            "right": 350.6
+          },
+          "insideBox": true
+        },
+        "editorArea": {
+          "rect": {
+            "x": 24.4,
+            "y": 892.7,
+            "w": 322.3,
+            "h": 280,
+            "top": 892.7,
+            "bottom": 1172.7,
+            "left": 24.4,
+            "right": 346.6
+          },
+          "display": "flex"
+        },
+        "carousel": {
+          "exists": true,
+          "rect": {
+            "x": 34.4,
+            "y": 986.7,
+            "w": 302.3,
+            "h": 164.5,
+            "top": 986.7,
+            "bottom": 1151.2,
+            "left": 34.4,
+            "right": 336.6
+          },
+          "computed": {
+            "display": "flex",
+            "flexDirection": "row",
+            "overflowX": "auto",
+            "overflowY": "auto",
+            "overflow": "auto",
+            "scrollSnapType": "x mandatory",
+            "gap": "8px",
+            "padding": "8px",
+            "margin": "12px 0px",
+            "maxWidth": "100%",
+            "boxSizing": "border-box",
+            "border": "3px ridge rgb(255, 20, 147)",
+            "width": "302.25px",
+            "height": "164.5px"
+          },
+          "attrs": {
+            "hasDataCarousel": true,
+            "dataCarouselVal": "true",
+            "hasRetroClass": true
+          },
+          "scroll": {
+            "scrollWidth": 1361,
+            "clientWidth": 296,
+            "scrollHeight": 159,
+            "clientHeight": 159,
+            "horizontalScrollable": true,
+            "horizontalNeedsScroll": true
+          },
+          "checks": {
+            "isFlex": true,
+            "isFlexRow": true,
+            "overflowXAuto": true,
+            "scrollSnapIsMandatory": true,
+            "isBlockWithFlex": true,
+            "allImagesVisible": true,
+            "allImagesFlex": true,
+            "gapIsCorrect": true,
+            "maxWidthIs100": true,
+            "boxSizingIsBorderBox": true,
+            "carouselInsideBoxH": true,
+            "noPageHorizontalOverflow": true,
+            "boxInsideH": true,
+            "hasCarouselOverflowHiddenParent": false
+          },
+          "imgCount": 5,
+          "imgMetrics": [
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 37.4,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 307.9,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 578.4,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 848.9,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 1119.4,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            }
+          ]
+        },
+        "carouselInsideMiddleViewport": false,
+        "carouselPartiallyVisibleInMiddle": false,
+        "noHorizontalOverflow": true,
+        "pageScrollY": 0
+      },
+      "afterScrollMetrics": {
+        "middleScrollTop": 1509,
+        "middleScrollHeight": 1967,
+        "middleClientHeight": 458,
+        "middleRect": {
+          "top": 239.703125,
+          "bottom": 697.390625
+        },
+        "publish": {
+          "top": 710.390625,
+          "bottom": 756.390625,
+          "inViewport": true,
+          "insideBox": true
+        },
+        "box": {
+          "top": 40.59375,
+          "bottom": 771.390625
+        },
+        "carousel": {
+          "top": -522.296875,
+          "bottom": -357.796875,
+          "y": -522.296875,
+          "h": 164.5,
+          "visibleInMiddle": false,
+          "insideBoxH": true
+        },
+        "pageScrollY": 0
+      },
+      "afterCarouselScrollMetrics": {
+        "scrollLeft": 549,
+        "scrollWidth": 1361,
+        "clientWidth": 296,
+        "maxScroll": 1065,
+        "imgs": [
+          {
+            "x": -504,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": -233,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": 37,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": 308,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": 578,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          }
+        ],
+        "rect": {
+          "x": 34.375,
+          "y": 986.703125,
+          "width": 302.25,
+          "height": 164.5,
+          "top": 986.703125,
+          "right": 336.625,
+          "bottom": 1151.203125,
+          "left": 34.375
+        }
+      },
+      "usedCompiledCss": true
+    },
+    "editor-carousel-mobile-360": {
+      "metrics": {
+        "viewport": {
+          "w": 360,
+          "h": 800
+        },
+        "docScrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "horizontalOverflow": false,
+        "outer": {
+          "display": "flex",
+          "overflow": "hidden",
+          "overflowY": "hidden",
+          "overflowX": "hidden",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        "box": {
+          "rect": {
+            "x": 9,
+            "y": 40,
+            "w": 342,
+            "h": 720,
+            "top": 40,
+            "bottom": 760,
+            "left": 9,
+            "right": 351
+          },
+          "display": "flex",
+          "flexDirection": "column",
+          "overflow": "hidden",
+          "maxHeight": "720px",
+          "w": 342,
+          "h": 720
+        },
+        "middle": {
+          "rect": {
+            "x": 24,
+            "y": 239.1,
+            "w": 312,
+            "h": 446.9,
+            "top": 239.1,
+            "bottom": 686,
+            "left": 24,
+            "right": 336
+          },
+          "overflowY": "auto",
+          "overflowX": "auto",
+          "overflow": "auto",
+          "flex": "1 1 0%",
+          "minHeight": "0px",
+          "hasScroll": true,
+          "scrollHeight": 2058,
+          "clientHeight": 447,
+          "scrollTop": 0
+        },
+        "toolbar": {
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflowY": "visible",
+          "scrollWidth": 288,
+          "clientWidth": 288,
+          "scrollable": false,
+          "isWrap": true,
+          "isBlock": true,
+          "rect": {
+            "x": 34,
+            "y": 249.1,
+            "w": 288,
+            "h": 564,
+            "top": 249.1,
+            "bottom": 813.1,
+            "left": 34,
+            "right": 322
+          },
+          "outerRect": {
+            "x": 24,
+            "y": 239.1,
+            "w": 308,
+            "h": 584,
+            "top": 239.1,
+            "bottom": 823.1,
+            "left": 24,
+            "right": 332
+          }
+        },
+        "publish": {
+          "rect": {
+            "x": 24,
+            "y": 699,
+            "w": 124.8,
+            "h": 46,
+            "top": 699,
+            "bottom": 745,
+            "left": 24,
+            "right": 148.8
+          },
+          "inViewport": true,
+          "insideBox": true,
+          "display": "block"
+        },
+        "publishRow": {
+          "rect": {
+            "x": 24,
+            "y": 686,
+            "w": 312,
+            "h": 59,
+            "top": 686,
+            "bottom": 745,
+            "left": 24,
+            "right": 336
+          },
+          "insideBox": true
+        },
+        "editorArea": {
+          "rect": {
+            "x": 24,
+            "y": 997.1,
+            "w": 308,
+            "h": 280,
+            "top": 997.1,
+            "bottom": 1277.1,
+            "left": 24,
+            "right": 332
+          },
+          "display": "flex"
+        },
+        "carousel": {
+          "exists": true,
+          "rect": {
+            "x": 34,
+            "y": 1091.1,
+            "w": 288,
+            "h": 162,
+            "top": 1091.1,
+            "bottom": 1253.1,
+            "left": 34,
+            "right": 322
+          },
+          "computed": {
+            "display": "flex",
+            "flexDirection": "row",
+            "overflowX": "auto",
+            "overflowY": "auto",
+            "overflow": "auto",
+            "scrollSnapType": "x mandatory",
+            "gap": "8px",
+            "padding": "8px",
+            "margin": "12px 0px",
+            "maxWidth": "100%",
+            "boxSizing": "border-box",
+            "border": "3px ridge rgb(255, 20, 147)",
+            "width": "288px",
+            "height": "162px"
+          },
+          "attrs": {
+            "hasDataCarousel": true,
+            "dataCarouselVal": "true",
+            "hasRetroClass": true
+          },
+          "scroll": {
+            "scrollWidth": 1308,
+            "clientWidth": 282,
+            "scrollHeight": 156,
+            "clientHeight": 156,
+            "horizontalScrollable": true,
+            "horizontalNeedsScroll": true
+          },
+          "checks": {
+            "isFlex": true,
+            "isFlexRow": true,
+            "overflowXAuto": true,
+            "scrollSnapIsMandatory": true,
+            "isBlockWithFlex": true,
+            "allImagesVisible": true,
+            "allImagesFlex": true,
+            "gapIsCorrect": true,
+            "maxWidthIs100": true,
+            "boxSizingIsBorderBox": true,
+            "carouselInsideBoxH": true,
+            "noPageHorizontalOverflow": true,
+            "boxInsideH": true,
+            "hasCarouselOverflowHiddenParent": false
+          },
+          "imgCount": 5,
+          "imgMetrics": [
+            {
+              "w": 252,
+              "h": 140,
+              "x": 37,
+              "y": 1102.1,
+              "computedWidth": "252px",
+              "computedHeight": "140px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 252,
+              "h": 140,
+              "x": 297,
+              "y": 1102.1,
+              "computedWidth": "252px",
+              "computedHeight": "140px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 252,
+              "h": 140,
+              "x": 557,
+              "y": 1102.1,
+              "computedWidth": "252px",
+              "computedHeight": "140px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 252,
+              "h": 140,
+              "x": 817,
+              "y": 1102.1,
+              "computedWidth": "252px",
+              "computedHeight": "140px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 252,
+              "h": 140,
+              "x": 1077,
+              "y": 1102.1,
+              "computedWidth": "252px",
+              "computedHeight": "140px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            }
+          ]
+        },
+        "carouselInsideMiddleViewport": false,
+        "carouselPartiallyVisibleInMiddle": false,
+        "noHorizontalOverflow": true,
+        "pageScrollY": 0
+      },
+      "afterScrollMetrics": {
+        "middleScrollTop": 1611,
+        "middleScrollHeight": 2058,
+        "middleClientHeight": 447,
+        "middleRect": {
+          "top": 239.109375,
+          "bottom": 686
+        },
+        "publish": {
+          "top": 699,
+          "bottom": 745,
+          "inViewport": true,
+          "insideBox": true
+        },
+        "box": {
+          "top": 40,
+          "bottom": 760
+        },
+        "carousel": {
+          "top": -519.890625,
+          "bottom": -357.890625,
+          "y": -519.890625,
+          "h": 162,
+          "visibleInMiddle": false,
+          "insideBoxH": true
+        },
+        "pageScrollY": 0
+      },
+      "afterCarouselScrollMetrics": {
+        "scrollLeft": 528,
+        "scrollWidth": 1308,
+        "clientWidth": 282,
+        "maxScroll": 1026,
+        "imgs": [
+          {
+            "x": -483,
+            "y": 1102,
+            "w": 252,
+            "h": 140,
+            "visible": true
+          },
+          {
+            "x": -223,
+            "y": 1102,
+            "w": 252,
+            "h": 140,
+            "visible": true
+          },
+          {
+            "x": 37,
+            "y": 1102,
+            "w": 252,
+            "h": 140,
+            "visible": true
+          },
+          {
+            "x": 297,
+            "y": 1102,
+            "w": 252,
+            "h": 140,
+            "visible": true
+          },
+          {
+            "x": 557,
+            "y": 1102,
+            "w": 252,
+            "h": 140,
+            "visible": true
+          }
+        ],
+        "rect": {
+          "x": 34,
+          "y": 1091.109375,
+          "width": 288,
+          "height": 162,
+          "top": 1091.109375,
+          "right": 322,
+          "bottom": 1253.109375,
+          "left": 34
+        }
+      },
+      "usedCompiledCss": true
+    },
+    "editor-carousel-desktop-10": {
+      "metrics": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "docScrollWidth": 1280,
+        "bodyScrollWidth": 1280,
+        "horizontalOverflow": false,
+        "outer": {
+          "display": "flex",
+          "overflow": "hidden",
+          "overflowY": "hidden",
+          "overflowX": "hidden",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        "box": {
+          "rect": {
+            "x": 256,
+            "y": 40,
+            "w": 768,
+            "h": 720,
+            "top": 40,
+            "bottom": 760,
+            "left": 256,
+            "right": 1024
+          },
+          "display": "flex",
+          "flexDirection": "column",
+          "overflow": "hidden",
+          "maxHeight": "720px",
+          "w": 768,
+          "h": 720
+        },
+        "middle": {
+          "rect": {
+            "x": 275,
+            "y": 231.9,
+            "w": 730,
+            "h": 450.1,
+            "top": 231.9,
+            "bottom": 682,
+            "left": 275,
+            "right": 1005
+          },
+          "overflowY": "auto",
+          "overflowX": "auto",
+          "overflow": "auto",
+          "flex": "1 1 0%",
+          "minHeight": "0px",
+          "hasScroll": true,
+          "scrollHeight": 1849,
+          "clientHeight": 450,
+          "scrollTop": 0
+        },
+        "toolbar": {
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflowY": "visible",
+          "scrollWidth": 706,
+          "clientWidth": 706,
+          "scrollable": false,
+          "isWrap": true,
+          "isBlock": true,
+          "rect": {
+            "x": 285,
+            "y": 241.9,
+            "w": 706,
+            "h": 255,
+            "top": 241.9,
+            "bottom": 496.9,
+            "left": 285,
+            "right": 991
+          },
+          "outerRect": {
+            "x": 275,
+            "y": 231.9,
+            "w": 726,
+            "h": 275,
+            "top": 231.9,
+            "bottom": 506.9,
+            "left": 275,
+            "right": 1001
+          }
+        },
+        "publish": {
+          "rect": {
+            "x": 275,
+            "y": 695,
+            "w": 124.8,
+            "h": 46,
+            "top": 695,
+            "bottom": 741,
+            "left": 275,
+            "right": 399.8
+          },
+          "inViewport": true,
+          "insideBox": true,
+          "display": "block"
+        },
+        "publishRow": {
+          "rect": {
+            "x": 275,
+            "y": 682,
+            "w": 730,
+            "h": 59,
+            "top": 682,
+            "bottom": 741,
+            "left": 275,
+            "right": 1005
+          },
+          "insideBox": true
+        },
+        "editorArea": {
+          "rect": {
+            "x": 275,
+            "y": 576.9,
+            "w": 726,
+            "h": 280,
+            "top": 576.9,
+            "bottom": 856.9,
+            "left": 275,
+            "right": 1001
+          },
+          "display": "flex"
+        },
+        "carousel": {
+          "exists": true,
+          "rect": {
+            "x": 285,
+            "y": 646.9,
+            "w": 706,
+            "h": 230,
+            "top": 646.9,
+            "bottom": 876.9,
+            "left": 285,
+            "right": 991
+          },
+          "computed": {
+            "display": "flex",
+            "flexDirection": "row",
+            "overflowX": "auto",
+            "overflowY": "auto",
+            "overflow": "auto",
+            "scrollSnapType": "x mandatory",
+            "gap": "12px",
+            "padding": "12px",
+            "margin": "12px 0px",
+            "maxWidth": "100%",
+            "boxSizing": "border-box",
+            "border": "3px ridge rgb(255, 20, 147)",
+            "width": "706px",
+            "height": "230px"
+          },
+          "attrs": {
+            "hasDataCarousel": true,
+            "dataCarouselVal": "true",
+            "hasRetroClass": true
+          },
+          "scroll": {
+            "scrollWidth": 2932,
+            "clientWidth": 700,
+            "scrollHeight": 224,
+            "clientHeight": 224,
+            "horizontalScrollable": true,
+            "horizontalNeedsScroll": true
+          },
+          "checks": {
+            "isFlex": true,
+            "isFlexRow": true,
+            "overflowXAuto": true,
+            "scrollSnapIsMandatory": true,
+            "isBlockWithFlex": true,
+            "allImagesVisible": true,
+            "allImagesFlex": true,
+            "gapIsCorrect": true,
+            "maxWidthIs100": true,
+            "boxSizingIsBorderBox": true,
+            "carouselInsideBoxH": true,
+            "noPageHorizontalOverflow": true,
+            "boxInsideH": true,
+            "hasCarouselOverflowHiddenParent": false
+          },
+          "imgCount": 10,
+          "imgMetrics": [
+            {
+              "w": 280,
+              "h": 200,
+              "x": 288,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 580,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 872,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 1164,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 1456,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 1748,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 2040,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 2332,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 2624,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 2916,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            }
+          ]
+        },
+        "carouselInsideMiddleViewport": false,
+        "carouselPartiallyVisibleInMiddle": true,
+        "noHorizontalOverflow": true,
+        "pageScrollY": 0
+      },
+      "afterScrollMetrics": {
+        "middleScrollTop": 1399,
+        "middleScrollHeight": 1849,
+        "middleClientHeight": 450,
+        "middleRect": {
+          "top": 231.9375,
+          "bottom": 682
+        },
+        "publish": {
+          "top": 695,
+          "bottom": 741,
+          "inViewport": true,
+          "insideBox": true
+        },
+        "box": {
+          "top": 40,
+          "bottom": 760
+        },
+        "carousel": {
+          "top": -752.0625,
+          "bottom": -522.0625,
+          "y": -752.0625,
+          "h": 230,
+          "visibleInMiddle": false,
+          "insideBoxH": true
+        },
+        "pageScrollY": 0
+      },
+      "afterCarouselScrollMetrics": {
+        "scrollLeft": 1180,
+        "scrollWidth": 2932,
+        "clientWidth": 700,
+        "maxScroll": 2232,
+        "imgs": [
+          {
+            "x": -880,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": -588,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": -296,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": -4,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 288,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 580,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 872,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 1164,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 1456,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 1748,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          }
+        ],
+        "rect": {
+          "x": 285,
+          "y": 646.9375,
+          "width": 706,
+          "height": 230,
+          "top": 646.9375,
+          "right": 991,
+          "bottom": 876.9375,
+          "left": 285
+        }
+      },
+      "usedCompiledCss": true
+    },
+    "editor-carousel-mobile-375-10": {
+      "metrics": {
+        "viewport": {
+          "w": 375,
+          "h": 812
+        },
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "horizontalOverflow": false,
+        "outer": {
+          "display": "flex",
+          "overflow": "hidden",
+          "overflowY": "hidden",
+          "overflowX": "hidden",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        "box": {
+          "rect": {
+            "x": 9.4,
+            "y": 40.6,
+            "w": 356.3,
+            "h": 730.8,
+            "top": 40.6,
+            "bottom": 771.4,
+            "left": 9.4,
+            "right": 365.6
+          },
+          "display": "flex",
+          "flexDirection": "column",
+          "overflow": "hidden",
+          "maxHeight": "730.8px",
+          "w": 356.3,
+          "h": 730.8
+        },
+        "middle": {
+          "rect": {
+            "x": 24.4,
+            "y": 239.7,
+            "w": 326.3,
+            "h": 457.7,
+            "top": 239.7,
+            "bottom": 697.4,
+            "left": 24.4,
+            "right": 350.6
+          },
+          "overflowY": "auto",
+          "overflowX": "auto",
+          "overflow": "auto",
+          "flex": "1 1 0%",
+          "minHeight": "0px",
+          "hasScroll": true,
+          "scrollHeight": 1967,
+          "clientHeight": 458,
+          "scrollTop": 0
+        },
+        "toolbar": {
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflowY": "visible",
+          "scrollWidth": 302,
+          "clientWidth": 302,
+          "scrollable": false,
+          "isWrap": true,
+          "isBlock": true,
+          "rect": {
+            "x": 34.4,
+            "y": 249.7,
+            "w": 302.3,
+            "h": 511,
+            "top": 249.7,
+            "bottom": 760.7,
+            "left": 34.4,
+            "right": 336.6
+          },
+          "outerRect": {
+            "x": 24.4,
+            "y": 239.7,
+            "w": 322.3,
+            "h": 531,
+            "top": 239.7,
+            "bottom": 770.7,
+            "left": 24.4,
+            "right": 346.6
+          }
+        },
+        "publish": {
+          "rect": {
+            "x": 24.4,
+            "y": 710.4,
+            "w": 124.8,
+            "h": 46,
+            "top": 710.4,
+            "bottom": 756.4,
+            "left": 24.4,
+            "right": 149.2
+          },
+          "inViewport": true,
+          "insideBox": true,
+          "display": "block"
+        },
+        "publishRow": {
+          "rect": {
+            "x": 24.4,
+            "y": 697.4,
+            "w": 326.3,
+            "h": 59,
+            "top": 697.4,
+            "bottom": 756.4,
+            "left": 24.4,
+            "right": 350.6
+          },
+          "insideBox": true
+        },
+        "editorArea": {
+          "rect": {
+            "x": 24.4,
+            "y": 892.7,
+            "w": 322.3,
+            "h": 280,
+            "top": 892.7,
+            "bottom": 1172.7,
+            "left": 24.4,
+            "right": 346.6
+          },
+          "display": "flex"
+        },
+        "carousel": {
+          "exists": true,
+          "rect": {
+            "x": 34.4,
+            "y": 986.7,
+            "w": 302.3,
+            "h": 164.5,
+            "top": 986.7,
+            "bottom": 1151.2,
+            "left": 34.4,
+            "right": 336.6
+          },
+          "computed": {
+            "display": "flex",
+            "flexDirection": "row",
+            "overflowX": "auto",
+            "overflowY": "auto",
+            "overflow": "auto",
+            "scrollSnapType": "x mandatory",
+            "gap": "8px",
+            "padding": "8px",
+            "margin": "12px 0px",
+            "maxWidth": "100%",
+            "boxSizing": "border-box",
+            "border": "3px ridge rgb(255, 20, 147)",
+            "width": "302.25px",
+            "height": "164.5px"
+          },
+          "attrs": {
+            "hasDataCarousel": true,
+            "dataCarouselVal": "true",
+            "hasRetroClass": true
+          },
+          "scroll": {
+            "scrollWidth": 2713,
+            "clientWidth": 296,
+            "scrollHeight": 159,
+            "clientHeight": 159,
+            "horizontalScrollable": true,
+            "horizontalNeedsScroll": true
+          },
+          "checks": {
+            "isFlex": true,
+            "isFlexRow": true,
+            "overflowXAuto": true,
+            "scrollSnapIsMandatory": true,
+            "isBlockWithFlex": true,
+            "allImagesVisible": true,
+            "allImagesFlex": true,
+            "gapIsCorrect": true,
+            "maxWidthIs100": true,
+            "boxSizingIsBorderBox": true,
+            "carouselInsideBoxH": true,
+            "noPageHorizontalOverflow": true,
+            "boxInsideH": true,
+            "hasCarouselOverflowHiddenParent": false
+          },
+          "imgCount": 10,
+          "imgMetrics": [
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 37.4,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 307.9,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 578.4,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 848.9,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 1119.4,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 1389.9,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 1660.4,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 1930.9,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 2201.4,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 2471.9,
+              "y": 997.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            }
+          ]
+        },
+        "carouselInsideMiddleViewport": false,
+        "carouselPartiallyVisibleInMiddle": false,
+        "noHorizontalOverflow": true,
+        "pageScrollY": 0
+      },
+      "afterScrollMetrics": {
+        "middleScrollTop": 1509,
+        "middleScrollHeight": 1967,
+        "middleClientHeight": 458,
+        "middleRect": {
+          "top": 239.703125,
+          "bottom": 697.390625
+        },
+        "publish": {
+          "top": 710.390625,
+          "bottom": 756.390625,
+          "inViewport": true,
+          "insideBox": true
+        },
+        "box": {
+          "top": 40.59375,
+          "bottom": 771.390625
+        },
+        "carousel": {
+          "top": -522.296875,
+          "bottom": -357.796875,
+          "y": -522.296875,
+          "h": 164.5,
+          "visibleInMiddle": false,
+          "insideBoxH": true
+        },
+        "pageScrollY": 0
+      },
+      "afterCarouselScrollMetrics": {
+        "scrollLeft": 1090,
+        "scrollWidth": 2713,
+        "clientWidth": 296,
+        "maxScroll": 2417,
+        "imgs": [
+          {
+            "x": -1045,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": -774,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": -504,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": -233,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": 37,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": 308,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": 578,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": 849,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": 1119,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          },
+          {
+            "x": 1390,
+            "y": 998,
+            "w": 263,
+            "h": 143,
+            "visible": true
+          }
+        ],
+        "rect": {
+          "x": 34.375,
+          "y": 986.703125,
+          "width": 302.25,
+          "height": 164.5,
+          "top": 986.703125,
+          "right": 336.625,
+          "bottom": 1151.203125,
+          "left": 34.375
+        }
+      },
+      "usedCompiledCss": true
+    },
+    "editor-carousel-isolated-desktop": {
+      "metrics": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "docScrollWidth": 1280,
+        "bodyScrollWidth": 1280,
+        "horizontalOverflow": false,
+        "outer": {
+          "display": "flex",
+          "overflow": "hidden",
+          "overflowY": "hidden",
+          "overflowX": "hidden",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        "box": {
+          "rect": {
+            "x": 256,
+            "y": 40,
+            "w": 768,
+            "h": 720,
+            "top": 40,
+            "bottom": 760,
+            "left": 256,
+            "right": 1024
+          },
+          "display": "flex",
+          "flexDirection": "column",
+          "overflow": "hidden",
+          "maxHeight": "720px",
+          "w": 768,
+          "h": 720
+        },
+        "middle": {
+          "rect": {
+            "x": 275,
+            "y": 231.9,
+            "w": 730,
+            "h": 450.1,
+            "top": 231.9,
+            "bottom": 682,
+            "left": 275,
+            "right": 1005
+          },
+          "overflowY": "auto",
+          "overflowX": "auto",
+          "overflow": "auto",
+          "flex": "1 1 0%",
+          "minHeight": "0px",
+          "hasScroll": true,
+          "scrollHeight": 633,
+          "clientHeight": 450,
+          "scrollTop": 0
+        },
+        "toolbar": {
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflowY": "visible",
+          "scrollWidth": 706,
+          "clientWidth": 706,
+          "scrollable": false,
+          "isWrap": true,
+          "isBlock": true,
+          "rect": {
+            "x": 285,
+            "y": 241.9,
+            "w": 706,
+            "h": 255,
+            "top": 241.9,
+            "bottom": 496.9,
+            "left": 285,
+            "right": 991
+          },
+          "outerRect": {
+            "x": 275,
+            "y": 231.9,
+            "w": 726,
+            "h": 275,
+            "top": 231.9,
+            "bottom": 506.9,
+            "left": 275,
+            "right": 1001
+          }
+        },
+        "publish": {
+          "rect": {
+            "x": 275,
+            "y": 695,
+            "w": 124.8,
+            "h": 46,
+            "top": 695,
+            "bottom": 741,
+            "left": 275,
+            "right": 399.8
+          },
+          "inViewport": true,
+          "insideBox": true,
+          "display": "block"
+        },
+        "publishRow": {
+          "rect": {
+            "x": 275,
+            "y": 682,
+            "w": 730,
+            "h": 59,
+            "top": 682,
+            "bottom": 741,
+            "left": 275,
+            "right": 1005
+          },
+          "insideBox": true
+        },
+        "editorArea": {
+          "rect": {
+            "x": 275,
+            "y": 576.9,
+            "w": 726,
+            "h": 280,
+            "top": 576.9,
+            "bottom": 856.9,
+            "left": 275,
+            "right": 1001
+          },
+          "display": "flex"
+        },
+        "carousel": {
+          "exists": true,
+          "rect": {
+            "x": 285,
+            "y": 598.9,
+            "w": 706,
+            "h": 230,
+            "top": 598.9,
+            "bottom": 828.9,
+            "left": 285,
+            "right": 991
+          },
+          "computed": {
+            "display": "flex",
+            "flexDirection": "row",
+            "overflowX": "auto",
+            "overflowY": "auto",
+            "overflow": "auto",
+            "scrollSnapType": "x mandatory",
+            "gap": "12px",
+            "padding": "12px",
+            "margin": "12px 0px",
+            "maxWidth": "100%",
+            "boxSizing": "border-box",
+            "border": "3px ridge rgb(255, 20, 147)",
+            "width": "706px",
+            "height": "230px"
+          },
+          "attrs": {
+            "hasDataCarousel": true,
+            "dataCarouselVal": "true",
+            "hasRetroClass": true
+          },
+          "scroll": {
+            "scrollWidth": 1472,
+            "clientWidth": 700,
+            "scrollHeight": 224,
+            "clientHeight": 224,
+            "horizontalScrollable": true,
+            "horizontalNeedsScroll": true
+          },
+          "checks": {
+            "isFlex": true,
+            "isFlexRow": true,
+            "overflowXAuto": true,
+            "scrollSnapIsMandatory": true,
+            "isBlockWithFlex": true,
+            "allImagesVisible": true,
+            "allImagesFlex": true,
+            "gapIsCorrect": true,
+            "maxWidthIs100": true,
+            "boxSizingIsBorderBox": true,
+            "carouselInsideBoxH": true,
+            "noPageHorizontalOverflow": true,
+            "boxInsideH": true,
+            "hasCarouselOverflowHiddenParent": false
+          },
+          "imgCount": 5,
+          "imgMetrics": [
+            {
+              "w": 280,
+              "h": 200,
+              "x": 288,
+              "y": 613.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 580,
+              "y": 613.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 872,
+              "y": 613.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 1164,
+              "y": 613.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 1456,
+              "y": 613.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            }
+          ]
+        },
+        "carouselInsideMiddleViewport": false,
+        "carouselPartiallyVisibleInMiddle": true,
+        "noHorizontalOverflow": true,
+        "pageScrollY": 0
+      },
+      "afterScrollMetrics": null,
+      "afterCarouselScrollMetrics": {
+        "scrollLeft": 772,
+        "scrollWidth": 1472,
+        "clientWidth": 700
+      },
+      "usedCompiledCss": true
+    },
+    "editor-carousel-isolated-mobile-375": {
+      "metrics": {
+        "viewport": {
+          "w": 375,
+          "h": 812
+        },
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "horizontalOverflow": false,
+        "outer": {
+          "display": "flex",
+          "overflow": "hidden",
+          "overflowY": "hidden",
+          "overflowX": "hidden",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        "box": {
+          "rect": {
+            "x": 9.4,
+            "y": 40.6,
+            "w": 356.3,
+            "h": 730.8,
+            "top": 40.6,
+            "bottom": 771.4,
+            "left": 9.4,
+            "right": 365.6
+          },
+          "display": "flex",
+          "flexDirection": "column",
+          "overflow": "hidden",
+          "maxHeight": "730.8px",
+          "w": 356.3,
+          "h": 730.8
+        },
+        "middle": {
+          "rect": {
+            "x": 24.4,
+            "y": 239.7,
+            "w": 326.3,
+            "h": 457.7,
+            "top": 239.7,
+            "bottom": 697.4,
+            "left": 24.4,
+            "right": 350.6
+          },
+          "overflowY": "auto",
+          "overflowX": "auto",
+          "overflow": "auto",
+          "flex": "1 1 0%",
+          "minHeight": "0px",
+          "hasScroll": true,
+          "scrollHeight": 941,
+          "clientHeight": 458,
+          "scrollTop": 0
+        },
+        "toolbar": {
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflowY": "visible",
+          "scrollWidth": 302,
+          "clientWidth": 302,
+          "scrollable": false,
+          "isWrap": true,
+          "isBlock": true,
+          "rect": {
+            "x": 34.4,
+            "y": 249.7,
+            "w": 302.3,
+            "h": 511,
+            "top": 249.7,
+            "bottom": 760.7,
+            "left": 34.4,
+            "right": 336.6
+          },
+          "outerRect": {
+            "x": 24.4,
+            "y": 239.7,
+            "w": 322.3,
+            "h": 531,
+            "top": 239.7,
+            "bottom": 770.7,
+            "left": 24.4,
+            "right": 346.6
+          }
+        },
+        "publish": {
+          "rect": {
+            "x": 24.4,
+            "y": 710.4,
+            "w": 124.8,
+            "h": 46,
+            "top": 710.4,
+            "bottom": 756.4,
+            "left": 24.4,
+            "right": 149.2
+          },
+          "inViewport": true,
+          "insideBox": true,
+          "display": "block"
+        },
+        "publishRow": {
+          "rect": {
+            "x": 24.4,
+            "y": 697.4,
+            "w": 326.3,
+            "h": 59,
+            "top": 697.4,
+            "bottom": 756.4,
+            "left": 24.4,
+            "right": 350.6
+          },
+          "insideBox": true
+        },
+        "editorArea": {
+          "rect": {
+            "x": 24.4,
+            "y": 892.7,
+            "w": 322.3,
+            "h": 280,
+            "top": 892.7,
+            "bottom": 1172.7,
+            "left": 24.4,
+            "right": 346.6
+          },
+          "display": "flex"
+        },
+        "carousel": {
+          "exists": true,
+          "rect": {
+            "x": 34.4,
+            "y": 914.7,
+            "w": 302.3,
+            "h": 164.5,
+            "top": 914.7,
+            "bottom": 1079.2,
+            "left": 34.4,
+            "right": 336.6
+          },
+          "computed": {
+            "display": "flex",
+            "flexDirection": "row",
+            "overflowX": "auto",
+            "overflowY": "auto",
+            "overflow": "auto",
+            "scrollSnapType": "x mandatory",
+            "gap": "8px",
+            "padding": "8px",
+            "margin": "12px 0px",
+            "maxWidth": "100%",
+            "boxSizing": "border-box",
+            "border": "3px ridge rgb(255, 20, 147)",
+            "width": "302.25px",
+            "height": "164.5px"
+          },
+          "attrs": {
+            "hasDataCarousel": true,
+            "dataCarouselVal": "true",
+            "hasRetroClass": true
+          },
+          "scroll": {
+            "scrollWidth": 1361,
+            "clientWidth": 296,
+            "scrollHeight": 159,
+            "clientHeight": 159,
+            "horizontalScrollable": true,
+            "horizontalNeedsScroll": true
+          },
+          "checks": {
+            "isFlex": true,
+            "isFlexRow": true,
+            "overflowXAuto": true,
+            "scrollSnapIsMandatory": true,
+            "isBlockWithFlex": true,
+            "allImagesVisible": true,
+            "allImagesFlex": true,
+            "gapIsCorrect": true,
+            "maxWidthIs100": true,
+            "boxSizingIsBorderBox": true,
+            "carouselInsideBoxH": true,
+            "noPageHorizontalOverflow": true,
+            "boxInsideH": true,
+            "hasCarouselOverflowHiddenParent": false
+          },
+          "imgCount": 5,
+          "imgMetrics": [
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 37.4,
+              "y": 925.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 307.9,
+              "y": 925.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 578.4,
+              "y": 925.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 848.9,
+              "y": 925.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 262.5,
+              "h": 142.5,
+              "x": 1119.4,
+              "y": 925.7,
+              "computedWidth": "262.5px",
+              "computedHeight": "142.5px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            }
+          ]
+        },
+        "carouselInsideMiddleViewport": false,
+        "carouselPartiallyVisibleInMiddle": false,
+        "noHorizontalOverflow": true,
+        "pageScrollY": 0
+      },
+      "afterScrollMetrics": null,
+      "afterCarouselScrollMetrics": {
+        "scrollLeft": 549,
+        "scrollWidth": 1361,
+        "clientWidth": 296
+      },
+      "usedCompiledCss": true
+    },
+    "post-carousel-desktop": {
+      "metrics": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "docScrollWidth": 1280,
+        "bodyScrollWidth": 1280,
+        "horizontalOverflow": false,
+        "outer": {
+          "display": "flex",
+          "overflow": "hidden",
+          "overflowY": "hidden",
+          "overflowX": "hidden",
+          "alignItems": "center",
+          "justifyContent": "center"
+        },
+        "box": {
+          "rect": {
+            "x": 256,
+            "y": 40,
+            "w": 768,
+            "h": 720,
+            "top": 40,
+            "bottom": 760,
+            "left": 256,
+            "right": 1024
+          },
+          "display": "flex",
+          "flexDirection": "column",
+          "overflow": "hidden",
+          "maxHeight": "720px",
+          "w": 768,
+          "h": 720
+        },
+        "middle": {
+          "rect": {
+            "x": 275,
+            "y": 231.9,
+            "w": 730,
+            "h": 450.1,
+            "top": 231.9,
+            "bottom": 682,
+            "left": 275,
+            "right": 1005
+          },
+          "overflowY": "auto",
+          "overflowX": "auto",
+          "overflow": "auto",
+          "flex": "1 1 0%",
+          "minHeight": "0px",
+          "hasScroll": true,
+          "scrollHeight": 1849,
+          "clientHeight": 450,
+          "scrollTop": 0
+        },
+        "toolbar": {
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflowY": "visible",
+          "scrollWidth": 706,
+          "clientWidth": 706,
+          "scrollable": false,
+          "isWrap": true,
+          "isBlock": true,
+          "rect": {
+            "x": 285,
+            "y": 241.9,
+            "w": 706,
+            "h": 255,
+            "top": 241.9,
+            "bottom": 496.9,
+            "left": 285,
+            "right": 991
+          },
+          "outerRect": {
+            "x": 275,
+            "y": 231.9,
+            "w": 726,
+            "h": 275,
+            "top": 231.9,
+            "bottom": 506.9,
+            "left": 275,
+            "right": 1001
+          }
+        },
+        "publish": {
+          "rect": {
+            "x": 275,
+            "y": 695,
+            "w": 124.8,
+            "h": 46,
+            "top": 695,
+            "bottom": 741,
+            "left": 275,
+            "right": 399.8
+          },
+          "inViewport": true,
+          "insideBox": true,
+          "display": "block"
+        },
+        "publishRow": {
+          "rect": {
+            "x": 275,
+            "y": 682,
+            "w": 730,
+            "h": 59,
+            "top": 682,
+            "bottom": 741,
+            "left": 275,
+            "right": 1005
+          },
+          "insideBox": true
+        },
+        "editorArea": {
+          "rect": {
+            "x": 275,
+            "y": 576.9,
+            "w": 726,
+            "h": 280,
+            "top": 576.9,
+            "bottom": 856.9,
+            "left": 275,
+            "right": 1001
+          },
+          "display": "flex"
+        },
+        "carousel": {
+          "exists": true,
+          "rect": {
+            "x": 285,
+            "y": 646.9,
+            "w": 706,
+            "h": 230,
+            "top": 646.9,
+            "bottom": 876.9,
+            "left": 285,
+            "right": 991
+          },
+          "computed": {
+            "display": "flex",
+            "flexDirection": "row",
+            "overflowX": "auto",
+            "overflowY": "auto",
+            "overflow": "auto",
+            "scrollSnapType": "x mandatory",
+            "gap": "12px",
+            "padding": "12px",
+            "margin": "12px 0px",
+            "maxWidth": "100%",
+            "boxSizing": "border-box",
+            "border": "3px ridge rgb(255, 20, 147)",
+            "width": "706px",
+            "height": "230px"
+          },
+          "attrs": {
+            "hasDataCarousel": true,
+            "dataCarouselVal": "true",
+            "hasRetroClass": true
+          },
+          "scroll": {
+            "scrollWidth": 1472,
+            "clientWidth": 700,
+            "scrollHeight": 224,
+            "clientHeight": 224,
+            "horizontalScrollable": true,
+            "horizontalNeedsScroll": true
+          },
+          "checks": {
+            "isFlex": true,
+            "isFlexRow": true,
+            "overflowXAuto": true,
+            "scrollSnapIsMandatory": true,
+            "isBlockWithFlex": true,
+            "allImagesVisible": true,
+            "allImagesFlex": true,
+            "gapIsCorrect": true,
+            "maxWidthIs100": true,
+            "boxSizingIsBorderBox": true,
+            "carouselInsideBoxH": true,
+            "noPageHorizontalOverflow": true,
+            "boxInsideH": true,
+            "hasCarouselOverflowHiddenParent": false
+          },
+          "imgCount": 5,
+          "imgMetrics": [
+            {
+              "w": 280,
+              "h": 200,
+              "x": 288,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 580,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 872,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 1164,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            },
+            {
+              "w": 280,
+              "h": 200,
+              "x": 1456,
+              "y": 661.9,
+              "computedWidth": "280px",
+              "computedHeight": "200px",
+              "flex": "0 0 auto",
+              "flexShrink": "0",
+              "flexBasis": "auto",
+              "objectFit": "cover",
+              "scrollSnapAlign": "start",
+              "display": "block",
+              "visible": true,
+              "opacity": "1"
+            }
+          ]
+        },
+        "carouselInsideMiddleViewport": false,
+        "carouselPartiallyVisibleInMiddle": true,
+        "noHorizontalOverflow": true,
+        "pageScrollY": 0
+      },
+      "afterScrollMetrics": {
+        "middleScrollTop": 1399,
+        "middleScrollHeight": 1849,
+        "middleClientHeight": 450,
+        "middleRect": {
+          "top": 231.9375,
+          "bottom": 682
+        },
+        "publish": {
+          "top": 695,
+          "bottom": 741,
+          "inViewport": true,
+          "insideBox": true
+        },
+        "box": {
+          "top": 40,
+          "bottom": 760
+        },
+        "carousel": {
+          "top": -752.0625,
+          "bottom": -522.0625,
+          "y": -752.0625,
+          "h": 230,
+          "visibleInMiddle": false,
+          "insideBoxH": true
+        },
+        "pageScrollY": 0
+      },
+      "afterCarouselScrollMetrics": {
+        "scrollLeft": 304,
+        "scrollWidth": 1472,
+        "clientWidth": 700,
+        "maxScroll": 772,
+        "imgs": [
+          {
+            "x": -4,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 288,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 580,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 872,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          },
+          {
+            "x": 1164,
+            "y": 662,
+            "w": 280,
+            "h": 200,
+            "visible": true
+          }
+        ],
+        "rect": {
+          "x": 285,
+          "y": 646.9375,
+          "width": 706,
+          "height": 230,
+          "top": 646.9375,
+          "right": 991,
+          "bottom": 876.9375,
+          "left": 285
+        }
+      },
+      "usedCompiledCss": true
+    }
+  }
+}
