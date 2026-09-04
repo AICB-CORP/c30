@@ -1,0 +1,474 @@
+{
+  "loginDesktop": {
+    "label": "login-desktop",
+    "url": "http://localhost:3000/login",
+    "inputVisible": true,
+    "buttonVisible": true,
+    "initialType": "password",
+    "initialAriaLabel": "Afficher le mot de passe",
+    "initialAriaPressed": "false",
+    "initialEmoji": "👁️",
+    "autocomplete": "current-password",
+    "inputStyles": {
+      "paddingRight": "48px",
+      "borderWidth": "2px",
+      "borderColor": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+      "backgroundColor": "oklab(0 0 0 / 0.4)",
+      "borderRadius": "8px",
+      "width": "410px",
+      "fontSize": "16px",
+      "className": "w-full rounded-lg border-2 border-white/40 bg-black/40 px-3 py-2 pr-12 text-white outline-none focus:border-white"
+    },
+    "buttonStyles": {
+      "width": "40px",
+      "height": "40px",
+      "right": "4px",
+      "position": "absolute",
+      "display": "flex",
+      "borderRadius": "6px",
+      "className": "absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60",
+      "rect": {
+        "width": 40,
+        "height": 40,
+        "x": 801,
+        "y": 431.390625
+      }
+    },
+    "wrapperStyles": {
+      "position": "relative",
+      "width": "410px",
+      "rect": {
+        "width": 410,
+        "height": 44
+      },
+      "className": "relative"
+    },
+    "inputRect": {
+      "x": 435,
+      "y": 429.390625,
+      "width": 410,
+      "height": 44,
+      "right": 845,
+      "left": 435
+    },
+    "btnRect": {
+      "x": 801,
+      "y": 431.390625,
+      "width": 40,
+      "height": 40,
+      "right": 841,
+      "left": 801
+    },
+    "buttonInsideInputHorizontally": true,
+    "buttonVerticallyCentered": true,
+    "hoverBg": "oklab(0.999994 0.0000455678 0.0000200868 / 0.1)",
+    "focusBoxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.999994 0.0000455677 0.0000200868 / 0.6) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "afterType": "text",
+    "afterAriaLabel": "Masquer le mot de passe",
+    "afterAriaPressed": "true",
+    "afterEmoji": "🙈",
+    "finalType": "password",
+    "finalAriaLabel": "Afficher le mot de passe",
+    "overflow": {
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "bodyScrollWidth": 1280,
+      "hasHorizontalOverflow": false,
+      "bodyOverflowX": "visible"
+    },
+    "formCentered": {
+      "rect": {
+        "left": 416,
+        "width": 448,
+        "top": 201.59375
+      },
+      "viewportWidth": 1280,
+      "centerOffset": 0,
+      "margin": "0px",
+      "maxWidth": "448px"
+    },
+    "inputFullWidth": {
+      "inputWidth": 410,
+      "wrapperWidth": 410,
+      "formWidth": 410,
+      "inputVsWrapper": 1
+    },
+    "retroCheck": {
+      "hasBorder2": true,
+      "hasBorderWhite40": true,
+      "hasBgBlack40": true,
+      "hasRoundedLg": true,
+      "hasPr12": true,
+      "boxHasClass": true,
+      "inputClasses": "w-full rounded-lg border-2 border-white/40 bg-black/40 px-3 py-2 pr-12 text-white outline-none focus:border-white",
+      "boxBg": "linear-gradient(rgb(255, 20, 147) 0%, rgb(192, 0, 110) 100%)"
+    },
+    "checks": {
+      "prIs48": true,
+      "btnIs40": true,
+      "rightIs4": true,
+      "rightOffset": 4,
+      "hasNoHorizontalOverflow": true,
+      "buttonInside": true,
+      "verticallyCentered": true,
+      "noLayoutShift": true,
+      "autocompletePreserved": true,
+      "formIsCentered": true,
+      "inputIsFullWidth": true
+    }
+  },
+  "inscriptionDesktop": {
+    "label": "inscription-desktop",
+    "url": "http://localhost:3000/inscription",
+    "inputVisible": true,
+    "buttonVisible": true,
+    "initialType": "password",
+    "initialAriaLabel": "Afficher le mot de passe",
+    "initialAriaPressed": "false",
+    "initialEmoji": "👁️",
+    "autocomplete": "new-password",
+    "inputStyles": {
+      "paddingRight": "48px",
+      "borderWidth": "2px",
+      "borderColor": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+      "backgroundColor": "oklab(0 0 0 / 0.4)",
+      "borderRadius": "8px",
+      "width": "410px",
+      "fontSize": "16px",
+      "className": "w-full rounded-lg border-2 border-white/40 bg-black/40 px-3 py-2 text-white outline-none focus:border-white pr-12"
+    },
+    "buttonStyles": {
+      "width": "40px",
+      "height": "40px",
+      "right": "4px",
+      "position": "absolute",
+      "display": "flex",
+      "borderRadius": "6px",
+      "className": "absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60",
+      "rect": {
+        "width": 40,
+        "height": 40,
+        "x": 801,
+        "y": 431.390625
+      }
+    },
+    "wrapperStyles": {
+      "position": "relative",
+      "width": "410px",
+      "rect": {
+        "width": 410,
+        "height": 44
+      },
+      "className": "relative"
+    },
+    "inputRect": {
+      "x": 435,
+      "y": 429.390625,
+      "width": 410,
+      "height": 44,
+      "right": 845,
+      "left": 435
+    },
+    "btnRect": {
+      "x": 801,
+      "y": 431.390625,
+      "width": 40,
+      "height": 40,
+      "right": 841,
+      "left": 801
+    },
+    "buttonInsideInputHorizontally": true,
+    "buttonVerticallyCentered": true,
+    "hoverBg": "oklab(0.999994 0.0000455678 0.0000200868 / 0.1)",
+    "focusBoxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.999994 0.0000455677 0.0000200868 / 0.6) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "afterType": "text",
+    "afterAriaLabel": "Masquer le mot de passe",
+    "afterAriaPressed": "true",
+    "afterEmoji": "🙈",
+    "finalType": "password",
+    "finalAriaLabel": "Afficher le mot de passe",
+    "overflow": {
+      "scrollWidth": 1280,
+      "clientWidth": 1280,
+      "bodyScrollWidth": 1280,
+      "hasHorizontalOverflow": false,
+      "bodyOverflowX": "visible"
+    },
+    "formCentered": {
+      "rect": {
+        "left": 416,
+        "width": 448,
+        "top": 117.59375
+      },
+      "viewportWidth": 1280,
+      "centerOffset": 0,
+      "margin": "0px",
+      "maxWidth": "448px"
+    },
+    "inputFullWidth": {
+      "inputWidth": 410,
+      "wrapperWidth": 410,
+      "formWidth": 410,
+      "inputVsWrapper": 1
+    },
+    "retroCheck": {
+      "hasBorder2": true,
+      "hasBorderWhite40": true,
+      "hasBgBlack40": true,
+      "hasRoundedLg": true,
+      "hasPr12": true,
+      "boxHasClass": true,
+      "inputClasses": "w-full rounded-lg border-2 border-white/40 bg-black/40 px-3 py-2 text-white outline-none focus:border-white pr-12",
+      "boxBg": "linear-gradient(rgb(255, 20, 147) 0%, rgb(192, 0, 110) 100%)"
+    },
+    "checks": {
+      "prIs48": true,
+      "btnIs40": true,
+      "rightIs4": true,
+      "rightOffset": 4,
+      "hasNoHorizontalOverflow": true,
+      "buttonInside": true,
+      "verticallyCentered": true,
+      "noLayoutShift": true,
+      "autocompletePreserved": true,
+      "formIsCentered": true,
+      "inputIsFullWidth": true
+    }
+  },
+  "loginMobile": {
+    "label": "login-mobile",
+    "url": "http://localhost:3000/login",
+    "inputVisible": true,
+    "buttonVisible": true,
+    "initialType": "password",
+    "initialAriaLabel": "Afficher le mot de passe",
+    "initialAriaPressed": "false",
+    "initialEmoji": "👁️",
+    "autocomplete": "current-password",
+    "inputStyles": {
+      "paddingRight": "48px",
+      "borderWidth": "2px",
+      "borderColor": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+      "backgroundColor": "oklab(0 0 0 / 0.4)",
+      "borderRadius": "8px",
+      "width": "313px",
+      "fontSize": "16px",
+      "className": "w-full rounded-lg border-2 border-white/40 bg-black/40 px-3 py-2 pr-12 text-white outline-none focus:border-white"
+    },
+    "buttonStyles": {
+      "width": "40px",
+      "height": "40px",
+      "right": "4px",
+      "position": "absolute",
+      "display": "flex",
+      "borderRadius": "6px",
+      "className": "absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60",
+      "rect": {
+        "width": 40,
+        "height": 40,
+        "x": 300,
+        "y": 430.1875
+      }
+    },
+    "wrapperStyles": {
+      "position": "relative",
+      "width": "313px",
+      "rect": {
+        "width": 313,
+        "height": 44
+      },
+      "className": "relative"
+    },
+    "inputRect": {
+      "x": 31,
+      "y": 428.1875,
+      "width": 313,
+      "height": 44,
+      "right": 344,
+      "left": 31
+    },
+    "btnRect": {
+      "x": 300,
+      "y": 430.1875,
+      "width": 40,
+      "height": 40,
+      "right": 340,
+      "left": 300
+    },
+    "buttonInsideInputHorizontally": true,
+    "buttonVerticallyCentered": true,
+    "hoverBg": "rgba(0, 0, 0, 0)",
+    "focusBoxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.999994 0.0000455677 0.0000200868 / 0.6) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "afterType": "text",
+    "afterAriaLabel": "Masquer le mot de passe",
+    "afterAriaPressed": "true",
+    "afterEmoji": "🙈",
+    "finalType": "password",
+    "finalAriaLabel": "Afficher le mot de passe",
+    "overflow": {
+      "scrollWidth": 375,
+      "clientWidth": 375,
+      "bodyScrollWidth": 375,
+      "hasHorizontalOverflow": false,
+      "bodyOverflowX": "visible"
+    },
+    "formCentered": {
+      "rect": {
+        "left": 16,
+        "width": 343,
+        "top": 218.796875
+      },
+      "viewportWidth": 375,
+      "centerOffset": 0,
+      "margin": "0px",
+      "maxWidth": "448px"
+    },
+    "inputFullWidth": {
+      "inputWidth": 313,
+      "wrapperWidth": 313,
+      "formWidth": 313,
+      "inputVsWrapper": 1
+    },
+    "retroCheck": {
+      "hasBorder2": true,
+      "hasBorderWhite40": true,
+      "hasBgBlack40": true,
+      "hasRoundedLg": true,
+      "hasPr12": true,
+      "boxHasClass": true,
+      "inputClasses": "w-full rounded-lg border-2 border-white/40 bg-black/40 px-3 py-2 pr-12 text-white outline-none focus:border-white",
+      "boxBg": "linear-gradient(rgb(255, 20, 147) 0%, rgb(192, 0, 110) 100%)"
+    },
+    "checks": {
+      "prIs48": true,
+      "btnIs40": true,
+      "rightIs4": true,
+      "rightOffset": 4,
+      "hasNoHorizontalOverflow": true,
+      "buttonInside": true,
+      "verticallyCentered": true,
+      "noLayoutShift": true,
+      "autocompletePreserved": true,
+      "formIsCentered": true,
+      "inputIsFullWidth": true
+    }
+  },
+  "inscriptionMobile": {
+    "label": "inscription-mobile",
+    "url": "http://localhost:3000/inscription",
+    "inputVisible": true,
+    "buttonVisible": true,
+    "initialType": "password",
+    "initialAriaLabel": "Afficher le mot de passe",
+    "initialAriaPressed": "false",
+    "initialEmoji": "👁️",
+    "autocomplete": "new-password",
+    "inputStyles": {
+      "paddingRight": "48px",
+      "borderWidth": "2px",
+      "borderColor": "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+      "backgroundColor": "oklab(0 0 0 / 0.4)",
+      "borderRadius": "8px",
+      "width": "313px",
+      "fontSize": "16px",
+      "className": "w-full rounded-lg border-2 border-white/40 bg-black/40 px-3 py-2 text-white outline-none focus:border-white pr-12"
+    },
+    "buttonStyles": {
+      "width": "40px",
+      "height": "40px",
+      "right": "4px",
+      "position": "absolute",
+      "display": "flex",
+      "borderRadius": "6px",
+      "className": "absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60",
+      "rect": {
+        "width": 40,
+        "height": 40,
+        "x": 300,
+        "y": 430.1875
+      }
+    },
+    "wrapperStyles": {
+      "position": "relative",
+      "width": "313px",
+      "rect": {
+        "width": 313,
+        "height": 44
+      },
+      "className": "relative"
+    },
+    "inputRect": {
+      "x": 31,
+      "y": 428.1875,
+      "width": 313,
+      "height": 44,
+      "right": 344,
+      "left": 31
+    },
+    "btnRect": {
+      "x": 300,
+      "y": 430.1875,
+      "width": 40,
+      "height": 40,
+      "right": 340,
+      "left": 300
+    },
+    "buttonInsideInputHorizontally": true,
+    "buttonVerticallyCentered": true,
+    "hoverBg": "rgba(0, 0, 0, 0)",
+    "focusBoxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.999994 0.0000455677 0.0000200868 / 0.6) 0px 0px 0px 2px, rgba(0, 0, 0, 0) 0px 0px 0px 0px",
+    "afterType": "text",
+    "afterAriaLabel": "Masquer le mot de passe",
+    "afterAriaPressed": "true",
+    "afterEmoji": "🙈",
+    "finalType": "password",
+    "finalAriaLabel": "Afficher le mot de passe",
+    "overflow": {
+      "scrollWidth": 375,
+      "clientWidth": 375,
+      "bodyScrollWidth": 375,
+      "hasHorizontalOverflow": false,
+      "bodyOverflowX": "visible"
+    },
+    "formCentered": {
+      "rect": {
+        "left": 16,
+        "width": 343,
+        "top": 134.796875
+      },
+      "viewportWidth": 375,
+      "centerOffset": 0,
+      "margin": "0px",
+      "maxWidth": "448px"
+    },
+    "inputFullWidth": {
+      "inputWidth": 313,
+      "wrapperWidth": 313,
+      "formWidth": 313,
+      "inputVsWrapper": 1
+    },
+    "retroCheck": {
+      "hasBorder2": true,
+      "hasBorderWhite40": true,
+      "hasBgBlack40": true,
+      "hasRoundedLg": true,
+      "hasPr12": true,
+      "boxHasClass": true,
+      "inputClasses": "w-full rounded-lg border-2 border-white/40 bg-black/40 px-3 py-2 text-white outline-none focus:border-white pr-12",
+      "boxBg": "linear-gradient(rgb(255, 20, 147) 0%, rgb(192, 0, 110) 100%)"
+    },
+    "checks": {
+      "prIs48": true,
+      "btnIs40": true,
+      "rightIs4": true,
+      "rightOffset": 4,
+      "hasNoHorizontalOverflow": true,
+      "buttonInside": true,
+      "verticallyCentered": true,
+      "noLayoutShift": true,
+      "autocompletePreserved": true,
+      "formIsCentered": true,
+      "inputIsFullWidth": true
+    }
+  }
+}
