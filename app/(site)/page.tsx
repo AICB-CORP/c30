@@ -15,7 +15,9 @@ export default async function HomePage() {
 
   const { data: posts } = await supabase
     .from("posts")
-    .select("*, author:profiles!posts_author_id_fkey(id, pseudo, avatar_url, mood), media:post_media(*)")
+    .select(
+      "*, author:profiles!posts_author_id_fkey(id, pseudo, avatar_url, mood), media:post_media(*)",
+    )
     .or(`scheduled_for.is.null,scheduled_for.lte.${now.toISOString()}`)
     .order("created_at", { ascending: false })
     .order("position", { referencedTable: "post_media", ascending: true })

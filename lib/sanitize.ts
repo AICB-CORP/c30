@@ -36,7 +36,7 @@ export const HTML_TAGS = [
   "iframe",
 ] as const;
 
-const GLOBAL_ATTRS = ["style", "class", "align", "title", "width", "height"];
+const GLOBAL_ATTRS = ["style", "class", "align", "title", "width", "height", "data-carousel"];
 
 const ATTRS_BY_TAG: Record<string, readonly string[]> = {
   img: [...GLOBAL_ATTRS, "src", "alt"],
@@ -136,6 +136,12 @@ if (purify) {
     for (const attr of Array.from(node.attributes)) {
       if (!allowed.includes(attr.name)) {
         node.removeAttribute(attr.name);
+      }
+    }
+    // Restrict data-carousel to div[data-carousel="true"] only
+    if (node.hasAttribute("data-carousel")) {
+      if (tag !== "div" || node.getAttribute("data-carousel") !== "true") {
+        node.removeAttribute("data-carousel");
       }
     }
     const style = node.getAttribute("style");

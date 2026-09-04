@@ -168,7 +168,7 @@ Constraints:
 - **rationale**: caught by `unit-tester` via an `it.fails(...)` test.
   The original formula was
   `Math.min(rotatedWidth - Math.round(crop.x), …)`; if `crop.x < 0`,
-  `rotatedWidth - (-N)` *inflated* the available width, so the
+  `rotatedWidth - (-N)` _inflated_ the available width, so the
   resulting rectangle overflowed the image. The fix uses the clamped
   value so the bound is always ≤ `rotatedWidth - safeX`.
 - **alternatives considered**: leaving the bug and clipping at
@@ -257,7 +257,7 @@ Constraints:
 - **rationale**: caught by the **layout-tester agent** in two passes.
   First pass: buttons were 31 px (the `RetroEditor.tsx` `<style>`
   block has `.retro-btn.tool-btn { padding: 0.25rem 0.6rem;
-  font-size: 0.8rem }` — globally scoped, not actually scoped).
+font-size: 0.8rem }` — globally scoped, not actually scoped).
   After dropping `.tool-btn`: 38 px (the wrapping `text-xs` div
   cascaded `font-size: 12px` to the buttons). After adding
   `min-h-[44px]`: exactly 44 px — WCAG 2.5.5 / Apple HIG floor met.

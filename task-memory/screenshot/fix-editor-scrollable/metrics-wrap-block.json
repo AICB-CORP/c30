@@ -1,0 +1,2913 @@
+{
+  "generatedAt": "2026-09-03T09:56:46.639Z",
+  "branch": "fix/editor-scrollable",
+  "description": "Re-test RetroEditor toolbar block flex-wrap + middle overflow-y-auto sticky + editor min-h 280",
+  "results": {
+    "toolbar-wrap-block-desktop-empty": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "docScrollWidth": 1280,
+      "bodyScrollWidth": 1280,
+      "pageScrollY": 0,
+      "horizontalOverflow": false,
+      "outer": {
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "box": {
+        "h": 720,
+        "y": 40,
+        "bottom": 760,
+        "w": 768,
+        "flexDirection": "column",
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "maxHeight": "720px",
+        "display": "flex"
+      },
+      "middle": {
+        "h": 450.1,
+        "y": 231.9,
+        "bottom": 682,
+        "w": 730,
+        "overflow": "auto",
+        "overflowY": "auto",
+        "overflowX": "auto",
+        "flex": "1 1 0%",
+        "flexShrink": "1",
+        "minHeight": "0px",
+        "scrollHeight": 633,
+        "clientHeight": 450,
+        "hasScroll": true,
+        "display": "flex",
+        "flexDirection": "column",
+        "scrollTop": 0
+      },
+      "toolbar": {
+        "h": 255,
+        "y": 241.9,
+        "bottom": 496.9,
+        "w": 706,
+        "display": "flex",
+        "flexWrap": "wrap",
+        "overflowX": "visible",
+        "overflowY": "visible",
+        "overflow": "visible",
+        "scrollWidth": 706,
+        "clientWidth": 706,
+        "scrollable": false,
+        "overflowsHorizontally": false,
+        "rows": 11,
+        "isBlockNotScrollable": true,
+        "position": "static"
+      },
+      "toolbarOuter": {
+        "h": 275,
+        "y": 231.9,
+        "bottom": 506.9,
+        "w": 726,
+        "display": "block",
+        "flexShrink": "0",
+        "overflow": "visible",
+        "overflowY": "visible",
+        "overflowX": "visible",
+        "position": "sticky",
+        "top": "0px",
+        "zIndex": "10"
+      },
+      "publish": {
+        "h": 46,
+        "y": 695,
+        "bottom": 741,
+        "w": 124.8,
+        "inViewport": true,
+        "insideBox": true,
+        "display": "block"
+      },
+      "publishRow": {
+        "h": 59,
+        "y": 682,
+        "bottom": 741,
+        "w": 730,
+        "insideBox": true,
+        "display": "flex",
+        "position": "static",
+        "flexShrink": "0"
+      },
+      "editorArea": {
+        "h": 280,
+        "y": 576.9,
+        "bottom": 856.9,
+        "w": 726,
+        "minHeight": "280px",
+        "display": "flex",
+        "flexDirection": "column",
+        "flex": "0 1 auto",
+        "overflow": "visible",
+        "overflowY": "visible"
+      },
+      "editorTiptap": {
+        "scrollHeight": 24,
+        "clientHeight": 24
+      },
+      "rects": {
+        "header": {
+          "h": 172.9,
+          "y": 59,
+          "bottom": 231.9,
+          "display": "block",
+          "position": "static"
+        },
+        "toolbarOuter": {
+          "h": 275,
+          "y": 231.9,
+          "bottom": 506.9,
+          "position": "sticky",
+          "top": "0px",
+          "display": "block",
+          "flexShrink": "0"
+        },
+        "toolbar": {
+          "h": 255,
+          "y": 241.9,
+          "bottom": 496.9,
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflow": "visible",
+          "scrollWidth": 706,
+          "clientWidth": 706,
+          "rows": 11
+        },
+        "editorArea": {
+          "h": 280,
+          "y": 576.9,
+          "bottom": 856.9,
+          "minHeight": "280px",
+          "display": "flex",
+          "flexDirection": "column",
+          "flex": "0 1 auto"
+        }
+      },
+      "carouselRect": null,
+      "carouselImgs": [],
+      "toolBtns": [
+        {
+          "text": "🌍 Public",
+          "w": 116,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔒 Privé",
+          "w": 110,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "B",
+          "w": 56,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "I",
+          "w": 55,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "U",
+          "w": 58,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "S",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H1",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H2",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "• Liste",
+          "w": 100,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "1. Liste",
+          "w": 107,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "PoliceComic Sans MS",
+          "w": 185,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "Taille16px",
+          "w": 109,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "⬅",
+          "w": 62,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⬌",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "➡",
+          "w": 59,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔗",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "▶️",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚡ Néon",
+          "w": 112,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "✨ Arc-en-ciel",
+          "w": 163,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "📜 Défilant",
+          "w": 135,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💫 Clignotant",
+          "w": 149,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔍 Flou",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚙️ HTML",
+          "w": 119,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🖼️ Photos",
+          "w": 123,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎬 Vidéo",
+          "w": 115,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵 Son",
+          "w": 101,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💬 GIF",
+          "w": 102,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎙 Voix",
+          "w": 106,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💾 Publier",
+          "w": 125,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "Annuler",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        }
+      ],
+      "badTargets": [],
+      "toolbarStickyClass": true
+    },
+    "toolbar-wrap-block-mobile-375-empty": {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "docScrollWidth": 375,
+      "bodyScrollWidth": 375,
+      "pageScrollY": 0,
+      "horizontalOverflow": false,
+      "outer": {
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "box": {
+        "h": 730.8,
+        "y": 40.6,
+        "bottom": 771.4,
+        "w": 356.3,
+        "flexDirection": "column",
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "maxHeight": "730.8px",
+        "display": "flex"
+      },
+      "middle": {
+        "h": 457.7,
+        "y": 239.7,
+        "bottom": 697.4,
+        "w": 326.3,
+        "overflow": "auto",
+        "overflowY": "auto",
+        "overflowX": "auto",
+        "flex": "1 1 0%",
+        "flexShrink": "1",
+        "minHeight": "0px",
+        "scrollHeight": 941,
+        "clientHeight": 458,
+        "hasScroll": true,
+        "display": "flex",
+        "flexDirection": "column",
+        "scrollTop": 0
+      },
+      "toolbar": {
+        "h": 511,
+        "y": 249.7,
+        "bottom": 760.7,
+        "w": 302.3,
+        "display": "flex",
+        "flexWrap": "wrap",
+        "overflowX": "visible",
+        "overflowY": "visible",
+        "overflow": "visible",
+        "scrollWidth": 302,
+        "clientWidth": 302,
+        "scrollable": false,
+        "overflowsHorizontally": false,
+        "rows": 13,
+        "isBlockNotScrollable": true,
+        "position": "static"
+      },
+      "toolbarOuter": {
+        "h": 531,
+        "y": 239.7,
+        "bottom": 770.7,
+        "w": 322.3,
+        "display": "block",
+        "flexShrink": "0",
+        "overflow": "visible",
+        "overflowY": "visible",
+        "overflowX": "visible",
+        "position": "sticky",
+        "top": "0px",
+        "zIndex": "10"
+      },
+      "publish": {
+        "h": 46,
+        "y": 710.4,
+        "bottom": 756.4,
+        "w": 124.8,
+        "inViewport": true,
+        "insideBox": true,
+        "display": "block"
+      },
+      "publishRow": {
+        "h": 59,
+        "y": 697.4,
+        "bottom": 756.4,
+        "w": 326.3,
+        "insideBox": true,
+        "display": "flex",
+        "position": "static",
+        "flexShrink": "0"
+      },
+      "editorArea": {
+        "h": 280,
+        "y": 892.7,
+        "bottom": 1172.7,
+        "w": 322.3,
+        "minHeight": "280px",
+        "display": "flex",
+        "flexDirection": "column",
+        "flex": "0 1 auto",
+        "overflow": "visible",
+        "overflowY": "visible"
+      },
+      "editorTiptap": {
+        "scrollHeight": 48,
+        "clientHeight": 48
+      },
+      "rects": {
+        "header": {
+          "h": 184.1,
+          "y": 55.6,
+          "bottom": 239.7,
+          "display": "block",
+          "position": "static"
+        },
+        "toolbarOuter": {
+          "h": 531,
+          "y": 239.7,
+          "bottom": 770.7,
+          "position": "sticky",
+          "top": "0px",
+          "display": "block",
+          "flexShrink": "0"
+        },
+        "toolbar": {
+          "h": 511,
+          "y": 249.7,
+          "bottom": 760.7,
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflow": "visible",
+          "scrollWidth": 302,
+          "clientWidth": 302,
+          "rows": 13
+        },
+        "editorArea": {
+          "h": 280,
+          "y": 892.7,
+          "bottom": 1172.7,
+          "minHeight": "280px",
+          "display": "flex",
+          "flexDirection": "column",
+          "flex": "0 1 auto"
+        }
+      },
+      "carouselRect": null,
+      "carouselImgs": [],
+      "toolBtns": [
+        {
+          "text": "🌍 Public",
+          "w": 89,
+          "h": 70,
+          "ok": true
+        },
+        {
+          "text": "🔒 Privé",
+          "w": 83,
+          "h": 70,
+          "ok": true
+        },
+        {
+          "text": "B",
+          "w": 56,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "I",
+          "w": 55,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "U",
+          "w": 58,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "S",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H1",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H2",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "• Liste",
+          "w": 100,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "1. Liste",
+          "w": 107,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "PoliceComic Sans MS",
+          "w": 185,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "Taille16px",
+          "w": 109,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "⬅",
+          "w": 62,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⬌",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "➡",
+          "w": 59,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔗",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "▶️",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚡ Néon",
+          "w": 112,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "✨ Arc-en-ciel",
+          "w": 163,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "📜 Défilant",
+          "w": 135,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💫 Clignotant",
+          "w": 149,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔍 Flou",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚙️ HTML",
+          "w": 119,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🖼️ Photos",
+          "w": 123,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎬 Vidéo",
+          "w": 115,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵 Son",
+          "w": 101,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💬 GIF",
+          "w": 102,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎙 Voix",
+          "w": 106,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💾 Publier",
+          "w": 125,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "Annuler",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        }
+      ],
+      "badTargets": [],
+      "toolbarStickyClass": true
+    },
+    "toolbar-wrap-block-mobile-360-empty": {
+      "viewport": {
+        "w": 360,
+        "h": 800
+      },
+      "docScrollWidth": 360,
+      "bodyScrollWidth": 360,
+      "pageScrollY": 0,
+      "horizontalOverflow": false,
+      "outer": {
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "box": {
+        "h": 720,
+        "y": 40,
+        "bottom": 760,
+        "w": 342,
+        "flexDirection": "column",
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "maxHeight": "720px",
+        "display": "flex"
+      },
+      "middle": {
+        "h": 446.9,
+        "y": 239.1,
+        "bottom": 686,
+        "w": 312,
+        "overflow": "auto",
+        "overflowY": "auto",
+        "overflowX": "auto",
+        "flex": "1 1 0%",
+        "flexShrink": "1",
+        "minHeight": "0px",
+        "scrollHeight": 1046,
+        "clientHeight": 447,
+        "hasScroll": true,
+        "display": "flex",
+        "flexDirection": "column",
+        "scrollTop": 0
+      },
+      "toolbar": {
+        "h": 564,
+        "y": 249.1,
+        "bottom": 813.1,
+        "w": 288,
+        "display": "flex",
+        "flexWrap": "wrap",
+        "overflowX": "visible",
+        "overflowY": "visible",
+        "overflow": "visible",
+        "scrollWidth": 288,
+        "clientWidth": 288,
+        "scrollable": false,
+        "overflowsHorizontally": false,
+        "rows": 16,
+        "isBlockNotScrollable": true,
+        "position": "static"
+      },
+      "toolbarOuter": {
+        "h": 584,
+        "y": 239.1,
+        "bottom": 823.1,
+        "w": 308,
+        "display": "block",
+        "flexShrink": "0",
+        "overflow": "visible",
+        "overflowY": "visible",
+        "overflowX": "visible",
+        "position": "sticky",
+        "top": "0px",
+        "zIndex": "10"
+      },
+      "publish": {
+        "h": 46,
+        "y": 699,
+        "bottom": 745,
+        "w": 124.8,
+        "inViewport": true,
+        "insideBox": true,
+        "display": "block"
+      },
+      "publishRow": {
+        "h": 59,
+        "y": 686,
+        "bottom": 745,
+        "w": 312,
+        "insideBox": true,
+        "display": "flex",
+        "position": "static",
+        "flexShrink": "0"
+      },
+      "editorArea": {
+        "h": 280,
+        "y": 997.1,
+        "bottom": 1277.1,
+        "w": 308,
+        "minHeight": "280px",
+        "display": "flex",
+        "flexDirection": "column",
+        "flex": "0 1 auto",
+        "overflow": "visible",
+        "overflowY": "visible"
+      },
+      "editorTiptap": {
+        "scrollHeight": 48,
+        "clientHeight": 48
+      },
+      "rects": {
+        "header": {
+          "h": 184.1,
+          "y": 55,
+          "bottom": 239.1,
+          "display": "block",
+          "position": "static"
+        },
+        "toolbarOuter": {
+          "h": 584,
+          "y": 239.1,
+          "bottom": 823.1,
+          "position": "sticky",
+          "top": "0px",
+          "display": "block",
+          "flexShrink": "0"
+        },
+        "toolbar": {
+          "h": 564,
+          "y": 249.1,
+          "bottom": 813.1,
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflow": "visible",
+          "scrollWidth": 288,
+          "clientWidth": 288,
+          "rows": 16
+        },
+        "editorArea": {
+          "h": 280,
+          "y": 997.1,
+          "bottom": 1277.1,
+          "minHeight": "280px",
+          "display": "flex",
+          "flexDirection": "column",
+          "flex": "0 1 auto"
+        }
+      },
+      "carouselRect": null,
+      "carouselImgs": [],
+      "toolBtns": [
+        {
+          "text": "🌍 Public",
+          "w": 89,
+          "h": 70,
+          "ok": true
+        },
+        {
+          "text": "🔒 Privé",
+          "w": 83,
+          "h": 70,
+          "ok": true
+        },
+        {
+          "text": "B",
+          "w": 56,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "I",
+          "w": 55,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "U",
+          "w": 58,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "S",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H1",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H2",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "• Liste",
+          "w": 100,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "1. Liste",
+          "w": 107,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "PoliceComic Sans MS",
+          "w": 185,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "Taille16px",
+          "w": 109,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "⬅",
+          "w": 62,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⬌",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "➡",
+          "w": 59,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔗",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "▶️",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚡ Néon",
+          "w": 112,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "✨ Arc-en-ciel",
+          "w": 163,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "📜 Défilant",
+          "w": 135,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💫 Clignotant",
+          "w": 149,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔍 Flou",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚙️ HTML",
+          "w": 119,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🖼️ Photos",
+          "w": 123,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎬 Vidéo",
+          "w": 115,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵 Son",
+          "w": 101,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💬 GIF",
+          "w": 102,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎙 Voix",
+          "w": 106,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💾 Publier",
+          "w": 125,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "Annuler",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        }
+      ],
+      "badTargets": [],
+      "toolbarStickyClass": true
+    },
+    "editor-wrap-block-desktop-many": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "docScrollWidth": 1280,
+      "bodyScrollWidth": 1280,
+      "pageScrollY": 0,
+      "horizontalOverflow": false,
+      "outer": {
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "box": {
+        "h": 720,
+        "y": 40,
+        "bottom": 760,
+        "w": 768,
+        "flexDirection": "column",
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "maxHeight": "720px",
+        "display": "flex"
+      },
+      "middle": {
+        "h": 450.1,
+        "y": 231.9,
+        "bottom": 682,
+        "w": 730,
+        "overflow": "auto",
+        "overflowY": "auto",
+        "overflowX": "auto",
+        "flex": "1 1 0%",
+        "flexShrink": "1",
+        "minHeight": "0px",
+        "scrollHeight": 2349,
+        "clientHeight": 450,
+        "hasScroll": true,
+        "display": "flex",
+        "flexDirection": "column",
+        "scrollTop": 0
+      },
+      "toolbar": {
+        "h": 255,
+        "y": 241.9,
+        "bottom": 496.9,
+        "w": 706,
+        "display": "flex",
+        "flexWrap": "wrap",
+        "overflowX": "visible",
+        "overflowY": "visible",
+        "overflow": "visible",
+        "scrollWidth": 706,
+        "clientWidth": 706,
+        "scrollable": false,
+        "overflowsHorizontally": false,
+        "rows": 11,
+        "isBlockNotScrollable": true,
+        "position": "static"
+      },
+      "toolbarOuter": {
+        "h": 275,
+        "y": 231.9,
+        "bottom": 506.9,
+        "w": 726,
+        "display": "block",
+        "flexShrink": "0",
+        "overflow": "visible",
+        "overflowY": "visible",
+        "overflowX": "visible",
+        "position": "sticky",
+        "top": "0px",
+        "zIndex": "10"
+      },
+      "publish": {
+        "h": 46,
+        "y": 695,
+        "bottom": 741,
+        "w": 124.8,
+        "inViewport": true,
+        "insideBox": true,
+        "display": "block"
+      },
+      "publishRow": {
+        "h": 59,
+        "y": 682,
+        "bottom": 741,
+        "w": 730,
+        "insideBox": true,
+        "display": "flex",
+        "position": "static",
+        "flexShrink": "0"
+      },
+      "editorArea": {
+        "h": 280,
+        "y": 576.9,
+        "bottom": 856.9,
+        "w": 726,
+        "minHeight": "280px",
+        "display": "flex",
+        "flexDirection": "column",
+        "flex": "0 1 auto",
+        "overflow": "visible",
+        "overflowY": "visible"
+      },
+      "editorTiptap": {
+        "scrollHeight": 1994,
+        "clientHeight": 1994
+      },
+      "rects": {
+        "header": {
+          "h": 172.9,
+          "y": 59,
+          "bottom": 231.9,
+          "display": "block",
+          "position": "static"
+        },
+        "toolbarOuter": {
+          "h": 275,
+          "y": 231.9,
+          "bottom": 506.9,
+          "position": "sticky",
+          "top": "0px",
+          "display": "block",
+          "flexShrink": "0"
+        },
+        "toolbar": {
+          "h": 255,
+          "y": 241.9,
+          "bottom": 496.9,
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflow": "visible",
+          "scrollWidth": 706,
+          "clientWidth": 706,
+          "rows": 11
+        },
+        "editorArea": {
+          "h": 280,
+          "y": 576.9,
+          "bottom": 856.9,
+          "minHeight": "280px",
+          "display": "flex",
+          "flexDirection": "column",
+          "flex": "0 1 auto"
+        }
+      },
+      "carouselRect": {
+        "w": 706,
+        "h": 230,
+        "overflowX": "auto",
+        "gap": "12px"
+      },
+      "carouselImgs": [
+        {
+          "w": 280,
+          "h": 200
+        },
+        {
+          "w": 280,
+          "h": 200
+        },
+        {
+          "w": 280,
+          "h": 200
+        },
+        {
+          "w": 280,
+          "h": 200
+        },
+        {
+          "w": 280,
+          "h": 200
+        },
+        {
+          "w": 280,
+          "h": 200
+        },
+        {
+          "w": 280,
+          "h": 200
+        },
+        {
+          "w": 280,
+          "h": 200
+        },
+        {
+          "w": 280,
+          "h": 200
+        },
+        {
+          "w": 280,
+          "h": 200
+        }
+      ],
+      "toolBtns": [
+        {
+          "text": "🌍 Public",
+          "w": 116,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔒 Privé",
+          "w": 110,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "B",
+          "w": 56,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "I",
+          "w": 55,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "U",
+          "w": 58,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "S",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H1",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H2",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "• Liste",
+          "w": 100,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "1. Liste",
+          "w": 107,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "PoliceComic Sans MS",
+          "w": 185,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "Taille16px",
+          "w": 109,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "⬅",
+          "w": 62,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⬌",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "➡",
+          "w": 59,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔗",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "▶️",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚡ Néon",
+          "w": 112,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "✨ Arc-en-ciel",
+          "w": 163,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "📜 Défilant",
+          "w": 135,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💫 Clignotant",
+          "w": 149,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔍 Flou",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚙️ HTML",
+          "w": 119,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🖼️ Photos",
+          "w": 123,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎬 Vidéo",
+          "w": 115,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵 Son",
+          "w": 101,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💬 GIF",
+          "w": 102,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎙 Voix",
+          "w": 106,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💾 Publier",
+          "w": 125,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "Annuler",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        }
+      ],
+      "badTargets": [],
+      "toolbarStickyClass": true
+    },
+    "editor-wrap-block-mobile-375-many": {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "docScrollWidth": 375,
+      "bodyScrollWidth": 375,
+      "pageScrollY": 0,
+      "horizontalOverflow": false,
+      "outer": {
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "box": {
+        "h": 730.8,
+        "y": 40.6,
+        "bottom": 771.4,
+        "w": 356.3,
+        "flexDirection": "column",
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "maxHeight": "730.8px",
+        "display": "flex"
+      },
+      "middle": {
+        "h": 457.7,
+        "y": 239.7,
+        "bottom": 697.4,
+        "w": 326.3,
+        "overflow": "auto",
+        "overflowY": "auto",
+        "overflowX": "auto",
+        "flex": "1 1 0%",
+        "flexShrink": "1",
+        "minHeight": "0px",
+        "scrollHeight": 2345,
+        "clientHeight": 458,
+        "hasScroll": true,
+        "display": "flex",
+        "flexDirection": "column",
+        "scrollTop": 0
+      },
+      "toolbar": {
+        "h": 511,
+        "y": 249.7,
+        "bottom": 760.7,
+        "w": 302.3,
+        "display": "flex",
+        "flexWrap": "wrap",
+        "overflowX": "visible",
+        "overflowY": "visible",
+        "overflow": "visible",
+        "scrollWidth": 302,
+        "clientWidth": 302,
+        "scrollable": false,
+        "overflowsHorizontally": false,
+        "rows": 13,
+        "isBlockNotScrollable": true,
+        "position": "static"
+      },
+      "toolbarOuter": {
+        "h": 531,
+        "y": 239.7,
+        "bottom": 770.7,
+        "w": 322.3,
+        "display": "block",
+        "flexShrink": "0",
+        "overflow": "visible",
+        "overflowY": "visible",
+        "overflowX": "visible",
+        "position": "sticky",
+        "top": "0px",
+        "zIndex": "10"
+      },
+      "publish": {
+        "h": 46,
+        "y": 710.4,
+        "bottom": 756.4,
+        "w": 124.8,
+        "inViewport": true,
+        "insideBox": true,
+        "display": "block"
+      },
+      "publishRow": {
+        "h": 59,
+        "y": 697.4,
+        "bottom": 756.4,
+        "w": 326.3,
+        "insideBox": true,
+        "display": "flex",
+        "position": "static",
+        "flexShrink": "0"
+      },
+      "editorArea": {
+        "h": 280,
+        "y": 892.7,
+        "bottom": 1172.7,
+        "w": 322.3,
+        "minHeight": "280px",
+        "display": "flex",
+        "flexDirection": "column",
+        "flex": "0 1 auto",
+        "overflow": "visible",
+        "overflowY": "visible"
+      },
+      "editorTiptap": {
+        "scrollHeight": 1682,
+        "clientHeight": 1682
+      },
+      "rects": {
+        "header": {
+          "h": 184.1,
+          "y": 55.6,
+          "bottom": 239.7,
+          "display": "block",
+          "position": "static"
+        },
+        "toolbarOuter": {
+          "h": 531,
+          "y": 239.7,
+          "bottom": 770.7,
+          "position": "sticky",
+          "top": "0px",
+          "display": "block",
+          "flexShrink": "0"
+        },
+        "toolbar": {
+          "h": 511,
+          "y": 249.7,
+          "bottom": 760.7,
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflow": "visible",
+          "scrollWidth": 302,
+          "clientWidth": 302,
+          "rows": 13
+        },
+        "editorArea": {
+          "h": 280,
+          "y": 892.7,
+          "bottom": 1172.7,
+          "minHeight": "280px",
+          "display": "flex",
+          "flexDirection": "column",
+          "flex": "0 1 auto"
+        }
+      },
+      "carouselRect": {
+        "w": 302,
+        "h": 165,
+        "overflowX": "auto",
+        "gap": "8px"
+      },
+      "carouselImgs": [
+        {
+          "w": 263,
+          "h": 143
+        },
+        {
+          "w": 263,
+          "h": 143
+        },
+        {
+          "w": 263,
+          "h": 143
+        },
+        {
+          "w": 263,
+          "h": 143
+        },
+        {
+          "w": 263,
+          "h": 143
+        },
+        {
+          "w": 263,
+          "h": 143
+        },
+        {
+          "w": 263,
+          "h": 143
+        },
+        {
+          "w": 263,
+          "h": 143
+        },
+        {
+          "w": 263,
+          "h": 143
+        },
+        {
+          "w": 263,
+          "h": 143
+        }
+      ],
+      "toolBtns": [
+        {
+          "text": "🌍 Public",
+          "w": 89,
+          "h": 70,
+          "ok": true
+        },
+        {
+          "text": "🔒 Privé",
+          "w": 83,
+          "h": 70,
+          "ok": true
+        },
+        {
+          "text": "B",
+          "w": 56,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "I",
+          "w": 55,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "U",
+          "w": 58,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "S",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H1",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H2",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "• Liste",
+          "w": 100,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "1. Liste",
+          "w": 107,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "PoliceComic Sans MS",
+          "w": 185,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "Taille16px",
+          "w": 109,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "⬅",
+          "w": 62,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⬌",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "➡",
+          "w": 59,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔗",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "▶️",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚡ Néon",
+          "w": 112,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "✨ Arc-en-ciel",
+          "w": 163,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "📜 Défilant",
+          "w": 135,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💫 Clignotant",
+          "w": 149,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔍 Flou",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚙️ HTML",
+          "w": 119,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🖼️ Photos",
+          "w": 123,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎬 Vidéo",
+          "w": 115,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵 Son",
+          "w": 101,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💬 GIF",
+          "w": 102,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎙 Voix",
+          "w": 106,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💾 Publier",
+          "w": 125,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "Annuler",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        }
+      ],
+      "badTargets": [],
+      "toolbarStickyClass": true
+    },
+    "editor-wrap-block-mobile-360-many": {
+      "viewport": {
+        "w": 360,
+        "h": 800
+      },
+      "docScrollWidth": 360,
+      "bodyScrollWidth": 360,
+      "pageScrollY": 0,
+      "horizontalOverflow": false,
+      "outer": {
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "box": {
+        "h": 720,
+        "y": 40,
+        "bottom": 760,
+        "w": 342,
+        "flexDirection": "column",
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "maxHeight": "720px",
+        "display": "flex"
+      },
+      "middle": {
+        "h": 446.9,
+        "y": 239.1,
+        "bottom": 686,
+        "w": 312,
+        "overflow": "auto",
+        "overflowY": "auto",
+        "overflowX": "auto",
+        "flex": "1 1 0%",
+        "flexShrink": "1",
+        "minHeight": "0px",
+        "scrollHeight": 2394,
+        "clientHeight": 447,
+        "hasScroll": true,
+        "display": "flex",
+        "flexDirection": "column",
+        "scrollTop": 0
+      },
+      "toolbar": {
+        "h": 564,
+        "y": 249.1,
+        "bottom": 813.1,
+        "w": 288,
+        "display": "flex",
+        "flexWrap": "wrap",
+        "overflowX": "visible",
+        "overflowY": "visible",
+        "overflow": "visible",
+        "scrollWidth": 288,
+        "clientWidth": 288,
+        "scrollable": false,
+        "overflowsHorizontally": false,
+        "rows": 16,
+        "isBlockNotScrollable": true,
+        "position": "static"
+      },
+      "toolbarOuter": {
+        "h": 584,
+        "y": 239.1,
+        "bottom": 823.1,
+        "w": 308,
+        "display": "block",
+        "flexShrink": "0",
+        "overflow": "visible",
+        "overflowY": "visible",
+        "overflowX": "visible",
+        "position": "sticky",
+        "top": "0px",
+        "zIndex": "10"
+      },
+      "publish": {
+        "h": 46,
+        "y": 699,
+        "bottom": 745,
+        "w": 124.8,
+        "inViewport": true,
+        "insideBox": true,
+        "display": "block"
+      },
+      "publishRow": {
+        "h": 59,
+        "y": 686,
+        "bottom": 745,
+        "w": 312,
+        "insideBox": true,
+        "display": "flex",
+        "position": "static",
+        "flexShrink": "0"
+      },
+      "editorArea": {
+        "h": 280,
+        "y": 997.1,
+        "bottom": 1277.1,
+        "w": 308,
+        "minHeight": "280px",
+        "display": "flex",
+        "flexDirection": "column",
+        "flex": "0 1 auto",
+        "overflow": "visible",
+        "overflowY": "visible"
+      },
+      "editorTiptap": {
+        "scrollHeight": 1626,
+        "clientHeight": 1626
+      },
+      "rects": {
+        "header": {
+          "h": 184.1,
+          "y": 55,
+          "bottom": 239.1,
+          "display": "block",
+          "position": "static"
+        },
+        "toolbarOuter": {
+          "h": 584,
+          "y": 239.1,
+          "bottom": 823.1,
+          "position": "sticky",
+          "top": "0px",
+          "display": "block",
+          "flexShrink": "0"
+        },
+        "toolbar": {
+          "h": 564,
+          "y": 249.1,
+          "bottom": 813.1,
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflow": "visible",
+          "scrollWidth": 288,
+          "clientWidth": 288,
+          "rows": 16
+        },
+        "editorArea": {
+          "h": 280,
+          "y": 997.1,
+          "bottom": 1277.1,
+          "minHeight": "280px",
+          "display": "flex",
+          "flexDirection": "column",
+          "flex": "0 1 auto"
+        }
+      },
+      "carouselRect": {
+        "w": 288,
+        "h": 162,
+        "overflowX": "auto",
+        "gap": "8px"
+      },
+      "carouselImgs": [
+        {
+          "w": 252,
+          "h": 140
+        },
+        {
+          "w": 252,
+          "h": 140
+        },
+        {
+          "w": 252,
+          "h": 140
+        },
+        {
+          "w": 252,
+          "h": 140
+        },
+        {
+          "w": 252,
+          "h": 140
+        },
+        {
+          "w": 252,
+          "h": 140
+        },
+        {
+          "w": 252,
+          "h": 140
+        },
+        {
+          "w": 252,
+          "h": 140
+        },
+        {
+          "w": 252,
+          "h": 140
+        },
+        {
+          "w": 252,
+          "h": 140
+        }
+      ],
+      "toolBtns": [
+        {
+          "text": "🌍 Public",
+          "w": 89,
+          "h": 70,
+          "ok": true
+        },
+        {
+          "text": "🔒 Privé",
+          "w": 83,
+          "h": 70,
+          "ok": true
+        },
+        {
+          "text": "B",
+          "w": 56,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "I",
+          "w": 55,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "U",
+          "w": 58,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "S",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H1",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H2",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "• Liste",
+          "w": 100,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "1. Liste",
+          "w": 107,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "PoliceComic Sans MS",
+          "w": 185,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "Taille16px",
+          "w": 109,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "⬅",
+          "w": 62,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⬌",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "➡",
+          "w": 59,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔗",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "▶️",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚡ Néon",
+          "w": 112,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "✨ Arc-en-ciel",
+          "w": 163,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "📜 Défilant",
+          "w": 135,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💫 Clignotant",
+          "w": 149,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔍 Flou",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚙️ HTML",
+          "w": 119,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🖼️ Photos",
+          "w": 123,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎬 Vidéo",
+          "w": 115,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵 Son",
+          "w": 101,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💬 GIF",
+          "w": 102,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎙 Voix",
+          "w": 106,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💾 Publier",
+          "w": 125,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "Annuler",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        }
+      ],
+      "badTargets": [],
+      "toolbarStickyClass": true
+    },
+    "editor-wrap-block-stacked-desktop": {
+      "viewport": {
+        "w": 1280,
+        "h": 800
+      },
+      "docScrollWidth": 1280,
+      "bodyScrollWidth": 1280,
+      "pageScrollY": 0,
+      "horizontalOverflow": false,
+      "outer": {
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "box": {
+        "h": 720,
+        "y": 40,
+        "bottom": 760,
+        "w": 768,
+        "flexDirection": "column",
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "maxHeight": "720px",
+        "display": "flex"
+      },
+      "middle": {
+        "h": 450.1,
+        "y": 231.9,
+        "bottom": 682,
+        "w": 730,
+        "overflow": "auto",
+        "overflowY": "auto",
+        "overflowX": "auto",
+        "flex": "1 1 0%",
+        "flexShrink": "1",
+        "minHeight": "0px",
+        "scrollHeight": 2603,
+        "clientHeight": 450,
+        "hasScroll": true,
+        "display": "flex",
+        "flexDirection": "column",
+        "scrollTop": 0
+      },
+      "toolbar": {
+        "h": 255,
+        "y": 241.9,
+        "bottom": 496.9,
+        "w": 706,
+        "display": "flex",
+        "flexWrap": "wrap",
+        "overflowX": "visible",
+        "overflowY": "visible",
+        "overflow": "visible",
+        "scrollWidth": 706,
+        "clientWidth": 706,
+        "scrollable": false,
+        "overflowsHorizontally": false,
+        "rows": 11,
+        "isBlockNotScrollable": true,
+        "position": "static"
+      },
+      "toolbarOuter": {
+        "h": 275,
+        "y": 231.9,
+        "bottom": 506.9,
+        "w": 726,
+        "display": "block",
+        "flexShrink": "0",
+        "overflow": "visible",
+        "overflowY": "visible",
+        "overflowX": "visible",
+        "position": "sticky",
+        "top": "0px",
+        "zIndex": "10"
+      },
+      "publish": {
+        "h": 46,
+        "y": 695,
+        "bottom": 741,
+        "w": 124.8,
+        "inViewport": true,
+        "insideBox": true,
+        "display": "block"
+      },
+      "publishRow": {
+        "h": 59,
+        "y": 682,
+        "bottom": 741,
+        "w": 730,
+        "insideBox": true,
+        "display": "flex",
+        "position": "static",
+        "flexShrink": "0"
+      },
+      "editorArea": {
+        "h": 280,
+        "y": 576.9,
+        "bottom": 856.9,
+        "w": 726,
+        "minHeight": "280px",
+        "display": "flex",
+        "flexDirection": "column",
+        "flex": "0 1 auto",
+        "overflow": "visible",
+        "overflowY": "visible"
+      },
+      "editorTiptap": {
+        "scrollHeight": 2248,
+        "clientHeight": 2248
+      },
+      "rects": {
+        "header": {
+          "h": 172.9,
+          "y": 59,
+          "bottom": 231.9,
+          "display": "block",
+          "position": "static"
+        },
+        "toolbarOuter": {
+          "h": 275,
+          "y": 231.9,
+          "bottom": 506.9,
+          "position": "sticky",
+          "top": "0px",
+          "display": "block",
+          "flexShrink": "0"
+        },
+        "toolbar": {
+          "h": 255,
+          "y": 241.9,
+          "bottom": 496.9,
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflow": "visible",
+          "scrollWidth": 706,
+          "clientWidth": 706,
+          "rows": 11
+        },
+        "editorArea": {
+          "h": 280,
+          "y": 576.9,
+          "bottom": 856.9,
+          "minHeight": "280px",
+          "display": "flex",
+          "flexDirection": "column",
+          "flex": "0 1 auto"
+        }
+      },
+      "carouselRect": null,
+      "carouselImgs": [],
+      "toolBtns": [
+        {
+          "text": "🌍 Public",
+          "w": 116,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔒 Privé",
+          "w": 110,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "B",
+          "w": 56,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "I",
+          "w": 55,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "U",
+          "w": 58,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "S",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H1",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H2",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "• Liste",
+          "w": 100,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "1. Liste",
+          "w": 107,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "PoliceComic Sans MS",
+          "w": 185,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "Taille16px",
+          "w": 109,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "⬅",
+          "w": 62,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⬌",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "➡",
+          "w": 59,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔗",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "▶️",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚡ Néon",
+          "w": 112,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "✨ Arc-en-ciel",
+          "w": 163,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "📜 Défilant",
+          "w": 135,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💫 Clignotant",
+          "w": 149,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔍 Flou",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚙️ HTML",
+          "w": 119,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🖼️ Photos",
+          "w": 123,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎬 Vidéo",
+          "w": 115,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵 Son",
+          "w": 101,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💬 GIF",
+          "w": 102,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎙 Voix",
+          "w": 106,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💾 Publier",
+          "w": 125,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "Annuler",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        }
+      ],
+      "badTargets": [],
+      "toolbarStickyClass": true
+    },
+    "editor-wrap-block-stacked-mobile-375": {
+      "viewport": {
+        "w": 375,
+        "h": 812
+      },
+      "docScrollWidth": 375,
+      "bodyScrollWidth": 375,
+      "pageScrollY": 0,
+      "horizontalOverflow": false,
+      "outer": {
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "center"
+      },
+      "box": {
+        "h": 730.8,
+        "y": 40.6,
+        "bottom": 771.4,
+        "w": 356.3,
+        "flexDirection": "column",
+        "overflow": "hidden",
+        "overflowY": "hidden",
+        "overflowX": "hidden",
+        "maxHeight": "730.8px",
+        "display": "flex"
+      },
+      "middle": {
+        "h": 457.7,
+        "y": 239.7,
+        "bottom": 697.4,
+        "w": 326.3,
+        "overflow": "auto",
+        "overflowY": "auto",
+        "overflowX": "auto",
+        "flex": "1 1 0%",
+        "flexShrink": "1",
+        "minHeight": "0px",
+        "scrollHeight": 2397,
+        "clientHeight": 458,
+        "hasScroll": true,
+        "display": "flex",
+        "flexDirection": "column",
+        "scrollTop": 0
+      },
+      "toolbar": {
+        "h": 511,
+        "y": 249.7,
+        "bottom": 760.7,
+        "w": 302.3,
+        "display": "flex",
+        "flexWrap": "wrap",
+        "overflowX": "visible",
+        "overflowY": "visible",
+        "overflow": "visible",
+        "scrollWidth": 302,
+        "clientWidth": 302,
+        "scrollable": false,
+        "overflowsHorizontally": false,
+        "rows": 13,
+        "isBlockNotScrollable": true,
+        "position": "static"
+      },
+      "toolbarOuter": {
+        "h": 531,
+        "y": 239.7,
+        "bottom": 770.7,
+        "w": 322.3,
+        "display": "block",
+        "flexShrink": "0",
+        "overflow": "visible",
+        "overflowY": "visible",
+        "overflowX": "visible",
+        "position": "sticky",
+        "top": "0px",
+        "zIndex": "10"
+      },
+      "publish": {
+        "h": 46,
+        "y": 710.4,
+        "bottom": 756.4,
+        "w": 124.8,
+        "inViewport": true,
+        "insideBox": true,
+        "display": "block"
+      },
+      "publishRow": {
+        "h": 59,
+        "y": 697.4,
+        "bottom": 756.4,
+        "w": 326.3,
+        "insideBox": true,
+        "display": "flex",
+        "position": "static",
+        "flexShrink": "0"
+      },
+      "editorArea": {
+        "h": 280,
+        "y": 892.7,
+        "bottom": 1172.7,
+        "w": 322.3,
+        "minHeight": "280px",
+        "display": "flex",
+        "flexDirection": "column",
+        "flex": "0 1 auto",
+        "overflow": "visible",
+        "overflowY": "visible"
+      },
+      "editorTiptap": {
+        "scrollHeight": 1734,
+        "clientHeight": 1734
+      },
+      "rects": {
+        "header": {
+          "h": 184.1,
+          "y": 55.6,
+          "bottom": 239.7,
+          "display": "block",
+          "position": "static"
+        },
+        "toolbarOuter": {
+          "h": 531,
+          "y": 239.7,
+          "bottom": 770.7,
+          "position": "sticky",
+          "top": "0px",
+          "display": "block",
+          "flexShrink": "0"
+        },
+        "toolbar": {
+          "h": 511,
+          "y": 249.7,
+          "bottom": 760.7,
+          "display": "flex",
+          "flexWrap": "wrap",
+          "overflowX": "visible",
+          "overflow": "visible",
+          "scrollWidth": 302,
+          "clientWidth": 302,
+          "rows": 13
+        },
+        "editorArea": {
+          "h": 280,
+          "y": 892.7,
+          "bottom": 1172.7,
+          "minHeight": "280px",
+          "display": "flex",
+          "flexDirection": "column",
+          "flex": "0 1 auto"
+        }
+      },
+      "carouselRect": null,
+      "carouselImgs": [],
+      "toolBtns": [
+        {
+          "text": "🌍 Public",
+          "w": 89,
+          "h": 70,
+          "ok": true
+        },
+        {
+          "text": "🔒 Privé",
+          "w": 83,
+          "h": 70,
+          "ok": true
+        },
+        {
+          "text": "B",
+          "w": 56,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "I",
+          "w": 55,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "U",
+          "w": 58,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "S",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H1",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "H2",
+          "w": 68,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "• Liste",
+          "w": 100,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "1. Liste",
+          "w": 107,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "PoliceComic Sans MS",
+          "w": 185,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "Taille16px",
+          "w": 109,
+          "h": 47,
+          "ok": true
+        },
+        {
+          "text": "⬅",
+          "w": 62,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⬌",
+          "w": 57,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "➡",
+          "w": 59,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔗",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "▶️",
+          "w": 66,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚡ Néon",
+          "w": 112,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "✨ Arc-en-ciel",
+          "w": 163,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "📜 Défilant",
+          "w": 135,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💫 Clignotant",
+          "w": 149,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🔍 Flou",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "⚙️ HTML",
+          "w": 119,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🖼️ Photos",
+          "w": 123,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎬 Vidéo",
+          "w": 115,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎵 Son",
+          "w": 101,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💬 GIF",
+          "w": 102,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "🎙 Voix",
+          "w": 106,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "💾 Publier",
+          "w": 125,
+          "h": 46,
+          "ok": true
+        },
+        {
+          "text": "Annuler",
+          "w": 104,
+          "h": 46,
+          "ok": true
+        }
+      ],
+      "badTargets": [],
+      "toolbarStickyClass": true
+    }
+  }
+}

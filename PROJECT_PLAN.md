@@ -52,7 +52,7 @@ Reconstruire un **Skyblog à l'identique de l'époque (2000-2010)** comme cadeau
 | ----------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | Frontend          | **Next.js 15+ (App Router) + TypeScript**                  | Hébergement gratuit sur Vercel                                                 |
 | Styling           | **Tailwind CSS v4 + CSS custom**                           | Tailwind pour la structure, CSS main pour les effets rétro                     |
-| Backend           | **Supabase** (tier gratuit)                                | Postgres + Auth + RLS unifiés                                                 |
+| Backend           | **Supabase** (tier gratuit)                                | Postgres + Auth + RLS unifiés                                                  |
 | Auth              | Supabase Auth (email/password)                             | Gratuit, inscription anonyme désactivée, gate par code d'invitation            |
 | Base de données   | Supabase Postgres                                          | Schéma relationnel adapté                                                      |
 | Stockage          | **Cloudflare R2** (10 Go gratuits, egress gratuit)         | Photos, vidéos, vocaux — S3-compatible, presigned URLs côté client             |

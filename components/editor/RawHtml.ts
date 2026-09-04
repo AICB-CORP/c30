@@ -73,9 +73,7 @@ export const RawHtml = Node.create({
               "data-tag": tag,
               "data-ohtml": btoa(html),
             },
-            content: textContent
-              ? [{ type: "text", text: textContent }]
-              : [],
+            content: textContent ? [{ type: "text", text: textContent }] : [],
           });
         },
     };
