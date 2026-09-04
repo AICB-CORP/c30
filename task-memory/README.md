@@ -48,3 +48,4 @@ Chaque tâche = un fichier `YYYY-MM-DD-<slug>.md` avec :
 | 2026-09-01 | image-cropper-compression  | media/editor       | implemented | [2026-09-01-image-cropper-compression.md](./2026-09-01-image-cropper-compression.md)   |
 | 2026-09-02 | video-audio-upload-fix     | media/upload       | implemented | [2026-09-02-video-audio-upload-fix.md](./2026-09-02-video-audio-upload-fix.md)         |
 | 2026-09-03 | password-toggle            | auth/gate          | implemented | [2026-09-03-password-toggle.md](./2026-09-03-password-toggle.md)                       |
+| 2026-09-03 | verify-password            | auth/gate          | implemented | [2026-09-03-verify-password.md](./2026-09-03-verify-password.md)                       |
