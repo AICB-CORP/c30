@@ -96,7 +96,7 @@ export default function InscriptionPage() {
                 autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={inputClass}="password-input"
+                className="password-input"
                 placeholder="8 caractères minimum"
               />
               <button
