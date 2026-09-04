@@ -10,6 +10,9 @@ export default function InscriptionPage() {
   const [pseudo, setPseudo] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [inviteCode, setInviteCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -17,6 +20,17 @@ export default function InscriptionPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+
+    if (password !== confirmPassword) {
+      setError("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Le mot de passe doit contenir au moins 8 caractères.");
+      return;
+    }
+
     setLoading(true);
 
     const res = await fetch("/api/auth/signup", {
@@ -88,16 +102,67 @@ export default function InscriptionPage() {
           <label htmlFor="password" className="mb-1 block text-sm font-bold">
             Mot de passe
           </label>
-          <input
-            id="password"
-            type="password"
-            required
-            autoComplete="new-password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={inputClass}
-            placeholder="8 caractères minimum"
-          />
+          <div className="relative">
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              required
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={`${inputClass} pr-12`}
+              placeholder="8 caractères minimum"
+            />
+            <button
+              type="button"
+              aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+              aria-pressed={showPassword}
+              onClick={() => setShowPassword((v) => !v)}
+              className="absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+            >
+              <span aria-hidden="true" className="text-base leading-none">
+                {showPassword ? "🙈" : "👁️"}
+              </span>
+            </button>
+          </div>
+        </div>
+        <div>
+          <label htmlFor="confirmPassword" className="mb-1 block text-sm font-bold">
+            Confirmer le mot de passe
+          </label>
+          <div className="relative">
+            <input
+              id="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              required
+              autoComplete="new-password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className={`${inputClass} pr-12`}
+              placeholder="Retape ton mot de passe"
+              aria-describedby={
+                confirmPassword && password !== confirmPassword ? "confirm-error" : undefined
+              }
+            />
+            <button
+              type="button"
+              aria-label={
+                showConfirmPassword ? "Masquer la confirmation" : "Afficher la confirmation"
+              }
+              aria-pressed={showConfirmPassword}
+              onClick={() => setShowConfirmPassword((v) => !v)}
+              className="absolute right-1 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-md text-white/70 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+            >
+              <span aria-hidden="true" className="text-base leading-none">
+                {showConfirmPassword ? "🙈" : "👁️"}
+              </span>
+            </button>
+          </div>
+          {confirmPassword && password !== confirmPassword ? (
+            <p id="confirm-error" className="mt-1 text-xs text-amber-200">
+              Les mots de passe ne correspondent pas.
+            </p>
+          ) : null}
         </div>
         <div>
           <label htmlFor="inviteCode" className="mb-1 block text-sm font-bold">
