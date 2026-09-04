@@ -1,0 +1,1432 @@
+{
+  "generatedAt": "2026-09-04T21:10:59.483Z",
+  "branch": "fix/posts-max-width-872",
+  "description": "Validate posts grid and PostCard max-w 872 centered, header alignment, no overflow, mobile/desktop",
+  "expectations": {
+    "gridMaxWidth": "872px",
+    "postCardMaxWidth": "872px",
+    "centered": "mx-auto",
+    "noHorizontalOverflow": true,
+    "headerGridAligned": "delta <2px at all viewports",
+    "desktopGrid": "max 872, centered, gap-6, sidebar 300, posts col ~548",
+    "mobile": "full width minus px-3*2, no overflow, max 872 not exceeding viewport"
+  },
+  "results": [
+    {
+      "name": "home-desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "metrics": {
+        "viewport": {
+          "w": 1280,
+          "h": 800
+        },
+        "cssLoaded": 2,
+        "docScrollWidth": 1400,
+        "bodyScrollWidth": 1400,
+        "noHorizontalOverflow": false,
+        "outer": {
+          "rect": {
+            "x": 192,
+            "y": 0,
+            "w": 896,
+            "h": 2108,
+            "left": 192,
+            "right": 1088,
+            "top": 0,
+            "bottom": 2108
+          },
+          "maxWidth": "896px",
+          "width": "896px",
+          "marginLeft": "192px",
+          "marginRight": "192px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "boxSizing": "border-box"
+        },
+        "header": {
+          "rect": {
+            "x": 204,
+            "y": 16,
+            "w": 872,
+            "h": 208.8,
+            "left": 204,
+            "right": 1076,
+            "top": 16,
+            "bottom": 224.8
+          },
+          "width": "872px",
+          "maxWidth": "none"
+        },
+        "main": {
+          "rect": {
+            "x": 204,
+            "y": 248.8,
+            "w": 872,
+            "h": 1783.2,
+            "left": 204,
+            "right": 1076,
+            "top": 248.8,
+            "bottom": 2032
+          }
+        },
+        "grid": {
+          "rect": {
+            "x": 204,
+            "y": 248.8,
+            "w": 872,
+            "h": 1783.2,
+            "left": 204,
+            "right": 1076,
+            "top": 248.8,
+            "bottom": 2032
+          },
+          "computed": {
+            "display": "grid",
+            "width": "872px",
+            "maxWidth": "872px",
+            "marginLeft": "0px",
+            "marginRight": "0px",
+            "gap": "24px",
+            "gridTemplateColumns": "872px 300px",
+            "boxSizing": "border-box"
+          }
+        },
+        "postsCol": {
+          "rect": {
+            "x": 204,
+            "y": 248.8,
+            "w": 872,
+            "h": 1783.2,
+            "left": 204,
+            "right": 1076,
+            "top": 248.8,
+            "bottom": 2032
+          }
+        },
+        "sidebar": {
+          "rect": {
+            "x": 1100,
+            "y": 248.8,
+            "w": 300,
+            "h": 429.6,
+            "left": 1100,
+            "right": 1400,
+            "top": 248.8,
+            "bottom": 678.4
+          },
+          "computedWidth": "300px"
+        },
+        "footer": {
+          "rect": {
+            "x": 204,
+            "y": 2072,
+            "w": 872,
+            "h": 20,
+            "left": 204,
+            "right": 1076,
+            "top": 2072,
+            "bottom": 2092
+          }
+        },
+        "cards": [
+          {
+            "index": 1,
+            "rect": {
+              "x": 204,
+              "y": 248.8,
+              "w": 872,
+              "h": 684.5,
+              "left": 204,
+              "right": 1076,
+              "top": 248.8,
+              "bottom": 933.3
+            },
+            "computed": {
+              "width": "872px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 872,
+              "max": "872px"
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 204,
+              "y": 953.3,
+              "w": 872,
+              "h": 880.1,
+              "left": 204,
+              "right": 1076,
+              "top": 953.3,
+              "bottom": 1833.4
+            },
+            "computed": {
+              "width": "872px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 872,
+              "max": "872px"
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 204,
+              "y": 1853.4,
+              "w": 872,
+              "h": 158.5,
+              "left": 204,
+              "right": 1076,
+              "top": 1853.4,
+              "bottom": 2012
+            },
+            "computed": {
+              "width": "872px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 872,
+              "max": "872px"
+            }
+          }
+        ],
+        "headerGridDelta": 0,
+        "headerGridAligned": true,
+        "gridMaxIs872": true,
+        "cardsMaxAre872": true,
+        "sidebarWidthOk": true,
+        "postsColWidthExpected": 548,
+        "postsColWidthOk": false,
+        "cardsInsideColOk": true,
+        "cardsFullWidthMobileOk": null,
+        "overflowing": [
+          {
+            "testId": "sidebar",
+            "w": 300,
+            "right": 1400,
+            "left": 1100,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-countdown",
+            "w": 300,
+            "right": 1400,
+            "left": 1100,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-hitcounter",
+            "w": 300,
+            "right": 1400,
+            "left": 1100,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-ranking",
+            "w": 300,
+            "right": 1400,
+            "left": 1100,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-bestof",
+            "w": 300,
+            "right": 1400,
+            "left": 1100,
+            "overflowRight": true,
+            "overflowLeft": false
+          }
+        ],
+        "marquee": {
+          "rect": {
+            "x": 223,
+            "y": 95.8,
+            "w": 834,
+            "h": 20,
+            "left": 223,
+            "right": 1057,
+            "top": 95.8,
+            "bottom": 115.8
+          },
+          "overflow": "hidden",
+          "overflowX": "hidden",
+          "whiteSpace": "nowrap"
+        },
+        "titleNeon": {
+          "textShadow": "rgb(255, 105, 180) 0px 0px 5px, rgb(255, 105, 180) 0px 0px 10px, rgb(255, 20, 147) 0px 0px 20px, rgb(255, 20, 147) 0px 0px 40px",
+          "color": "rgb(255, 255, 255)"
+        },
+        "retroBox": {
+          "border": "3px ridge rgb(255, 20, 147)",
+          "borderTopWidth": "3px",
+          "backgroundImage": "linear-gradient(rgb(42, 10, 61) 0%, rgb(22, 4, 42) 100%)",
+          "boxShadow": "rgba(255, 20, 147, 0.45) 0px 0px 12px 0px, rgba(255, 105, 180, 0.15) 0px 0px 18px 0px inset",
+          "borderRadius": "12px"
+        },
+        "tappable": [
+          {
+            "text": "🏠 Accueil",
+            "w": 127,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "💬 Le Blab",
+            "w": 130,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "👤 Mon profil",
+            "w": 152,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "⚙️ Mon compte",
+            "w": 165,
+            "h": 46,
+            "tappable": true
+          }
+        ],
+        "allOverflowingCount": 5
+      },
+      "cssLoaded": true
+    },
+    {
+      "name": "home-mobile",
+      "viewport": {
+        "width": 375,
+        "height": 812
+      },
+      "metrics": {
+        "viewport": {
+          "w": 375,
+          "h": 812
+        },
+        "cssLoaded": 2,
+        "docScrollWidth": 868,
+        "bodyScrollWidth": 868,
+        "noHorizontalOverflow": false,
+        "outer": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 375,
+            "h": 2487.1,
+            "left": 0,
+            "right": 375,
+            "top": 0,
+            "bottom": 2487.1
+          },
+          "maxWidth": "896px",
+          "width": "375px",
+          "marginLeft": "0px",
+          "marginRight": "0px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "boxSizing": "border-box"
+        },
+        "header": {
+          "rect": {
+            "x": 12,
+            "y": 16,
+            "w": 351,
+            "h": 294.4,
+            "left": 12,
+            "right": 363,
+            "top": 16,
+            "bottom": 310.4
+          },
+          "width": "351px",
+          "maxWidth": "none"
+        },
+        "main": {
+          "rect": {
+            "x": 12,
+            "y": 334.4,
+            "w": 351,
+            "h": 2076.7,
+            "left": 12,
+            "right": 363,
+            "top": 334.4,
+            "bottom": 2411.1
+          }
+        },
+        "grid": {
+          "rect": {
+            "x": 12,
+            "y": 334.4,
+            "w": 351,
+            "h": 2076.7,
+            "left": 12,
+            "right": 363,
+            "top": 334.4,
+            "bottom": 2411.1
+          },
+          "computed": {
+            "display": "grid",
+            "width": "351px",
+            "maxWidth": "872px",
+            "marginLeft": "0px",
+            "marginRight": "0px",
+            "gap": "24px",
+            "gridTemplateColumns": "855.5px",
+            "boxSizing": "border-box"
+          }
+        },
+        "postsCol": {
+          "rect": {
+            "x": 12,
+            "y": 334.4,
+            "w": 855.5,
+            "h": 1655.2,
+            "left": 12,
+            "right": 867.5,
+            "top": 334.4,
+            "bottom": 1989.6
+          }
+        },
+        "sidebar": {
+          "rect": {
+            "x": 12,
+            "y": 2013.6,
+            "w": 855.5,
+            "h": 397.6,
+            "left": 12,
+            "right": 867.5,
+            "top": 2013.6,
+            "bottom": 2411.1
+          },
+          "computedWidth": "855.5px"
+        },
+        "footer": {
+          "rect": {
+            "x": 12,
+            "y": 2451.1,
+            "w": 351,
+            "h": 20,
+            "left": 12,
+            "right": 363,
+            "top": 2451.1,
+            "bottom": 2471.1
+          }
+        },
+        "cards": [
+          {
+            "index": 1,
+            "rect": {
+              "x": 12,
+              "y": 334.4,
+              "w": 855.5,
+              "h": 663.7,
+              "left": 12,
+              "right": 867.5,
+              "top": 334.4,
+              "bottom": 998.1
+            },
+            "computed": {
+              "width": "855.5px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 855.5,
+              "max": "872px"
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 12,
+              "y": 1018.1,
+              "w": 855.5,
+              "h": 793.8,
+              "left": 12,
+              "right": 867.5,
+              "top": 1018.1,
+              "bottom": 1811.9
+            },
+            "computed": {
+              "width": "855.5px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 855.5,
+              "max": "872px"
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 12,
+              "y": 1831.9,
+              "w": 855.5,
+              "h": 137.7,
+              "left": 12,
+              "right": 867.5,
+              "top": 1831.9,
+              "bottom": 1969.6
+            },
+            "computed": {
+              "width": "855.5px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 855.5,
+              "max": "872px"
+            }
+          }
+        ],
+        "headerGridDelta": 0,
+        "headerGridAligned": true,
+        "gridMaxIs872": true,
+        "cardsMaxAre872": true,
+        "sidebarWidthOk": null,
+        "postsColWidthExpected": null,
+        "postsColWidthOk": null,
+        "cardsInsideColOk": null,
+        "cardsFullWidthMobileOk": false,
+        "overflowing": [
+          {
+            "testId": "posts-col",
+            "w": 855.5,
+            "right": 867.5,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "postcard-1",
+            "w": 855.5,
+            "right": 867.5,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-title",
+            "w": 825.5,
+            "right": 852.5,
+            "left": 27,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-content-1",
+            "w": 825.5,
+            "right": 852.5,
+            "left": 27,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "postcard-2",
+            "w": 855.5,
+            "right": 867.5,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-content-2",
+            "w": 825.5,
+            "right": 852.5,
+            "left": 27,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-carousel",
+            "w": 825.5,
+            "right": 852.5,
+            "left": 27,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "postcard-3",
+            "w": 855.5,
+            "right": 867.5,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "sidebar",
+            "w": 855.5,
+            "right": 867.5,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-countdown",
+            "w": 855.5,
+            "right": 867.5,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-hitcounter",
+            "w": 855.5,
+            "right": 867.5,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-ranking",
+            "w": 855.5,
+            "right": 867.5,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-bestof",
+            "w": 855.5,
+            "right": 867.5,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          }
+        ],
+        "marquee": {
+          "rect": {
+            "x": 27,
+            "y": 77.4,
+            "w": 321,
+            "h": 20,
+            "left": 27,
+            "right": 348,
+            "top": 77.4,
+            "bottom": 97.4
+          },
+          "overflow": "hidden",
+          "overflowX": "hidden",
+          "whiteSpace": "nowrap"
+        },
+        "titleNeon": {
+          "textShadow": "rgb(255, 105, 180) 0px 0px 5px, rgb(255, 105, 180) 0px 0px 10px, rgb(255, 20, 147) 0px 0px 20px, rgb(255, 20, 147) 0px 0px 40px",
+          "color": "rgb(255, 255, 255)"
+        },
+        "retroBox": {
+          "border": "3px ridge rgb(255, 20, 147)",
+          "borderTopWidth": "3px",
+          "backgroundImage": "linear-gradient(rgb(42, 10, 61) 0%, rgb(22, 4, 42) 100%)",
+          "boxShadow": "rgba(255, 20, 147, 0.45) 0px 0px 12px 0px, rgba(255, 105, 180, 0.15) 0px 0px 18px 0px inset",
+          "borderRadius": "12px"
+        },
+        "tappable": [
+          {
+            "text": "🏠 Accueil",
+            "w": 127,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "💬 Le Blab",
+            "w": 130,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "👤 Mon profil",
+            "w": 152,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "⚙️ Mon compte",
+            "w": 165,
+            "h": 46,
+            "tappable": true
+          }
+        ],
+        "allOverflowingCount": 13
+      },
+      "cssLoaded": true
+    },
+    {
+      "name": "home-mobile-360",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "metrics": {
+        "viewport": {
+          "w": 360,
+          "h": 800
+        },
+        "cssLoaded": 2,
+        "docScrollWidth": 836,
+        "bodyScrollWidth": 836,
+        "noHorizontalOverflow": false,
+        "outer": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 360,
+            "h": 2478.6,
+            "left": 0,
+            "right": 360,
+            "top": 0,
+            "bottom": 2478.6
+          },
+          "maxWidth": "896px",
+          "width": "360px",
+          "marginLeft": "0px",
+          "marginRight": "0px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "boxSizing": "border-box"
+        },
+        "header": {
+          "rect": {
+            "x": 12,
+            "y": 16,
+            "w": 336,
+            "h": 294.4,
+            "left": 12,
+            "right": 348,
+            "top": 16,
+            "bottom": 310.4
+          },
+          "width": "336px",
+          "maxWidth": "none"
+        },
+        "main": {
+          "rect": {
+            "x": 12,
+            "y": 334.4,
+            "w": 336,
+            "h": 2068.2,
+            "left": 12,
+            "right": 348,
+            "top": 334.4,
+            "bottom": 2402.6
+          }
+        },
+        "grid": {
+          "rect": {
+            "x": 12,
+            "y": 334.4,
+            "w": 336,
+            "h": 2068.2,
+            "left": 12,
+            "right": 348,
+            "top": 334.4,
+            "bottom": 2402.6
+          },
+          "computed": {
+            "display": "grid",
+            "width": "336px",
+            "maxWidth": "872px",
+            "marginLeft": "0px",
+            "marginRight": "0px",
+            "gap": "24px",
+            "gridTemplateColumns": "824px",
+            "boxSizing": "border-box"
+          }
+        },
+        "postsCol": {
+          "rect": {
+            "x": 12,
+            "y": 334.4,
+            "w": 824,
+            "h": 1646.7,
+            "left": 12,
+            "right": 836,
+            "top": 334.4,
+            "bottom": 1981.1
+          }
+        },
+        "sidebar": {
+          "rect": {
+            "x": 12,
+            "y": 2005.1,
+            "w": 824,
+            "h": 397.6,
+            "left": 12,
+            "right": 836,
+            "top": 2005.1,
+            "bottom": 2402.6
+          },
+          "computedWidth": "824px"
+        },
+        "footer": {
+          "rect": {
+            "x": 12,
+            "y": 2442.6,
+            "w": 336,
+            "h": 20,
+            "left": 12,
+            "right": 348,
+            "top": 2442.6,
+            "bottom": 2462.6
+          }
+        },
+        "cards": [
+          {
+            "index": 1,
+            "rect": {
+              "x": 12,
+              "y": 334.4,
+              "w": 824,
+              "h": 663.7,
+              "left": 12,
+              "right": 836,
+              "top": 334.4,
+              "bottom": 998.1
+            },
+            "computed": {
+              "width": "824px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 824,
+              "max": "872px"
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 12,
+              "y": 1018.1,
+              "w": 824,
+              "h": 785.3,
+              "left": 12,
+              "right": 836,
+              "top": 1018.1,
+              "bottom": 1803.4
+            },
+            "computed": {
+              "width": "824px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 824,
+              "max": "872px"
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 12,
+              "y": 1823.4,
+              "w": 824,
+              "h": 137.7,
+              "left": 12,
+              "right": 836,
+              "top": 1823.4,
+              "bottom": 1961.1
+            },
+            "computed": {
+              "width": "824px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 824,
+              "max": "872px"
+            }
+          }
+        ],
+        "headerGridDelta": 0,
+        "headerGridAligned": true,
+        "gridMaxIs872": true,
+        "cardsMaxAre872": true,
+        "sidebarWidthOk": null,
+        "postsColWidthExpected": null,
+        "postsColWidthOk": null,
+        "cardsInsideColOk": null,
+        "cardsFullWidthMobileOk": false,
+        "overflowing": [
+          {
+            "testId": "posts-col",
+            "w": 824,
+            "right": 836,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "postcard-1",
+            "w": 824,
+            "right": 836,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-title",
+            "w": 794,
+            "right": 821,
+            "left": 27,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-content-1",
+            "w": 794,
+            "right": 821,
+            "left": 27,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "postcard-2",
+            "w": 824,
+            "right": 836,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-content-2",
+            "w": 794,
+            "right": 821,
+            "left": 27,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-carousel",
+            "w": 794,
+            "right": 821,
+            "left": 27,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "postcard-3",
+            "w": 824,
+            "right": 836,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "sidebar",
+            "w": 824,
+            "right": 836,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-countdown",
+            "w": 824,
+            "right": 836,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-hitcounter",
+            "w": 824,
+            "right": 836,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-ranking",
+            "w": 824,
+            "right": 836,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-bestof",
+            "w": 824,
+            "right": 836,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          }
+        ],
+        "marquee": {
+          "rect": {
+            "x": 27,
+            "y": 77.4,
+            "w": 306,
+            "h": 20,
+            "left": 27,
+            "right": 333,
+            "top": 77.4,
+            "bottom": 97.4
+          },
+          "overflow": "hidden",
+          "overflowX": "hidden",
+          "whiteSpace": "nowrap"
+        },
+        "titleNeon": {
+          "textShadow": "rgb(255, 105, 180) 0px 0px 5px, rgb(255, 105, 180) 0px 0px 10px, rgb(255, 20, 147) 0px 0px 20px, rgb(255, 20, 147) 0px 0px 40px",
+          "color": "rgb(255, 255, 255)"
+        },
+        "retroBox": {
+          "border": "3px ridge rgb(255, 20, 147)",
+          "borderTopWidth": "3px",
+          "backgroundImage": "linear-gradient(rgb(42, 10, 61) 0%, rgb(22, 4, 42) 100%)",
+          "boxShadow": "rgba(255, 20, 147, 0.45) 0px 0px 12px 0px, rgba(255, 105, 180, 0.15) 0px 0px 18px 0px inset",
+          "borderRadius": "12px"
+        },
+        "tappable": [
+          {
+            "text": "🏠 Accueil",
+            "w": 127,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "💬 Le Blab",
+            "w": 130,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "👤 Mon profil",
+            "w": 152,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "⚙️ Mon compte",
+            "w": 165,
+            "h": 46,
+            "tappable": true
+          }
+        ],
+        "allOverflowingCount": 13
+      },
+      "cssLoaded": true
+    },
+    {
+      "name": "home-tablet-768",
+      "viewport": {
+        "width": 768,
+        "height": 800
+      },
+      "metrics": {
+        "viewport": {
+          "w": 768,
+          "h": 800
+        },
+        "cssLoaded": 2,
+        "docScrollWidth": 884,
+        "bodyScrollWidth": 884,
+        "noHorizontalOverflow": false,
+        "outer": {
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 768,
+            "h": 2561.5,
+            "left": 0,
+            "right": 768,
+            "top": 0,
+            "bottom": 2561.5
+          },
+          "maxWidth": "896px",
+          "width": "768px",
+          "marginLeft": "0px",
+          "marginRight": "0px",
+          "paddingLeft": "12px",
+          "paddingRight": "12px",
+          "boxSizing": "border-box"
+        },
+        "header": {
+          "rect": {
+            "x": 12,
+            "y": 16,
+            "w": 744,
+            "h": 208.8,
+            "left": 12,
+            "right": 756,
+            "top": 16,
+            "bottom": 224.8
+          },
+          "width": "744px",
+          "maxWidth": "none"
+        },
+        "main": {
+          "rect": {
+            "x": 12,
+            "y": 248.8,
+            "w": 744,
+            "h": 2236.7,
+            "left": 12,
+            "right": 756,
+            "top": 248.8,
+            "bottom": 2485.5
+          }
+        },
+        "grid": {
+          "rect": {
+            "x": 12,
+            "y": 248.8,
+            "w": 744,
+            "h": 2236.7,
+            "left": 12,
+            "right": 756,
+            "top": 248.8,
+            "bottom": 2485.5
+          },
+          "computed": {
+            "display": "grid",
+            "width": "744px",
+            "maxWidth": "872px",
+            "marginLeft": "0px",
+            "marginRight": "0px",
+            "gap": "24px",
+            "gridTemplateColumns": "872px",
+            "boxSizing": "border-box"
+          }
+        },
+        "postsCol": {
+          "rect": {
+            "x": 12,
+            "y": 248.8,
+            "w": 872,
+            "h": 1783.2,
+            "left": 12,
+            "right": 884,
+            "top": 248.8,
+            "bottom": 2032
+          }
+        },
+        "sidebar": {
+          "rect": {
+            "x": 12,
+            "y": 2056,
+            "w": 872,
+            "h": 429.6,
+            "left": 12,
+            "right": 884,
+            "top": 2056,
+            "bottom": 2485.5
+          },
+          "computedWidth": "872px"
+        },
+        "footer": {
+          "rect": {
+            "x": 12,
+            "y": 2525.5,
+            "w": 744,
+            "h": 20,
+            "left": 12,
+            "right": 756,
+            "top": 2525.5,
+            "bottom": 2545.5
+          }
+        },
+        "cards": [
+          {
+            "index": 1,
+            "rect": {
+              "x": 12,
+              "y": 248.8,
+              "w": 872,
+              "h": 684.5,
+              "left": 12,
+              "right": 884,
+              "top": 248.8,
+              "bottom": 933.3
+            },
+            "computed": {
+              "width": "872px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 872,
+              "max": "872px"
+            }
+          },
+          {
+            "index": 2,
+            "rect": {
+              "x": 12,
+              "y": 953.3,
+              "w": 872,
+              "h": 880.1,
+              "left": 12,
+              "right": 884,
+              "top": 953.3,
+              "bottom": 1833.4
+            },
+            "computed": {
+              "width": "872px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 872,
+              "max": "872px"
+            }
+          },
+          {
+            "index": 3,
+            "rect": {
+              "x": 12,
+              "y": 1853.4,
+              "w": 872,
+              "h": 158.5,
+              "left": 12,
+              "right": 884,
+              "top": 1853.4,
+              "bottom": 2012
+            },
+            "computed": {
+              "width": "872px",
+              "maxWidth": "872px",
+              "marginLeft": "0px",
+              "marginRight": "0px",
+              "boxSizing": "border-box",
+              "display": "block"
+            },
+            "isCentered": true,
+            "wVsMax": {
+              "w": 872,
+              "max": "872px"
+            }
+          }
+        ],
+        "headerGridDelta": 0,
+        "headerGridAligned": true,
+        "gridMaxIs872": true,
+        "cardsMaxAre872": true,
+        "sidebarWidthOk": null,
+        "postsColWidthExpected": null,
+        "postsColWidthOk": null,
+        "cardsInsideColOk": null,
+        "cardsFullWidthMobileOk": false,
+        "overflowing": [
+          {
+            "testId": "posts-col",
+            "w": 872,
+            "right": 884,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "postcard-1",
+            "w": 872,
+            "right": 884,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-title",
+            "w": 834,
+            "right": 865,
+            "left": 31,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-content-1",
+            "w": 834,
+            "right": 865,
+            "left": 31,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "postcard-2",
+            "w": 872,
+            "right": 884,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-content-2",
+            "w": 834,
+            "right": 865,
+            "left": 31,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "post-carousel",
+            "w": 834,
+            "right": 865,
+            "left": 31,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "postcard-3",
+            "w": 872,
+            "right": 884,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "sidebar",
+            "w": 872,
+            "right": 884,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-countdown",
+            "w": 872,
+            "right": 884,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-hitcounter",
+            "w": 872,
+            "right": 884,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-ranking",
+            "w": 872,
+            "right": 884,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          },
+          {
+            "testId": "widget-bestof",
+            "w": 872,
+            "right": 884,
+            "left": 12,
+            "overflowRight": true,
+            "overflowLeft": false
+          }
+        ],
+        "marquee": {
+          "rect": {
+            "x": 31,
+            "y": 95.8,
+            "w": 706,
+            "h": 20,
+            "left": 31,
+            "right": 737,
+            "top": 95.8,
+            "bottom": 115.8
+          },
+          "overflow": "hidden",
+          "overflowX": "hidden",
+          "whiteSpace": "nowrap"
+        },
+        "titleNeon": {
+          "textShadow": "rgb(255, 105, 180) 0px 0px 5px, rgb(255, 105, 180) 0px 0px 10px, rgb(255, 20, 147) 0px 0px 20px, rgb(255, 20, 147) 0px 0px 40px",
+          "color": "rgb(255, 255, 255)"
+        },
+        "retroBox": {
+          "border": "3px ridge rgb(255, 20, 147)",
+          "borderTopWidth": "3px",
+          "backgroundImage": "linear-gradient(rgb(42, 10, 61) 0%, rgb(22, 4, 42) 100%)",
+          "boxShadow": "rgba(255, 20, 147, 0.45) 0px 0px 12px 0px, rgba(255, 105, 180, 0.15) 0px 0px 18px 0px inset",
+          "borderRadius": "12px"
+        },
+        "tappable": [
+          {
+            "text": "🏠 Accueil",
+            "w": 127,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "💬 Le Blab",
+            "w": 130,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "👤 Mon profil",
+            "w": 152,
+            "h": 46,
+            "tappable": true
+          },
+          {
+            "text": "⚙️ Mon compte",
+            "w": 165,
+            "h": 46,
+            "tappable": true
+          }
+        ],
+        "allOverflowingCount": 13
+      },
+      "cssLoaded": true
+    }
+  ]
+}
