@@ -72,8 +72,8 @@ export default async function HomePage() {
   const postList = (posts ?? []) as PostWithRelations[];
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-      <div>
+    <div className="mx-auto grid w-full max-w-[872px] gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+      <div className="min-w-0">
         {postList.length === 0 ? (
           <div className="retro-box py-10 text-center">
             <p className="neon-pink text-xl">Aucun post pour l&apos;instant… lance le bal !</p>

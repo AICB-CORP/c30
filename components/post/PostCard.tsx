@@ -76,7 +76,7 @@ export default function PostCard({ post, currentUserPseudo }: PostCardProps) {
   }
 
   return (
-    <article className="retro-box mb-5">
+    <article className="retro-box mx-auto mb-5 w-full max-w-[872px]">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <Link
           href={`/profil/${post.author?.pseudo ?? ""}`}
