@@ -52,3 +52,4 @@ Chaque tâche = un fichier `YYYY-MM-DD-<slug>.md` avec :
 | 2026-09-03 | editor-scrollable          | editor/layout      | implemented | [2026-09-03-editor-scrollable.md](./2026-09-03-editor-scrollable.md)                   |
 | 2026-09-03 | carousel-fix               | editor/carousel    | implemented | [2026-09-03-carousel-fix.md](./2026-09-03-carousel-fix.md)                             |
 | 2026-09-03 | posts-max-width            | layout/posts       | implemented | [2026-09-03-posts-max-width.md](./2026-09-03-posts-max-width.md)                       |
+| 2026-09-03 | retro-mark-toggle          | editor/retro       | implemented | [2026-09-03-retro-mark-toggle.md](./2026-09-03-retro-mark-toggle.md)                   |
