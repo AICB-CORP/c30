@@ -18,7 +18,15 @@ Audit de la branche `feat/explication` (page d'aide « 📖 Explication ») cont
 - **N2 (nit, FIXÉ)** — copy « c'est la surprise 🎁 » révélait l'existence d'un événement caché →
   **corrigé** en « c'est réservé 🎁 » (page.tsx:73), aligné §10 sans casser l'esprit.
 - **Title/description** « Page d'aide — comment écrire un post » : aucun nom de Caroline, aucun leak
-  §10. `noindex` présent → pas d'indexation. OK.
+   §10. `noindex` présent → pas d'indexation. OK.
+- **N3 (IMPORTANT, FIXÉ post-review)** — l'astuce « Privé » contenait « entre toi et Caroline »
+   (page.tsx:275), la SEULE occurrence du nom dans le corps. Section 7 (ligne 237) et « Jour J »
+   (ligne 77) utilisent déjà un vocabulaire flouté (« quelqu'un de spécial », « la personne qui fête
+   ses 30 ans ») — donc incohérent + un leak d'identité. **Corrigé** en « juste entre toi et
+   quelqu'un de spécial » → zéro occurrence de « Caroline » dans la page (vérif `grep -c Caroline` = 0),
+   aligné au vocabulaire stealth de §7. Note : même si le §10 visait surtout les titles/meta, la page
+   est `noindex`+`follow:false`+invite-only → aucune surface indexable de toutes façons, mais la
+   cohérence du vocabulaire renforce l'anti-spoiler.
 - `dangerouslySetInnerHTML` : **absent** de la page (contenu 100% statique, classes Tailwind +
   `section.retro-box`). Pas de surface XSS. OK.
 

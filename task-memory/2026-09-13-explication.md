@@ -112,13 +112,18 @@ Pipeline complet passé : checks, 243 tests, security (clean), layout (PASS @375
 
 ### DP8 — « Enregistrer sans publier » → « Privé » (reviewer, cohérence fonction)
 
-- **choice** : astuce réécrite → « Publie en « Privé » (section 7) : ce sera juste entre toi et
-  Caroline, et tu pourras le changer à tout moment ».
+- **choice** : astuce réécrite → « Publie en « Privé » (section 7) : un mot restera juste entre toi
+  et quelqu'un de spécial, et tu pourras le changer à tout moment ».
 - **rationale** : il n'existe **pas** d'état brouillon/autosave ; « Enregistrer » n'apparaît qu'à
   l'édition d'un post existant, « Annuler » jette. Le vrai équivalent « garder pour plus tard /
   confidentiel » est le toggle **Privé** (section 7, déja décrit comme modifiable a posteriori).
 - **alternatives** : ajouter un vrai draft (scope creep, hors docs) ; laisser l'assertion fausse.
 - **tradeoff** : aucun — recolle la doc sur une fonction existante.
+- **(N3, post-review, FIXÉ)** : la formulation intermédiaire utilisait « entre toi et Caroline » — la
+  SEULE occurrence du nom dans le corps. Comme la section 7 (ligne 237) et « Jour J » (ligne 77)
+  utilisent déjà le vocabulaire flouté « quelqu'un de spécial » / « la personne qui fête ses 30 ans »,
+  ce nom était incohérent + un mini-leak §10. **Corrigé** en « quelqu'un de spécial » → `grep -c
+  Caroline` = 0 dans la page, aligné au vocabulaire stealth de §7.
 
 ### DP9 — `export const revalidate = 0` inert (reviewer, nit Next 16)
 
