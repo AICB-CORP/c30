@@ -51,4 +51,5 @@ Chaque tâche = un fichier `YYYY-MM-DD-<slug>.md` avec :
 | 2026-09-03 | verify-password            | auth/gate          | implemented | [2026-09-03-verify-password.md](./2026-09-03-verify-password.md)                       |
 | 2026-09-03 | editor-scrollable          | editor/layout      | implemented | [2026-09-03-editor-scrollable.md](./2026-09-03-editor-scrollable.md)                   |
 | 2026-09-03 | carousel-fix               | editor/carousel    | implemented | [2026-09-03-carousel-fix.md](./2026-09-03-carousel-fix.md)                             |
-| 2026-09-03 | posts-max-width            | layout/posts       | implemented | [2026-09-03-posts-max-width.md](./2026-09-03-posts-max-width.md)                       |
+| 2026-09-03 | posts-max-width           | layout/posts        | implemented | [2026-09-03-posts-max-width.md](./2026-09-03-posts-max-width.md)                        |
+| 2026-09-13 | explication               | site/help           | implemented | [2026-09-13-explication.md](./2026-09-13-explication.md)                                  |
