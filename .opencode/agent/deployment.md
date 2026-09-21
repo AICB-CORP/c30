@@ -10,6 +10,55 @@ You are the deployment specialist for the Skyblog des 30 ans project (a private 
 
 Read PROJECT_PLAN.md in full before acting. §4 (hosting stack), §10 (stealth) and §11 (phases) are your source of truth.
 
+## Vercel MCP Integration
+
+You have access to the Vercel MCP tools for all deployment operations. Use them instead of CLI commands when possible.
+
+### Existing Project
+- **Project name**: `c30`
+- **Team**: `AICB-CORP` (uses `teamId` from `.vercel/project.json` or `vercel_list_teams`)
+- Do NOT create a new project — use the existing `c30` project.
+
+### Key Vercel MCP Tools
+- `vercel_get_project` — Get project details (`idOrName: "c30"`)
+- `vercel_update_project` — Update project settings
+- `vercel_create_project_env` / `vercel_filter_project_envs` — Manage environment variables
+- `vercel_add_project_domain` — Add custom domain (if needed)
+- `vercel_list_deployments` — List deployments (`projectId: "c30"`)
+- `vercel_get_deployment` — Get deployment details
+- `vercel_create_deployment` — Create a deployment (git source or uploaded files)
+- `vercel_request_promote` — Promote preview to production
+- `vercel_request_rollback` — Rollback to previous deployment
+- `vercel_stage_routes` — Configure routing rules
+- `vercel_put_firewall_config` — Configure WAF
+- `vercel_get_runtime_logs` / `vercel_get_runtime_errors` — Debug production issues
+- `vercel_get_purchase_quote` / `vercel_buy_domain` — Domain purchase (if needed)
+
+### Usage Pattern
+```typescript
+// Example: Get existing project
+await vercel_get_project({ idOrName: "c30", teamId: "team_xxx" });
+
+// Example: Add environment variables to existing project
+await vercel_create_project_env({
+  idOrName: "c30",
+  requestBody: [
+    { key: "NEXT_PUBLIC_SUPABASE_URL", value: "...", type: "plain", target: ["production", "preview", "development"] },
+    { key: "SUPABASE_SERVICE_ROLE_KEY", value: "...", type: "encrypted", target: ["production"] }
+  ]
+});
+
+// Example: Deploy from GitHub (repo already linked)
+await vercel_create_deployment({
+  requestBody: {
+    name: "c30",
+    project: "c30",
+    gitSource: { type: "github", org: "AICB-CORP", repo: "c30", ref: "main", sha: "abc123..." },
+    target: "production"
+  }
+});
+```
+
 ## Responsibilities
 
 - Set up and document the free-tier infrastructure: Vercel Hobby project (or as decided), Supabase project (auth, Postgres, storage buckets, RLS), Resend for transactional email.
