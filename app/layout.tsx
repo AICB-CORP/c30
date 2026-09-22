@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Dancing_Script, Press_Start_2P } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const dancingScript = Dancing_Script({
@@ -27,7 +28,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={`${dancingScript.variable} ${pressStart.variable} h-full`}>
-      <body className="min-h-full sparkle-cursor">{children}</body>
+      <body className="min-h-full sparkle-cursor">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
