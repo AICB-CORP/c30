@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { getMarkRange } from "@tiptap/core";
 import { useEditor, EditorContent, Extension } from "@tiptap/react";
 import { TextSelection } from "prosemirror-state";
 import StarterKit from "@tiptap/starter-kit";
@@ -142,6 +143,37 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
   function toggleRetroMark(
     markName: "toggleRainbow" | "toggleMarquee" | "toggleBlink" | "toggleBlur",
   ) {
+    const markMap = {
+      toggleRainbow: "rainbow",
+      toggleMarquee: "marqueeMark",
+      toggleBlink: "blinkMark",
+      toggleBlur: "blurMark",
+    } as const;
+    const mark = markMap[markName];
+
+    // If the mark is already active at the cursor (or selection), toggle it off
+    // without inserting placeholder text. For a collapsed cursor inside a marked
+    // word (e.g. after the first click inserted "texte arc-en-ciel" with rainbow),
+    // the stored mark is active but the DOM still shows the span. We need to
+    // select the marked range under the cursor and remove the mark from it,
+    // otherwise only the stored mark is cleared and the visual style remains.
+    if (editor.isActive(mark)) {
+      const { $from } = editor.state.selection;
+      const markType = editor.schema.marks[mark];
+      const range = markType ? getMarkRange($from, markType) : null;
+      if (range && editor.state.selection.empty) {
+        editor
+          .chain()
+          .focus()
+          .setTextSelection({ from: range.from, to: range.to })
+          [markName]()
+          .run();
+        return;
+      }
+      editor.chain().focus()[markName]().run();
+      return;
+    }
+
     const { selection } = editor.state;
     if (selection.empty) {
       const placeholder = placeholderFor(markName);
