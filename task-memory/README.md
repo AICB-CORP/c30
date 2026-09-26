@@ -38,18 +38,19 @@ Chaque tâche = un fichier `YYYY-MM-DD-<slug>.md` avec :
 
 ## Index des tâches
 
-| Date       | task_id                    | area               | status      | fichier                                                                                |
-| ---------- | -------------------------- | ------------------ | ----------- | -------------------------------------------------------------------------------------- |
-| 2026-08-28 | invites-multiuse           | auth/invites       | implemented | [2026-08-28-invites-multiuse.md](./2026-08-28-invites-multiuse.md)                     |
-| 2026-08-28 | user-creation-model        | auth/invites       | reference   | [2026-08-28-user-creation-model.md](./2026-08-28-user-creation-model.md)               |
-| 2026-08-29 | r2-storage-and-local-dev   | storage/r2 + infra | review      | [2026-08-29-r2-storage-and-local-dev.md](./2026-08-29-r2-storage-and-local-dev.md)     |
-| 2026-08-30 | supabase-key-format-change | infra/supabase     | implemented | [2026-08-30-supabase-key-format-change.md](./2026-08-30-supabase-key-format-change.md) |
-| 2026-08-30 | posts-query-ambiguity-fix  | query/rls          | implemented | [2026-08-30-posts-query-ambiguity-fix.md](./2026-08-30-posts-query-ambiguity-fix.md)   |
-| 2026-09-01 | image-cropper-compression  | media/editor       | implemented | [2026-09-01-image-cropper-compression.md](./2026-09-01-image-cropper-compression.md)   |
-| 2026-09-02 | video-audio-upload-fix     | media/upload       | implemented | [2026-09-02-video-audio-upload-fix.md](./2026-09-02-video-audio-upload-fix.md)         |
-| 2026-09-03 | password-toggle            | auth/gate          | implemented | [2026-09-03-password-toggle.md](./2026-09-03-password-toggle.md)                       |
-| 2026-09-03 | verify-password            | auth/gate          | implemented | [2026-09-03-verify-password.md](./2026-09-03-verify-password.md)                       |
-| 2026-09-03 | editor-scrollable          | editor/layout      | implemented | [2026-09-03-editor-scrollable.md](./2026-09-03-editor-scrollable.md)                   |
-| 2026-09-03 | carousel-fix               | editor/carousel    | implemented | [2026-09-03-carousel-fix.md](./2026-09-03-carousel-fix.md)                             |
-| 2026-09-03 | posts-max-width            | layout/posts       | implemented | [2026-09-03-posts-max-width.md](./2026-09-03-posts-max-width.md)                       |
-| 2026-09-03 | retro-mark-toggle          | editor/retro       | implemented | [2026-09-03-retro-mark-toggle.md](./2026-09-03-retro-mark-toggle.md)                   |
+| Date       | task_id                    | area                 | status      | fichier                                                                                |
+| ---------- | -------------------------- | -------------------- | ----------- | -------------------------------------------------------------------------------------- |
+| 2026-08-28 | invites-multiuse           | auth/invites         | implemented | [2026-08-28-invites-multiuse.md](./2026-08-28-invites-multiuse.md)                     |
+| 2026-08-28 | user-creation-model        | auth/invites         | reference   | [2026-08-28-user-creation-model.md](./2026-08-28-user-creation-model.md)               |
+| 2026-08-29 | r2-storage-and-local-dev   | storage/r2 + infra   | review      | [2026-08-29-r2-storage-and-local-dev.md](./2026-08-29-r2-storage-and-local-dev.md)     |
+| 2026-08-30 | supabase-key-format-change | infra/supabase       | implemented | [2026-08-30-supabase-key-format-change.md](./2026-08-30-supabase-key-format-change.md) |
+| 2026-08-30 | posts-query-ambiguity-fix  | query/rls            | implemented | [2026-08-30-posts-query-ambiguity-fix.md](./2026-08-30-posts-query-ambiguity-fix.md)   |
+| 2026-09-01 | image-cropper-compression  | media/editor         | implemented | [2026-09-01-image-cropper-compression.md](./2026-09-01-image-cropper-compression.md)   |
+| 2026-09-02 | video-audio-upload-fix     | media/upload         | implemented | [2026-09-02-video-audio-upload-fix.md](./2026-09-02-video-audio-upload-fix.md)         |
+| 2026-09-03 | password-toggle            | auth/gate            | implemented | [2026-09-03-password-toggle.md](./2026-09-03-password-toggle.md)                       |
+| 2026-09-03 | verify-password            | auth/gate            | implemented | [2026-09-03-verify-password.md](./2026-09-03-verify-password.md)                       |
+| 2026-09-03 | editor-scrollable          | editor/layout        | implemented | [2026-09-03-editor-scrollable.md](./2026-09-03-editor-scrollable.md)                   |
+| 2026-09-03 | carousel-fix               | editor/carousel      | implemented | [2026-09-03-carousel-fix.md](./2026-09-03-carousel-fix.md)                             |
+| 2026-09-03 | posts-max-width            | layout/posts         | implemented | [2026-09-03-posts-max-width.md](./2026-09-03-posts-max-width.md)                       |
+| 2026-09-03 | retro-mark-toggle          | editor/retro         | implemented | [2026-09-03-retro-mark-toggle.md](./2026-09-03-retro-mark-toggle.md)                   |
+| 2026-09-26 | r2-vercel-env-vars         | media/upload + infra | review      | [2026-09-26-r2-vercel-env-vars.md](./2026-09-26-r2-vercel-env-vars.md)                 |

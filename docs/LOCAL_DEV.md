@@ -109,7 +109,11 @@ Vercel). Configurez la **CORS policy** du bucket dans le dashboard Cloudflare R2
 ```json
 [
   {
-    "AllowedOrigins": ["http://localhost:3000", "https://<your-vercel-domain>"],
+    "AllowedOrigins": [
+      "http://localhost:3000",
+      "https://www.caroline-30.fun",
+      "https://caroline-30.fun"
+    ],
     "AllowedMethods": ["PUT", "OPTIONS", "GET", "POST"],
     "AllowedHeaders": ["Content-Type"],
     "ExposeHeaders": ["ETag"],
@@ -120,6 +124,17 @@ Vercel). Configurez la **CORS policy** du bucket dans le dashboard Cloudflare R2
 
 > Sans cette règle, les uploads échoueront en `OPTIONS` (preflight) ou en `PUT`.
 > / Without this, browser uploads fail on the CORS preflight.
+>
+> ⚠️ L'origine envoyée par le navigateur est celle de la page en cours — sur la prod,
+> c'est `https://www.caroline-30.fun` (l'apex redirige vers www). Si le bucket n'a que
+> `localhost:3000`, tout upload depuis le site publié échoue avec `Failed to fetch`
+> même avec des variables R2 correctes.
+>
+> Les **déploiements preview** (`c30-*.vercel.app`) sont volontairement EXCLUS de cette
+> CORS : surface réduite + posture stealth (§10). Les variables `R2_*` ciblent quand même
+> preview/development pour éviter des 500 côté `/api/upload`, mais le PUT navigateur y
+> restera bloqué par la preflight — les tests d'upload se font en local ou sur le domaine
+> de prod.
 
 ---
 
@@ -143,6 +158,19 @@ Ouvrez / open `http://localhost:3000`. Créez un code d'invitation dans la table
   `NEXT_PUBLIC_`, sauf `R2_PUBLIC_URL` si besoin de l'URL publique côté client).
   / Add the same 5 `R2_*` vars in Vercel (server-side, never `NEXT_PUBLIC_`).
 - Mettez à jour la CORS R2 pour ajouter l'origine Vercel (`https://<your-vercel-domain>`).
+
+### Pièges Vercel appris en prod / Production gotchas
+
+1. **Jamais de valeurs placeholder** : les 5 vars `R2_*` doivent venir de `.env.local`
+   (identifiants réels Cloudflare). Des valeurs `your-r2-account-id` (venues de
+   `.env.example`) rendent `/api/upload` silencieusement « OK » (la signature se
+   calcule localement) mais le `PUT` navigateur échoue avec
+   `net::ERR_SSL_VERSION_OR_CIPHER_MISMATCH` → « Failed to fetch » dans l'UI.
+2. **`NEXT_PUBLIC_*` ne doit JAMAIS être de type `sensitive`** dans Vercel : les vars
+   sensibles sont exclues du build, donc jamais inlinées dans le bundle client
+   (symptôme : clé Giphy absente en prod). Utilisez `plain` ou `encrypted`.
+3. **Chaque modification de variable d'environnement nécessite un redéploiement**
+   pour prendre effet : les vars sont capturées à la création du deployment.
 
 ---
 

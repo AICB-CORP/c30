@@ -34,33 +34,42 @@ function htmlWithCarousel() {
   </div>`;
 }
 
-async function run(vp, name){
-  const browser=await chromium.launch();
-  const ctx=await browser.newContext({viewport:vp});
-  const page=await ctx.newPage();
-  await page.goto("http://localhost:3000/login",{waitUntil:"domcontentloaded",timeout:8000});
+async function run(vp, name) {
+  const browser = await chromium.launch();
+  const ctx = await browser.newContext({ viewport: vp });
+  const page = await ctx.newPage();
+  await page.goto("http://localhost:3000/login", { waitUntil: "domcontentloaded", timeout: 8000 });
   await page.waitForTimeout(500);
-  await page.evaluate(h=>{document.body.innerHTML=h; document.body.className="min-h-full sparkle-cursor";}, htmlWithCarousel());
+  await page.evaluate((h) => {
+    document.body.innerHTML = h;
+    document.body.className = "min-h-full sparkle-cursor";
+  }, htmlWithCarousel());
   await page.waitForTimeout(600);
-  const m=await page.evaluate(()=>{
-    const vw=window.innerWidth, dsw=document.documentElement.scrollWidth;
-    const grid=document.querySelector('[data-testid="posts-grid"]');
-    const col=document.querySelector('[data-testid="posts-col"]');
-    const carousel=document.querySelector('[data-testid="carousel"]');
+  const m = await page.evaluate(() => {
+    const vw = window.innerWidth,
+      dsw = document.documentElement.scrollWidth;
+    const grid = document.querySelector('[data-testid="posts-grid"]');
+    const col = document.querySelector('[data-testid="posts-col"]');
+    const carousel = document.querySelector('[data-testid="carousel"]');
     return {
-      vw,dsw,overflow:dsw>vw+1,
-      gridW:grid.getBoundingClientRect().width, gridCols:getComputedStyle(grid).gridTemplateColumns,
-      colW:col.getBoundingClientRect().width,
-      carW:carousel.getBoundingClientRect().width, carScrollW:carousel.scrollWidth, carClientW:carousel.clientWidth
+      vw,
+      dsw,
+      overflow: dsw > vw + 1,
+      gridW: grid.getBoundingClientRect().width,
+      gridCols: getComputedStyle(grid).gridTemplateColumns,
+      colW: col.getBoundingClientRect().width,
+      carW: carousel.getBoundingClientRect().width,
+      carScrollW: carousel.scrollWidth,
+      carClientW: carousel.clientWidth,
     };
   });
-  console.log(`${name} ${vp.width}x${vp.height}`,m);
-  await page.screenshot({path:path.join(dir, name+".png"), fullPage:true});
+  console.log(`${name} ${vp.width}x${vp.height}`, m);
+  await page.screenshot({ path: path.join(dir, name + ".png"), fullPage: true });
   console.log(`saved ${name}.png`);
   await browser.close();
   return m;
 }
 
-await run({width:1280,height:800}, "home-carousel-desktop");
-await run({width:375,height:812}, "home-carousel-mobile");
-await run({width:768,height:800}, "home-carousel-tablet");
+await run({ width: 1280, height: 800 }, "home-carousel-desktop");
+await run({ width: 375, height: 812 }, "home-carousel-mobile");
+await run({ width: 768, height: 800 }, "home-carousel-tablet");
