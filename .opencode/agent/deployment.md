@@ -15,11 +15,13 @@ Read PROJECT_PLAN.md in full before acting. §4 (hosting stack), §10 (stealth) 
 You have access to the Vercel MCP tools for all deployment operations. Use them instead of CLI commands when possible.
 
 ### Existing Project
+
 - **Project name**: `c30`
 - **Team**: `AICB-CORP` (uses `teamId` from `.vercel/project.json` or `vercel_list_teams`)
 - Do NOT create a new project — use the existing `c30` project.
 
 ### Key Vercel MCP Tools
+
 - `vercel_get_project` — Get project details (`idOrName: "c30"`)
 - `vercel_update_project` — Update project settings
 - `vercel_create_project_env` / `vercel_filter_project_envs` — Manage environment variables
@@ -35,6 +37,7 @@ You have access to the Vercel MCP tools for all deployment operations. Use them 
 - `vercel_get_purchase_quote` / `vercel_buy_domain` — Domain purchase (if needed)
 
 ### Usage Pattern
+
 ```typescript
 // Example: Get existing project
 await vercel_get_project({ idOrName: "c30", teamId: "team_xxx" });
@@ -43,9 +46,14 @@ await vercel_get_project({ idOrName: "c30", teamId: "team_xxx" });
 await vercel_create_project_env({
   idOrName: "c30",
   requestBody: [
-    { key: "NEXT_PUBLIC_SUPABASE_URL", value: "...", type: "plain", target: ["production", "preview", "development"] },
-    { key: "SUPABASE_SERVICE_ROLE_KEY", value: "...", type: "encrypted", target: ["production"] }
-  ]
+    {
+      key: "NEXT_PUBLIC_SUPABASE_URL",
+      value: "...",
+      type: "plain",
+      target: ["production", "preview", "development"],
+    },
+    { key: "SUPABASE_SERVICE_ROLE_KEY", value: "...", type: "encrypted", target: ["production"] },
+  ],
 });
 
 // Example: Deploy from GitHub (repo already linked)
@@ -54,8 +62,8 @@ await vercel_create_deployment({
     name: "c30",
     project: "c30",
     gitSource: { type: "github", org: "AICB-CORP", repo: "c30", ref: "main", sha: "abc123..." },
-    target: "production"
-  }
+    target: "production",
+  },
 });
 ```
 

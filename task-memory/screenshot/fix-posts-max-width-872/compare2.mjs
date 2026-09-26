@@ -43,17 +43,23 @@ async function test(html, name, viewport) {
   const browser = await chromium.launch();
   const ctx = await browser.newContext({ viewport });
   const page = await ctx.newPage();
-  await page.goto("http://localhost:3000/login", { waitUntil:"domcontentloaded", timeout:8000});
+  await page.goto("http://localhost:3000/login", { waitUntil: "domcontentloaded", timeout: 8000 });
   await page.waitForTimeout(500);
-  await page.evaluate(h=>{document.body.innerHTML=h; document.body.className="min-h-full";}, html);
+  await page.evaluate((h) => {
+    document.body.innerHTML = h;
+    document.body.className = "min-h-full";
+  }, html);
   await page.waitForTimeout(500);
-  const m = await page.evaluate(()=>{
-    const vw=window.innerWidth, dsw=document.documentElement.scrollWidth;
-    const grid=document.querySelector('[data-testid="posts-grid"]');
-    const col=document.querySelector('[data-testid="posts-col"]');
-    const carousel=document.querySelector('[data-testid="carousel"]');
+  const m = await page.evaluate(() => {
+    const vw = window.innerWidth,
+      dsw = document.documentElement.scrollWidth;
+    const grid = document.querySelector('[data-testid="posts-grid"]');
+    const col = document.querySelector('[data-testid="posts-col"]');
+    const carousel = document.querySelector('[data-testid="carousel"]');
     return {
-      vw, dsw, overflow:dsw>vw+1,
+      vw,
+      dsw,
+      overflow: dsw > vw + 1,
       gridW: grid.getBoundingClientRect().width,
       gridCols: getComputedStyle(grid).gridTemplateColumns,
       colW: col.getBoundingClientRect().width,
@@ -65,7 +71,11 @@ async function test(html, name, viewport) {
   console.log(`\n=== ${name} ${viewport.width}x${viewport.height} ===`, m);
   await browser.close();
 }
-for(let vp of [{width:1280,height:800},{width:375,height:812},{width:768,height:800}]){
+for (let vp of [
+  { width: 1280, height: 800 },
+  { width: 375, height: 812 },
+  { width: 768, height: 800 },
+]) {
   await test(htmlNewWithCarousel(), "NEW+carousel", vp);
   await test(htmlNewWithCarouselMin0(), "NEW+carousel+min0", vp);
 }

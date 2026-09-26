@@ -47,26 +47,26 @@ async function testVariant(html, name, viewport) {
   const browser = await chromium.launch();
   const ctx = await browser.newContext({ viewport });
   const page = await ctx.newPage();
-  await page.goto("http://localhost:3000/login", { waitUntil: "domcontentloaded", timeout:8000});
+  await page.goto("http://localhost:3000/login", { waitUntil: "domcontentloaded", timeout: 8000 });
   await page.waitForTimeout(600);
-  await page.evaluate(h=>{
-    document.body.innerHTML=h;
-    document.body.className="min-h-full";
+  await page.evaluate((h) => {
+    document.body.innerHTML = h;
+    document.body.className = "min-h-full";
   }, html);
   await page.waitForTimeout(500);
-  const m = await page.evaluate(()=>{
-    const qs=s=>document.querySelector(s);
-    const vw=window.innerWidth;
-    const dsw=document.documentElement.scrollWidth;
-    const grid=qs('[data-testid="posts-grid"]');
-    const col=qs('[data-testid="posts-col"]');
-    const card=qs('[data-testid="postcard-1"]');
-    const outer=qs('[data-testid="site-outer"]');
-    const header=qs('[data-testid="header"]');
+  const m = await page.evaluate(() => {
+    const qs = (s) => document.querySelector(s);
+    const vw = window.innerWidth;
+    const dsw = document.documentElement.scrollWidth;
+    const grid = qs('[data-testid="posts-grid"]');
+    const col = qs('[data-testid="posts-col"]');
+    const card = qs('[data-testid="postcard-1"]');
+    const outer = qs('[data-testid="site-outer"]');
+    const header = qs('[data-testid="header"]');
     return {
-      viewport:vw,
+      viewport: vw,
       dsw,
-      overflow: dsw>vw+1,
+      overflow: dsw > vw + 1,
       gridW: grid.getBoundingClientRect().width,
       gridCols: getComputedStyle(grid).gridTemplateColumns,
       colW: col.getBoundingClientRect().width,
@@ -82,7 +82,11 @@ async function testVariant(html, name, viewport) {
   return m;
 }
 
-for(let vp of [{width:1280,height:800},{width:375,height:812},{width:768,height:800}]){
+for (let vp of [
+  { width: 1280, height: 800 },
+  { width: 375, height: 812 },
+  { width: 768, height: 800 },
+]) {
   await testVariant(htmlOld(), "OLD", vp);
   await testVariant(htmlNew(), "NEW", vp);
   await testVariant(htmlNewMin0(), "NEW+minmax0", vp);
