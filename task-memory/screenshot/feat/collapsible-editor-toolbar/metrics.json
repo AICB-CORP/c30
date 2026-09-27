@@ -1,0 +1,2003 @@
+{
+  "generatedAt": "2026-09-27T01:11:50.120Z",
+  "branch": "feat/collapsible-editor-toolbar",
+  "round": 3,
+  "harness": "layout-test.mjs (reconstruction, faithful cascade layering, current source synced)",
+  "viewports": [
+    {
+      "name": "mobile-667",
+      "width": 375,
+      "height": 667
+    },
+    {
+      "name": "mobile-android-360",
+      "width": 360,
+      "height": 740
+    },
+    {
+      "name": "mobile-tall-812",
+      "width": 375,
+      "height": 812
+    },
+    {
+      "name": "boundary",
+      "widths": [
+        767,
+        767.5,
+        768
+      ]
+    },
+    {
+      "name": "desktop",
+      "width": 1280,
+      "height": 800
+    }
+  ],
+  "checks": [
+    {
+      "name": "667: starts COLLAPSED",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "667: handle ≥44px, full width, visible",
+      "pass": true,
+      "detail": "302px×51px"
+    },
+    {
+      "name": "667: handle label '🎨 Styles ▼' + aria-expanded=false",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "667: editor visible when collapsed (≥250px — win preserved)",
+      "pass": true,
+      "detail": "259px"
+    },
+    {
+      "name": "667: 💾 Publier visible + no overflow",
+      "pass": true,
+      "detail": "doc=375"
+    },
+    {
+      "name": "667: expanded — 26 buttons / 2 selects",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "667: region max-height computes calc(42vh−80px) = 200px",
+      "pass": true,
+      "detail": "maxHeight=200.14px"
+    },
+    {
+      "name": "667: region CLAMPED to cap with internal scrollbar",
+      "pass": true,
+      "detail": "region=200px, scrollHeight=263 > client=200"
+    },
+    {
+      "name": "667: sticky block ≤ middle scrollport (editor reachable by scroll)",
+      "pass": true,
+      "detail": "sticky=279px ≤ middle=324px"
+    },
+    {
+      "name": "667: 💾 Publier visible while expanded + no overflow",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "667: editor band tappable (band=27.2px) → focus fires AUTO-COLLAPSE",
+      "pass": true,
+      "detail": "msSinceToolbarTouch=1309"
+    },
+    {
+      "name": "667: screen-space win ≥ 150px",
+      "pass": true,
+      "detail": "Δ=208px (51px → 259px)"
+    },
+    {
+      "name": "667: handle sticky & fully visible while scrolled (R1-4 clip nit resolved)",
+      "pass": true,
+      "detail": "handle.top=247.5 ≥ middle.top=237.5−1.5"
+    },
+    {
+      "name": "667: collapse INSTANT (<16ms)",
+      "pass": true,
+      "detail": "0.2ms"
+    },
+    {
+      "name": "667: handle retro look intact",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "360: starts COLLAPSED",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "360: handle ≥44px, full width, visible",
+      "pass": true,
+      "detail": "288px×51px"
+    },
+    {
+      "name": "360: handle label '🎨 Styles ▼' + aria-expanded=false",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "360: editor visible when collapsed (≥250px — win preserved)",
+      "pass": true,
+      "detail": "280px"
+    },
+    {
+      "name": "360: 💾 Publier visible + no overflow",
+      "pass": true,
+      "detail": "doc=360"
+    },
+    {
+      "name": "360: expanded — 26 buttons / 2 selects",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "360: region max-height computes calc(42vh−80px) = 231px",
+      "pass": true,
+      "detail": "maxHeight=230.8px"
+    },
+    {
+      "name": "360: region CLAMPED to cap with internal scrollbar",
+      "pass": true,
+      "detail": "region=231px, scrollHeight=304 > client=231"
+    },
+    {
+      "name": "360: sticky block ≤ middle scrollport (editor reachable by scroll)",
+      "pass": true,
+      "detail": "sticky=310px ≤ middle=390px"
+    },
+    {
+      "name": "360: 💾 Publier visible while expanded + no overflow",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "360: editor band tappable (band=62.2px) → focus fires AUTO-COLLAPSE",
+      "pass": true,
+      "detail": "msSinceToolbarTouch=1282"
+    },
+    {
+      "name": "360: screen-space win ≥ 150px",
+      "pass": true,
+      "detail": "Δ=191px (89px → 280px)"
+    },
+    {
+      "name": "360: handle sticky & fully visible while scrolled (R1-4 clip nit resolved)",
+      "pass": true,
+      "detail": "handle.top=251.2 ≥ middle.top=241.2−1.5"
+    },
+    {
+      "name": "360: collapse INSTANT (<16ms)",
+      "pass": true,
+      "detail": "0.1ms"
+    },
+    {
+      "name": "360: handle retro look intact",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "812: starts COLLAPSED",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "812: handle ≥44px, full width, visible",
+      "pass": true,
+      "detail": "302px×51px"
+    },
+    {
+      "name": "812: handle label '🎨 Styles ▼' + aria-expanded=false",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "812: editor visible when collapsed (≥250px — win preserved)",
+      "pass": true,
+      "detail": "280px"
+    },
+    {
+      "name": "812: 💾 Publier visible + no overflow",
+      "pass": true,
+      "detail": "doc=375"
+    },
+    {
+      "name": "812: expanded — 26 buttons / 2 selects",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "812: region max-height computes calc(42vh−80px) = 261px",
+      "pass": true,
+      "detail": "maxHeight=261.04px"
+    },
+    {
+      "name": "812: region CLAMPED to cap with internal scrollbar",
+      "pass": true,
+      "detail": "region=261px, scrollHeight=263 > client=261"
+    },
+    {
+      "name": "812: sticky block ≤ middle scrollport (editor reachable by scroll)",
+      "pass": true,
+      "detail": "sticky=340px ≤ middle=455px"
+    },
+    {
+      "name": "812: 💾 Publier visible while expanded + no overflow",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "812: editor band tappable (band=96.8px) → focus fires AUTO-COLLAPSE",
+      "pass": true,
+      "detail": "msSinceToolbarTouch=1284"
+    },
+    {
+      "name": "812: screen-space win ≥ 150px",
+      "pass": true,
+      "detail": "Δ=153px (127px → 280px)"
+    },
+    {
+      "name": "812: handle sticky & fully visible while scrolled (R1-4 clip nit resolved)",
+      "pass": true,
+      "detail": "handle.top=254.8 ≥ middle.top=244.8−1.5"
+    },
+    {
+      "name": "812: B tap + immediate text tap → toolbar STAYS open (guard < 800ms)",
+      "pass": true,
+      "detail": "msSinceToolbarTouch=165"
+    },
+    {
+      "name": "812: after 900ms → text tap collapses",
+      "pass": true,
+      "detail": "msSinceToolbarTouch=1271"
+    },
+    {
+      "name": "812: collapse INSTANT (<16ms)",
+      "pass": true,
+      "detail": "0.1ms"
+    },
+    {
+      "name": "812: handle retro look intact",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "767px: handle styled MOBILE (flex, full-width ≥80% of sticky box)",
+      "pass": true,
+      "detail": "display=flex, 667px of 687px"
+    },
+    {
+      "name": "767px: mobile behaviour — toolbar collapsed by default",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "768px: handle display:none, zero box, desktop open",
+      "pass": true,
+      "detail": "display=none, box=0×0"
+    },
+    {
+      "name": "767.5px: component CSS and hook AGREE (same side, no stray inline-block pill)",
+      "pass": true,
+      "detail": "isMobile=false, display=none, toolbarOpen=true [iframe-767.5px; layout stayed fractional: sticky=688px]"
+    },
+    {
+      "name": "767.5px: toolbarOpen consistent with the hook's side",
+      "pass": true,
+      "detail": "isMobile=false, toolbarOpen=true"
+    },
+    {
+      "name": "desktop: toolbar OPEN by default, 26 buttons + 2 selects",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "desktop: handle display:none + zero box",
+      "pass": true,
+      "detail": "display=none, box=0×0"
+    },
+    {
+      "name": "desktop: handle NOT clickable",
+      "pass": true,
+      "detail": "element at position: <BUTTON>"
+    },
+    {
+      "name": "desktop: NO cap (max-height:none, overflow visible) — wraps like old layout",
+      "pass": true,
+      "detail": "maxHeight=none, region=111px (round 1/2: 111px)"
+    },
+    {
+      "name": "desktop: 💾 Publier visible, no overflow",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "findings": [],
+  "totals": {
+    "passed": 57,
+    "failed": 0,
+    "total": 57
+  },
+  "bands": {
+    "375x667": {
+      "capExpected": 200.14,
+      "region": 200.1,
+      "bandRest": 45.2,
+      "tapBand": 27.2
+    },
+    "360x740": {
+      "capExpected": 230.8,
+      "region": 230.8,
+      "bandRest": 80.2,
+      "tapBand": 62.2
+    },
+    "375x812": {
+      "capExpected": 261.03999999999996,
+      "region": 261,
+      "bandRest": 114.8,
+      "tapBand": 96.8
+    }
+  },
+  "metrics": {
+    "mobile667": {
+      "collapsed": {
+        "step": "1-collapsed-667",
+        "vw": 375,
+        "vh": 667,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1790471501265
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 375,
+        "box": {
+          "top": 33.3,
+          "bottom": 633.6,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 600.3
+        },
+        "handle": {
+          "top": 247.5,
+          "bottom": 298.3,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 237.5,
+          "bottom": 308.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 237.5,
+          "bottom": 561.6,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 324.1
+        },
+        "editorArea": {
+          "top": 408.3,
+          "bottom": 688.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 574.6,
+          "bottom": 618.6,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 324,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 258.7,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionComputed": null,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "expanded": {
+        "step": "2-expanded-667",
+        "vw": 375,
+        "vh": 667,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 173
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 375,
+        "box": {
+          "top": 33.3,
+          "bottom": 633.6,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 600.3
+        },
+        "handle": {
+          "top": 247.5,
+          "bottom": 298.3,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": {
+          "top": 306.3,
+          "bottom": 506.4,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 200.1
+        },
+        "sticky": {
+          "top": 237.5,
+          "bottom": 516.4,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 278.9
+        },
+        "middle": {
+          "top": 237.5,
+          "bottom": 561.6,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 324.1
+        },
+        "editorArea": {
+          "top": 616.4,
+          "bottom": 896.4,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 574.6,
+          "bottom": 618.6,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 667,
+        "middleClientHeight": 324,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 50.6,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionComputed": {
+          "maxHeight": "200.14px",
+          "overflowY": "auto",
+          "scrollHeight": 263,
+          "clientHeight": 200
+        },
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "bandRest": 45.2,
+      "tapBand": 27.2,
+      "autocollapsed": {
+        "step": "3-autocollapse-667",
+        "vw": 375,
+        "vh": 667,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1309
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 375,
+        "box": {
+          "top": 33.3,
+          "bottom": 633.6,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 600.3
+        },
+        "handle": {
+          "top": 247.5,
+          "bottom": 298.3,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 237.5,
+          "bottom": 308.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 237.5,
+          "bottom": 561.6,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 324.1
+        },
+        "editorArea": {
+          "top": 408.3,
+          "bottom": 688.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 574.6,
+          "bottom": 618.6,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 324,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 258.7,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionComputed": null,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "screenSpaceWin": 208.1,
+      "scrolled": {
+        "step": "3b-scrolled-667",
+        "vw": 375,
+        "vh": 667,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 247
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 375,
+        "box": {
+          "top": 33.3,
+          "bottom": 633.6,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 600.3
+        },
+        "handle": {
+          "top": 247.5,
+          "bottom": 298.3,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": {
+          "top": 306.3,
+          "bottom": 506.4,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 200.1
+        },
+        "sticky": {
+          "top": 237.5,
+          "bottom": 516.4,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 278.9
+        },
+        "middle": {
+          "top": 237.5,
+          "bottom": 561.6,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 324.1
+        },
+        "editorArea": {
+          "top": 273.4,
+          "bottom": 553.4,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 574.6,
+          "bottom": 618.6,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 343,
+        "middleScrollHeight": 667,
+        "middleClientHeight": 324,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionComputed": {
+          "maxHeight": "200.14px",
+          "overflowY": "auto",
+          "scrollHeight": 263,
+          "clientHeight": 200
+        },
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      }
+    },
+    "mobile360": {
+      "collapsed": {
+        "step": "1-collapsed-360",
+        "vw": 360,
+        "vh": 740,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1790471503336
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 360,
+        "box": {
+          "top": 37,
+          "bottom": 703,
+          "left": 9,
+          "right": 351,
+          "width": 342,
+          "height": 666
+        },
+        "handle": {
+          "top": 251.2,
+          "bottom": 302,
+          "left": 34,
+          "right": 322,
+          "width": 288,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 241.2,
+          "bottom": 312,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 241.2,
+          "bottom": 631,
+          "left": 24,
+          "right": 336,
+          "width": 312,
+          "height": 389.8
+        },
+        "editorArea": {
+          "top": 412,
+          "bottom": 692,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 280
+        },
+        "publish": {
+          "top": 644,
+          "bottom": 688,
+          "left": 24,
+          "right": 135.9,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 390,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionComputed": null,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "expanded": {
+        "step": "2-expanded-360",
+        "vw": 360,
+        "vh": 740,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 156
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 360,
+        "box": {
+          "top": 37,
+          "bottom": 703,
+          "left": 9,
+          "right": 351,
+          "width": 342,
+          "height": 666
+        },
+        "handle": {
+          "top": 251.2,
+          "bottom": 302,
+          "left": 34,
+          "right": 322,
+          "width": 288,
+          "height": 50.8
+        },
+        "region": {
+          "top": 310,
+          "bottom": 540.8,
+          "left": 34,
+          "right": 322,
+          "width": 288,
+          "height": 230.8
+        },
+        "sticky": {
+          "top": 241.2,
+          "bottom": 550.8,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 309.6
+        },
+        "middle": {
+          "top": 241.2,
+          "bottom": 631,
+          "left": 24,
+          "right": 336,
+          "width": 312,
+          "height": 389.8
+        },
+        "editorArea": {
+          "top": 650.8,
+          "bottom": 930.8,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 280
+        },
+        "publish": {
+          "top": 644,
+          "bottom": 688,
+          "left": 24,
+          "right": 135.9,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 698,
+        "middleClientHeight": 390,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 89.2,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionComputed": {
+          "maxHeight": "230.8px",
+          "overflowY": "auto",
+          "scrollHeight": 304,
+          "clientHeight": 231
+        },
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "bandRest": 80.2,
+      "tapBand": 62.2,
+      "autocollapsed": {
+        "step": "3-autocollapse-360",
+        "vw": 360,
+        "vh": 740,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1282
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 360,
+        "box": {
+          "top": 37,
+          "bottom": 703,
+          "left": 9,
+          "right": 351,
+          "width": 342,
+          "height": 666
+        },
+        "handle": {
+          "top": 251.2,
+          "bottom": 302,
+          "left": 34,
+          "right": 322,
+          "width": 288,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 241.2,
+          "bottom": 312,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 241.2,
+          "bottom": 631,
+          "left": 24,
+          "right": 336,
+          "width": 312,
+          "height": 389.8
+        },
+        "editorArea": {
+          "top": 412,
+          "bottom": 692,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 280
+        },
+        "publish": {
+          "top": 644,
+          "bottom": 688,
+          "left": 24,
+          "right": 135.9,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 390,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionComputed": null,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "screenSpaceWin": 190.8,
+      "scrolled": {
+        "step": "3b-scrolled-360",
+        "vw": 360,
+        "vh": 740,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 247
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 360,
+        "box": {
+          "top": 37,
+          "bottom": 703,
+          "left": 9,
+          "right": 351,
+          "width": 342,
+          "height": 666
+        },
+        "handle": {
+          "top": 251.2,
+          "bottom": 302,
+          "left": 34,
+          "right": 322,
+          "width": 288,
+          "height": 50.8
+        },
+        "region": {
+          "top": 310,
+          "bottom": 540.8,
+          "left": 34,
+          "right": 322,
+          "width": 288,
+          "height": 230.8
+        },
+        "sticky": {
+          "top": 241.2,
+          "bottom": 550.8,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 309.6
+        },
+        "middle": {
+          "top": 241.2,
+          "bottom": 631,
+          "left": 24,
+          "right": 336,
+          "width": 312,
+          "height": 389.8
+        },
+        "editorArea": {
+          "top": 342.8,
+          "bottom": 622.8,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 280
+        },
+        "publish": {
+          "top": 644,
+          "bottom": 688,
+          "left": 24,
+          "right": 135.9,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 308,
+        "middleScrollHeight": 698,
+        "middleClientHeight": 390,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionComputed": {
+          "maxHeight": "230.8px",
+          "overflowY": "auto",
+          "scrollHeight": 304,
+          "clientHeight": 231
+        },
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      }
+    },
+    "mobile812": {
+      "collapsed": {
+        "step": "1-collapsed-812",
+        "vw": 375,
+        "vh": 812,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1790471505409
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 375,
+        "box": {
+          "top": 40.6,
+          "bottom": 771.4,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 730.8
+        },
+        "handle": {
+          "top": 254.8,
+          "bottom": 305.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 244.8,
+          "bottom": 315.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 244.8,
+          "bottom": 699.4,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 454.6
+        },
+        "editorArea": {
+          "top": 415.6,
+          "bottom": 695.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 712.4,
+          "bottom": 756.4,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 455,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionComputed": null,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "expanded": {
+        "step": "2-expanded-812",
+        "vw": 375,
+        "vh": 812,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 157
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 375,
+        "box": {
+          "top": 40.6,
+          "bottom": 771.4,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 730.8
+        },
+        "handle": {
+          "top": 254.8,
+          "bottom": 305.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": {
+          "top": 313.6,
+          "bottom": 574.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 261
+        },
+        "sticky": {
+          "top": 244.8,
+          "bottom": 584.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 339.8
+        },
+        "middle": {
+          "top": 244.8,
+          "bottom": 699.4,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 454.6
+        },
+        "editorArea": {
+          "top": 684.6,
+          "bottom": 964.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 712.4,
+          "bottom": 756.4,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 728,
+        "middleClientHeight": 455,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 127.4,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionComputed": {
+          "maxHeight": "261.04px",
+          "overflowY": "auto",
+          "scrollHeight": 263,
+          "clientHeight": 261
+        },
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "bandRest": 114.8,
+      "tapBand": 96.8,
+      "autocollapsed": {
+        "step": "3-autocollapse-812",
+        "vw": 375,
+        "vh": 812,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1284
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 375,
+        "box": {
+          "top": 40.6,
+          "bottom": 771.4,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 730.8
+        },
+        "handle": {
+          "top": 254.8,
+          "bottom": 305.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 244.8,
+          "bottom": 315.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 244.8,
+          "bottom": 699.4,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 454.6
+        },
+        "editorArea": {
+          "top": 415.6,
+          "bottom": 695.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 712.4,
+          "bottom": 756.4,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 455,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionComputed": null,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "screenSpaceWin": 152.6,
+      "scrolled": {
+        "step": "3b-scrolled-812",
+        "vw": 375,
+        "vh": 812,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 245
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 375,
+        "box": {
+          "top": 40.6,
+          "bottom": 771.4,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 730.8
+        },
+        "handle": {
+          "top": 254.8,
+          "bottom": 305.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": {
+          "top": 313.6,
+          "bottom": 574.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 261
+        },
+        "sticky": {
+          "top": 244.8,
+          "bottom": 584.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 339.8
+        },
+        "middle": {
+          "top": 244.8,
+          "bottom": 699.4,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 454.6
+        },
+        "editorArea": {
+          "top": 411.6,
+          "bottom": 691.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 712.4,
+          "bottom": 756.4,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 273,
+        "middleScrollHeight": 728,
+        "middleClientHeight": 455,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionComputed": {
+          "maxHeight": "261.04px",
+          "overflowY": "auto",
+          "scrollHeight": 263,
+          "clientHeight": 261
+        },
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "guardHold": {
+        "step": "4a-guard-812",
+        "vw": 375,
+        "vh": 812,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 165
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 375,
+        "box": {
+          "top": 40.6,
+          "bottom": 771.4,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 730.8
+        },
+        "handle": {
+          "top": 254.8,
+          "bottom": 305.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": {
+          "top": 313.6,
+          "bottom": 574.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 261
+        },
+        "sticky": {
+          "top": 244.8,
+          "bottom": 584.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 339.8
+        },
+        "middle": {
+          "top": 244.8,
+          "bottom": 699.4,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 454.6
+        },
+        "editorArea": {
+          "top": 586.6,
+          "bottom": 866.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 712.4,
+          "bottom": 756.4,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 98,
+        "middleScrollHeight": 728,
+        "middleClientHeight": 455,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 225.4,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionComputed": {
+          "maxHeight": "261.04px",
+          "overflowY": "auto",
+          "scrollHeight": 263,
+          "clientHeight": 261
+        },
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "guardExpire": {
+        "step": "4b-guard-expire-812",
+        "vw": 375,
+        "vh": 812,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1271
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 375,
+        "box": {
+          "top": 40.6,
+          "bottom": 771.4,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 730.8
+        },
+        "handle": {
+          "top": 254.8,
+          "bottom": 305.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 244.8,
+          "bottom": 315.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 244.8,
+          "bottom": 699.4,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 454.6
+        },
+        "editorArea": {
+          "top": 415.6,
+          "bottom": 695.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 712.4,
+          "bottom": 756.4,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 455,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionComputed": null,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      }
+    },
+    "boundaries": {
+      "767": {
+        "step": "bp-767",
+        "vw": 767,
+        "vh": 900,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1790471508829
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 767,
+        "box": {
+          "top": 89.4,
+          "bottom": 810.6,
+          "left": 19.2,
+          "right": 747.8,
+          "width": 728.6,
+          "height": 721.2
+        },
+        "handle": {
+          "top": 326.8,
+          "bottom": 377.6,
+          "left": 48.2,
+          "right": 714.8,
+          "width": 666.6,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 316.8,
+          "bottom": 387.6,
+          "left": 38.2,
+          "right": 724.8,
+          "width": 686.6,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 316.8,
+          "bottom": 734.6,
+          "left": 38.2,
+          "right": 728.8,
+          "width": 690.6,
+          "height": 417.8
+        },
+        "editorArea": {
+          "top": 446.6,
+          "bottom": 726.6,
+          "left": 38.2,
+          "right": 724.8,
+          "width": 686.6,
+          "height": 280
+        },
+        "publish": {
+          "top": 747.6,
+          "bottom": 791.6,
+          "left": 38.2,
+          "right": 150.1,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 418,
+        "middleClientHeight": 418,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionComputed": null,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "768": {
+        "step": "bp-768",
+        "vw": 768,
+        "vh": 900,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": false,
+          "msSinceToolbarTouch": 1790471509135
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 768,
+        "box": {
+          "top": 59.3,
+          "bottom": 840.7,
+          "left": 19.2,
+          "right": 748.8,
+          "width": 729.6,
+          "height": 781.4
+        },
+        "handle": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0,
+          "width": 0,
+          "height": 0
+        },
+        "region": {
+          "top": 296.7,
+          "bottom": 407.7,
+          "left": 48.2,
+          "right": 715.8,
+          "width": 667.6,
+          "height": 111
+        },
+        "sticky": {
+          "top": 286.7,
+          "bottom": 417.7,
+          "left": 38.2,
+          "right": 725.8,
+          "width": 687.6,
+          "height": 131
+        },
+        "middle": {
+          "top": 286.7,
+          "bottom": 764.7,
+          "left": 38.2,
+          "right": 729.8,
+          "width": 691.6,
+          "height": 478
+        },
+        "editorArea": {
+          "top": 476.7,
+          "bottom": 756.7,
+          "left": 38.2,
+          "right": 725.8,
+          "width": 687.6,
+          "height": 280
+        },
+        "publish": {
+          "top": 777.7,
+          "bottom": 821.7,
+          "left": 38.2,
+          "right": 150.1,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 478,
+        "middleClientHeight": 478,
+        "handleInViewport": true,
+        "handleInsideBox": false,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionComputed": {
+          "maxHeight": "none",
+          "overflowY": "visible",
+          "scrollHeight": 111,
+          "clientHeight": 111
+        },
+        "handleStyle": {
+          "display": "none",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      },
+      "767.5": {
+        "step": "bp-767.5",
+        "vw": 768,
+        "vh": 900,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": false,
+          "msSinceToolbarTouch": 1790471509684
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 768,
+        "box": {
+          "top": 59.3,
+          "bottom": 840.7,
+          "left": 19.2,
+          "right": 748.8,
+          "width": 729.6,
+          "height": 781.4
+        },
+        "handle": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0,
+          "width": 0,
+          "height": 0
+        },
+        "region": {
+          "top": 296.7,
+          "bottom": 407.7,
+          "left": 48.2,
+          "right": 715.8,
+          "width": 667.6,
+          "height": 111
+        },
+        "sticky": {
+          "top": 286.7,
+          "bottom": 417.7,
+          "left": 38.2,
+          "right": 725.8,
+          "width": 687.6,
+          "height": 131
+        },
+        "middle": {
+          "top": 286.7,
+          "bottom": 764.7,
+          "left": 38.2,
+          "right": 729.8,
+          "width": 691.6,
+          "height": 478
+        },
+        "editorArea": {
+          "top": 476.7,
+          "bottom": 756.7,
+          "left": 38.2,
+          "right": 725.8,
+          "width": 687.6,
+          "height": 280
+        },
+        "publish": {
+          "top": 777.7,
+          "bottom": 821.7,
+          "left": 38.2,
+          "right": 150.1,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 478,
+        "middleClientHeight": 478,
+        "handleInViewport": true,
+        "handleInsideBox": false,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionComputed": {
+          "maxHeight": "none",
+          "overflowY": "visible",
+          "scrollHeight": 111,
+          "clientHeight": 111
+        },
+        "handleStyle": {
+          "display": "none",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        },
+        "method": "iframe-767.5px"
+      }
+    },
+    "desktop": {
+      "default": {
+        "step": "desktop-default",
+        "vw": 1280,
+        "vh": 800,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": false,
+          "msSinceToolbarTouch": 1790471510063
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 1280,
+        "box": {
+          "top": 40,
+          "bottom": 760,
+          "left": 256,
+          "right": 1024,
+          "width": 768,
+          "height": 720
+        },
+        "handle": {
+          "top": 0,
+          "bottom": 0,
+          "left": 0,
+          "right": 0,
+          "width": 0,
+          "height": 0
+        },
+        "region": {
+          "top": 277.4,
+          "bottom": 388.4,
+          "left": 285,
+          "right": 991,
+          "width": 706,
+          "height": 111
+        },
+        "sticky": {
+          "top": 267.4,
+          "bottom": 398.4,
+          "left": 275,
+          "right": 1001,
+          "width": 726,
+          "height": 131
+        },
+        "middle": {
+          "top": 267.4,
+          "bottom": 684,
+          "left": 275,
+          "right": 1005,
+          "width": 730,
+          "height": 416.6
+        },
+        "editorArea": {
+          "top": 457.4,
+          "bottom": 737.4,
+          "left": 275,
+          "right": 1001,
+          "width": 726,
+          "height": 280
+        },
+        "publish": {
+          "top": 697,
+          "bottom": 741,
+          "left": 275,
+          "right": 386.9,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 478,
+        "middleClientHeight": 417,
+        "handleInViewport": true,
+        "handleInsideBox": false,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionComputed": {
+          "maxHeight": "none",
+          "overflowY": "visible",
+          "scrollHeight": 111,
+          "clientHeight": 111
+        },
+        "handleStyle": {
+          "display": "none",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderRadius": "999px",
+          "fontWeight": "700"
+        }
+      }
+    }
+  }
+}

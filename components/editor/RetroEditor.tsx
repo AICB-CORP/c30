@@ -7,6 +7,7 @@ import { TextSelection } from "prosemirror-state";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import { Rainbow, Marquee, Blink, Blur } from "@/components/editor/retroMarks";
+import { useCollapsibleToolbar } from "@/components/editor/useCollapsibleToolbar";
 import { TextStyle, Color, FontFamily, FontSize } from "@tiptap/extension-text-style";
 import TextAlign from "@tiptap/extension-text-align";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -121,6 +122,10 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
     },
   });
 
+  // Barre de styles repliable (auto-repliée sur mobile, desktop toujours ouvert).
+  // Appelé AVANT l'early return : règles des hooks — le hook accepte editor null.
+  const { toolbarOpen, toggleToolbar, touchToolbar } = useCollapsibleToolbar(editor);
+
   if (!editor) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-2">
@@ -213,6 +218,8 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
   }
 
   async function handleAddMusic() {
+    // Pas de garde touchToolbar ici : ce handler n'appelle pas
+    // chain().focus() (setMusicEmbed seul) → aucun focus éditeur, aucun repli.
     const url = window.prompt("Colle le lien (Spotify…) :");
     if (!url) return;
     setError(null);
@@ -235,6 +242,10 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
     try {
       const data = await handleOEmbed(url.trim());
       if (data?.html) {
+        // Garde fraîche par rapport au REFOCUS (pas au tap) : le prompt +
+        // le fetch oEmbed peuvent durer plusieurs secondes, un stamp pris
+        // à l'entrée du handler serait périmé au moment du chain().focus().
+        touchToolbar();
         editor.chain().focus().insertContent(data.html).run();
       } else {
         setError("Aucun aperçu vidéo trouvé pour ce lien.");
@@ -247,6 +258,10 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
   function handleLink() {
     const url = window.prompt("URL du lien :");
     if (url === null) return;
+    // Garde fraîche par rapport au REFOCUS (pas au tap) : le prompt peut
+    // rester ouvert longtemps, un stamp pris à l'entrée serait périmé au
+    // moment du chain().focus().
+    touchToolbar();
     if (!url.trim()) {
       editor.chain().focus().unsetLink().run();
     } else {
@@ -393,239 +408,270 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
         {/* Middle — toolbar block (not scrollable, sticky) + editor scrollable */}
         <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pr-1">
           <div className="sticky top-0 z-10 flex-shrink-0 rounded-lg border-2 border-[#ff69b4]/60 bg-black/40 p-2 backdrop-blur-sm">
-            <div className="flex flex-wrap items-center gap-1.5">
-              <button
-                type="button"
-                className="retro-btn tool-btn font-bold"
-                title="Gras"
-                onClick={() => editor.chain().focus().toggleBold().run()}
+            {/* Poignée mobile : replie/déplie la barre de styles pour libérer l'écran */}
+            <button
+              type="button"
+              className="retro-btn tool-btn styles-handle md:hidden"
+              title="Afficher ou masquer la barre de styles"
+              aria-expanded={toolbarOpen}
+              aria-controls="retro-style-toolbar"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={toggleToolbar}
+            >
+              {toolbarOpen ? "🎨 Styles ▲" : "🎨 Styles ▼"}
+            </button>
+            {toolbarOpen && (
+              <div
+                id="retro-style-toolbar"
+                role="region"
+                aria-label="Barre d'outils de mise en page"
+                /* Le pointeur sur un bouton de style arme la fenêtre de grâce
+                   (le focus éditeur qui suit ne referme pas la barle). La
+                   poignée n'est PAS couverte : déplier puis taper doit replier. */
+                onPointerDown={touchToolbar}
+                /* Cap mobile : 80px = chrome sticky à déduire (poignée ~51 +
+                   mt-2 8 + p-2 16 + bordure 4) pour borner le BLOC sticky à
+                   42vh — sync avec .styles-handle ci-dessous. */
+                className="flex flex-wrap items-center gap-1.5 max-md:mt-2 max-md:max-h-[calc(42vh-80px)] max-md:overflow-y-auto"
               >
-                B
-              </button>
-              <button
-                type="button"
-                className="retro-btn tool-btn italic"
-                title="Italique"
-                onClick={() => editor.chain().focus().toggleItalic().run()}
-              >
-                I
-              </button>
-              <button
-                type="button"
-                className="retro-btn tool-btn underline"
-                title="Souligné"
-                onClick={() => editor.chain().focus().toggleUnderline().run()}
-              >
-                U
-              </button>
-              <button
-                type="button"
-                className="retro-btn tool-btn line-through"
-                title="Barré"
-                onClick={() => editor.chain().focus().toggleStrike().run()}
-              >
-                S
-              </button>
-              <button
-                type="button"
-                className="retro-btn tool-btn"
-                title="Titre 1"
-                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-              >
-                H1
-              </button>
-              <button
-                type="button"
-                className="retro-btn tool-btn"
-                title="Titre 2"
-                onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-              >
-                H2
-              </button>
-              <button
-                type="button"
-                className="retro-btn tool-btn"
-                title="Liste"
-                onClick={() => editor.chain().focus().toggleBulletList().run()}
-              >
-                • Liste
-              </button>
-              <button
-                type="button"
-                className="retro-btn tool-btn"
-                title="Liste numérotée"
-                onClick={() => editor.chain().focus().toggleOrderedList().run()}
-              >
-                1. Liste
-              </button>
-              <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
-              <input
-                type="color"
-                title="Couleur du texte"
-                value={editor.getAttributes("textStyle").color ?? "#FF69B4"}
-                onChange={(e) => editor.chain().focus().setColor(e.target.value).run()}
-                className="h-7 w-9 cursor-pointer border-2 border-[#ffb6d9] bg-transparent p-0"
-              />
-              {SWATCHES.map((c) => (
                 <button
-                  key={c}
                   type="button"
-                  title={c}
-                  className="h-5 w-5 rounded-full border border-white/50"
-                  style={{ backgroundColor: c }}
-                  onClick={() => editor.chain().focus().setColor(c).run()}
+                  className="retro-btn tool-btn font-bold"
+                  title="Gras"
+                  onClick={() => editor.chain().focus().toggleBold().run()}
+                >
+                  B
+                </button>
+                <button
+                  type="button"
+                  className="retro-btn tool-btn italic"
+                  title="Italique"
+                  onClick={() => editor.chain().focus().toggleItalic().run()}
+                >
+                  I
+                </button>
+                <button
+                  type="button"
+                  className="retro-btn tool-btn underline"
+                  title="Souligné"
+                  onClick={() => editor.chain().focus().toggleUnderline().run()}
+                >
+                  U
+                </button>
+                <button
+                  type="button"
+                  className="retro-btn tool-btn line-through"
+                  title="Barré"
+                  onClick={() => editor.chain().focus().toggleStrike().run()}
+                >
+                  S
+                </button>
+                <button
+                  type="button"
+                  className="retro-btn tool-btn"
+                  title="Titre 1"
+                  onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                >
+                  H1
+                </button>
+                <button
+                  type="button"
+                  className="retro-btn tool-btn"
+                  title="Titre 2"
+                  onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                >
+                  H2
+                </button>
+                <button
+                  type="button"
+                  className="retro-btn tool-btn"
+                  title="Liste"
+                  onClick={() => editor.chain().focus().toggleBulletList().run()}
+                >
+                  • Liste
+                </button>
+                <button
+                  type="button"
+                  className="retro-btn tool-btn"
+                  title="Liste numérotée"
+                  onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                >
+                  1. Liste
+                </button>
+                <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
+                <input
+                  type="color"
+                  title="Couleur du texte"
+                  value={editor.getAttributes("textStyle").color ?? "#FF69B4"}
+                  onChange={(e) => {
+                    touchToolbar(); // sélecteur natif ouvert plusieurs secondes
+                    editor.chain().focus().setColor(e.target.value).run();
+                  }}
+                  className="h-7 w-9 cursor-pointer border-2 border-[#ffb6d9] bg-transparent p-0"
                 />
-              ))}
-              <select
-                title="Police"
-                className="retro-btn tool-btn"
-                value={editor.getAttributes("textStyle").fontFamily ?? ""}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  if (v) editor.chain().focus().setFontFamily(v).run();
-                  else editor.chain().focus().unsetFontFamily().run();
-                }}
-              >
-                <option value="">Police</option>
-                {FONTS.map((f) => (
-                  <option key={f.value} value={f.value}>
-                    {f.label}
-                  </option>
-                ))}
-              </select>
-              <select
-                title="Taille du texte"
-                className="retro-btn tool-btn"
-                value={editor.getAttributes("textStyle").fontSize ?? ""}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  if (v) editor.chain().focus().setFontSize(`${v}px`).run();
-                  else editor.chain().focus().unsetFontSize().run();
-                }}
-              >
-                <option value="">Taille</option>
-                {FONT_SIZES.map((s) => (
-                  <option key={s} value={String(s)}>
-                    {s}px
-                  </option>
-                ))}
-              </select>
-              <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
-              {(
-                [
-                  ["left", "⬅", "Aligné à gauche"],
-                  ["center", "⬌", "Centré"],
-                  ["right", "➡", "Aligné à droite"],
-                ] as const
-              ).map(([align, icon, label]) => {
-                const currentAlign = editor.isActive("heading")
-                  ? (editor.getAttributes("heading").textAlign ?? "left")
-                  : (editor.getAttributes("paragraph").textAlign ?? "left");
-                return (
+                {SWATCHES.map((c) => (
                   <button
-                    key={align}
+                    key={c}
                     type="button"
-                    className={`retro-btn tool-btn${currentAlign === align ? " pushed" : ""}`}
-                    title={label}
-                    onClick={() => editor.chain().focus().setTextAlign(align).run()}
-                  >
-                    {icon}
-                  </button>
-                );
-              })}
-              <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
-              <button
-                type="button"
-                className="retro-btn tool-btn"
-                title="Lien"
-                onClick={handleLink}
-              >
-                🔗
-              </button>
-              <button
-                type="button"
-                className="retro-btn tool-btn"
-                title="Musique (Spotify…)"
-                onClick={handleAddMusic}
-              >
-                🎵
-              </button>
-              <button
-                type="button"
-                className="retro-btn tool-btn"
-                title="Vidéo YouTube"
-                onClick={handleAddVideo}
-              >
-                ▶️
-              </button>
-              <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
-              <div className="flex flex-wrap items-center gap-1">
-                <button
-                  type="button"
-                  className={`retro-btn tool-btn${editor.getAttributes("textStyle").textShadow === NEON_SHADOW ? " pushed" : ""}`}
-                  title="Néon — donne un effet lumineux néon rose au texte"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => {
-                    const current = editor.getAttributes("textStyle").textShadow;
-                    if (current === NEON_SHADOW) {
-                      editor.chain().focus().setMark("textStyle", { textShadow: null }).run();
-                    } else {
-                      editor
-                        .chain()
-                        .focus()
-                        .setMark("textStyle", { textShadow: NEON_SHADOW })
-                        .run();
-                    }
+                    title={c}
+                    className="h-5 w-5 rounded-full border border-white/50"
+                    style={{ backgroundColor: c }}
+                    onClick={() => editor.chain().focus().setColor(c).run()}
+                  />
+                ))}
+                <select
+                  title="Police"
+                  className="retro-btn tool-btn"
+                  value={editor.getAttributes("textStyle").fontFamily ?? ""}
+                  onChange={(e) => {
+                    touchToolbar(); // picker natif ouvert plusieurs secondes
+                    const v = e.target.value;
+                    if (v) editor.chain().focus().setFontFamily(v).run();
+                    else editor.chain().focus().unsetFontFamily().run();
                   }}
                 >
-                  ⚡ Néon
+                  <option value="">Police</option>
+                  {FONTS.map((f) => (
+                    <option key={f.value} value={f.value}>
+                      {f.label}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  title="Taille du texte"
+                  className="retro-btn tool-btn"
+                  value={editor.getAttributes("textStyle").fontSize ?? ""}
+                  onChange={(e) => {
+                    touchToolbar(); // picker natif ouvert plusieurs secondes
+                    const v = e.target.value;
+                    if (v) editor.chain().focus().setFontSize(`${v}px`).run();
+                    else editor.chain().focus().unsetFontSize().run();
+                  }}
+                >
+                  <option value="">Taille</option>
+                  {FONT_SIZES.map((s) => (
+                    <option key={s} value={String(s)}>
+                      {s}px
+                    </option>
+                  ))}
+                </select>
+                <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
+                {(
+                  [
+                    ["left", "⬅", "Aligné à gauche"],
+                    ["center", "⬌", "Centré"],
+                    ["right", "➡", "Aligné à droite"],
+                  ] as const
+                ).map(([align, icon, label]) => {
+                  const currentAlign = editor.isActive("heading")
+                    ? (editor.getAttributes("heading").textAlign ?? "left")
+                    : (editor.getAttributes("paragraph").textAlign ?? "left");
+                  return (
+                    <button
+                      key={align}
+                      type="button"
+                      className={`retro-btn tool-btn${currentAlign === align ? " pushed" : ""}`}
+                      title={label}
+                      onClick={() => editor.chain().focus().setTextAlign(align).run()}
+                    >
+                      {icon}
+                    </button>
+                  );
+                })}
+                <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
+                <button
+                  type="button"
+                  className="retro-btn tool-btn"
+                  title="Lien"
+                  onClick={handleLink}
+                >
+                  🔗
                 </button>
                 <button
                   type="button"
-                  className={`retro-btn tool-btn${editor.isActive("rainbow") ? " pushed" : ""}`}
-                  title="Arc-en-ciel — le texte défile dans toutes les couleurs"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => toggleRetroMark("toggleRainbow")}
+                  className="retro-btn tool-btn"
+                  title="Musique (Spotify…)"
+                  onClick={handleAddMusic}
                 >
-                  ✨ Arc-en-ciel
+                  🎵
                 </button>
                 <button
                   type="button"
-                  className={`retro-btn tool-btn${editor.isActive("marqueeMark") ? " pushed" : ""}`}
-                  title="Défilant — le texte défile de droite à gauche"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => toggleRetroMark("toggleMarquee")}
+                  className="retro-btn tool-btn"
+                  title="Vidéo YouTube"
+                  onClick={handleAddVideo}
                 >
-                  📜 Défilant
+                  ▶️
                 </button>
+                <span className="mx-1 h-6 w-px bg-[#ff69b4]/50" />
+                <div className="flex flex-wrap items-center gap-1">
+                  <button
+                    type="button"
+                    className={`retro-btn tool-btn${editor.getAttributes("textStyle").textShadow === NEON_SHADOW ? " pushed" : ""}`}
+                    title="Néon — donne un effet lumineux néon rose au texte"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => {
+                      const current = editor.getAttributes("textStyle").textShadow;
+                      if (current === NEON_SHADOW) {
+                        editor.chain().focus().setMark("textStyle", { textShadow: null }).run();
+                      } else {
+                        editor
+                          .chain()
+                          .focus()
+                          .setMark("textStyle", { textShadow: NEON_SHADOW })
+                          .run();
+                      }
+                    }}
+                  >
+                    ⚡ Néon
+                  </button>
+                  <button
+                    type="button"
+                    className={`retro-btn tool-btn${editor.isActive("rainbow") ? " pushed" : ""}`}
+                    title="Arc-en-ciel — le texte défile dans toutes les couleurs"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => toggleRetroMark("toggleRainbow")}
+                  >
+                    ✨ Arc-en-ciel
+                  </button>
+                  <button
+                    type="button"
+                    className={`retro-btn tool-btn${editor.isActive("marqueeMark") ? " pushed" : ""}`}
+                    title="Défilant — le texte défile de droite à gauche"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => toggleRetroMark("toggleMarquee")}
+                  >
+                    📜 Défilant
+                  </button>
+                  <button
+                    type="button"
+                    className={`retro-btn tool-btn${editor.isActive("blinkMark") ? " pushed" : ""}`}
+                    title="Clignotant — le texte clignote comme un vieux site web"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => toggleRetroMark("toggleBlink")}
+                  >
+                    💫 Clignotant
+                  </button>
+                  <button
+                    type="button"
+                    className={`retro-btn tool-btn${editor.isActive("blurMark") ? " pushed" : ""}`}
+                    title="Flou — le texte est caché, survole pour révéler le message secret"
+                    onMouseDown={(e) => e.preventDefault()}
+                    onClick={() => toggleRetroMark("toggleBlur")}
+                  >
+                    🔍 Flou
+                  </button>
+                </div>
                 <button
                   type="button"
-                  className={`retro-btn tool-btn${editor.isActive("blinkMark") ? " pushed" : ""}`}
-                  title="Clignotant — le texte clignote comme un vieux site web"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => toggleRetroMark("toggleBlink")}
+                  className="retro-btn tool-btn"
+                  title="Mode HTML"
+                  onClick={toggleHtmlMode}
                 >
-                  💫 Clignotant
-                </button>
-                <button
-                  type="button"
-                  className={`retro-btn tool-btn${editor.isActive("blurMark") ? " pushed" : ""}`}
-                  title="Flou — le texte est caché, survole pour révéler le message secret"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => toggleRetroMark("toggleBlur")}
-                >
-                  🔍 Flou
+                  ⚙️ HTML
                 </button>
               </div>
-              <button
-                type="button"
-                className="retro-btn tool-btn"
-                title="Mode HTML"
-                onClick={toggleHtmlMode}
-              >
-                ⚙️ HTML
-              </button>
-            </div>
+            )}
           </div>
 
           <div className="mb-2 flex flex-wrap gap-1.5">
@@ -805,6 +851,27 @@ export default function RetroEditor({ existing, onDone, onCancel }: RetroEditorP
           box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(255, 20, 147, 0.4);
           transform: translateY(1px);
           background: linear-gradient(180deg, #a0005e, #cc006a);
+        }
+        /* Poignée mobile de la barre de styles : pleine largeur, cible tactile ≥ 44px.
+           Scopée mobile ET desktop dans ce bloc non layerisé : sans le media
+           desktop, display:flex l'emporterait sur le md:hidden de Tailwind
+           (utilités layerisées perdent contre les styles non layerisés,
+           cascade CSS L5) et la poignée resterait visible sur desktop.
+           Limite 767.98px alignée sur le breakpoint md de Tailwind v4. */
+        @media (max-width: 767.98px) {
+          .retro-btn.tool-btn.styles-handle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.65rem 0.75rem;
+            font-size: 0.9rem;
+          }
+        }
+        @media (min-width: 768px) {
+          .retro-btn.tool-btn.styles-handle {
+            display: none;
+          }
         }
         .editor-area .tiptap .blur-text {
           filter: blur(6px);
