@@ -112,9 +112,16 @@ async function measure(viewport, name) {
   // Load compiled CSS via /login (same trick as previous layout testers)
   let cssLoaded = false;
   try {
-    await page.goto("http://localhost:3000/login", { waitUntil: "domcontentloaded", timeout: 8000 });
+    await page.goto("http://localhost:3000/login", {
+      waitUntil: "domcontentloaded",
+      timeout: 8000,
+    });
     await page.waitForTimeout(800);
-    cssLoaded = await page.evaluate(() => document.querySelector('link[rel="stylesheet"]') !== null || document.styleSheets.length > 0);
+    cssLoaded = await page.evaluate(
+      () =>
+        document.querySelector('link[rel="stylesheet"]') !== null ||
+        document.styleSheets.length > 0,
+    );
   } catch (e) {
     console.log(`WARN goto /login failed ${viewport.width}x${viewport.height}: ${e.message}`);
   }
@@ -133,11 +140,22 @@ async function measure(viewport, name) {
     const rect = (el) => {
       if (!el) return null;
       const r = el.getBoundingClientRect();
-      return { x: Math.round(r.x*10)/10, y: Math.round(r.y*10)/10, w: Math.round(r.width*10)/10, h: Math.round(r.height*10)/10, left: Math.round(r.left*10)/10, right: Math.round(r.right*10)/10, top: Math.round(r.top*10)/10, bottom: Math.round(r.bottom*10)/10 };
+      return {
+        x: Math.round(r.x * 10) / 10,
+        y: Math.round(r.y * 10) / 10,
+        w: Math.round(r.width * 10) / 10,
+        h: Math.round(r.height * 10) / 10,
+        left: Math.round(r.left * 10) / 10,
+        right: Math.round(r.right * 10) / 10,
+        top: Math.round(r.top * 10) / 10,
+        bottom: Math.round(r.bottom * 10) / 10,
+      };
     };
-    const cs = (el) => el ? getComputedStyle(el) : null;
-    const vw = window.innerWidth, vh = window.innerHeight;
-    const dsw = document.documentElement.scrollWidth, bsw = document.body.scrollWidth;
+    const cs = (el) => (el ? getComputedStyle(el) : null);
+    const vw = window.innerWidth,
+      vh = window.innerHeight;
+    const dsw = document.documentElement.scrollWidth,
+      bsw = document.body.scrollWidth;
 
     const outer = qs('[data-testid="site-outer"]');
     const header = qs('[data-testid="header"]');
@@ -165,18 +183,20 @@ async function measure(viewport, name) {
       const r = rect(c);
       const s = cs(c);
       return {
-        index: i+1,
+        index: i + 1,
         rect: r,
-        computed: s ? {
-          width: s.width,
-          maxWidth: s.maxWidth,
-          marginLeft: s.marginLeft,
-          marginRight: s.marginRight,
-          boxSizing: s.boxSizing,
-          display: s.display,
-        } : null,
+        computed: s
+          ? {
+              width: s.width,
+              maxWidth: s.maxWidth,
+              marginLeft: s.marginLeft,
+              marginRight: s.marginRight,
+              boxSizing: s.boxSizing,
+              display: s.display,
+            }
+          : null,
         // centered check: mx-auto => margins auto
-        isCentered: s ? (s.marginLeft === "auto" || s.marginLeft.endsWith("px") ) : false,
+        isCentered: s ? s.marginLeft === "auto" || s.marginLeft.endsWith("px") : false,
         wVsMax: s ? { w: r.w, max: s.maxWidth } : null,
       };
     });
@@ -216,7 +236,7 @@ async function measure(viewport, name) {
     const titleCS = title ? cs(title) : null;
 
     // Check retro-box
-    const retroBox = qs('.retro-box');
+    const retroBox = qs(".retro-box");
     const retroBoxCS = retroBox ? cs(retroBox) : null;
 
     // Sidebar width check at desktop should be ~300
@@ -238,35 +258,53 @@ async function measure(viewport, name) {
     // Card inside column: at desktop card w should equal postsCol width (w-full)
     let cardsInsideColOk = null;
     if (vw >= 1024 && postsColRect) {
-      cardsInsideColOk = cardMetrics.every(cm => Math.abs(cm.rect.w - postsColRect.w) < 2 );
+      cardsInsideColOk = cardMetrics.every((cm) => Math.abs(cm.rect.w - postsColRect.w) < 2);
     }
     // At mobile, card w == grid w (single col)
     let cardsFullWidthMobileOk = null;
     if (vw < 1024 && gridRect) {
-      cardsFullWidthMobileOk = cardMetrics.every(cm => Math.abs(cm.rect.w - gridRect.w) < 2.5);
+      cardsFullWidthMobileOk = cardMetrics.every((cm) => Math.abs(cm.rect.w - gridRect.w) < 2.5);
     }
 
     // Check every element does not exceed viewport
-    const allEls = Array.from(document.querySelectorAll('[data-testid]'));
-    const overflowing = allEls.map(el => {
-      const r = el.getBoundingClientRect();
-      return { testId: el.getAttribute('data-testid'), w: Math.round(r.width*10)/10, right: Math.round(r.right*10)/10, left: Math.round(r.left*10)/10, overflowRight: r.right > vw + 1, overflowLeft: r.left < -1 };
-    }).filter(o => o.overflowRight || o.overflowLeft);
+    const allEls = Array.from(document.querySelectorAll("[data-testid]"));
+    const overflowing = allEls
+      .map((el) => {
+        const r = el.getBoundingClientRect();
+        return {
+          testId: el.getAttribute("data-testid"),
+          w: Math.round(r.width * 10) / 10,
+          right: Math.round(r.right * 10) / 10,
+          left: Math.round(r.left * 10) / 10,
+          overflowRight: r.right > vw + 1,
+          overflowLeft: r.left < -1,
+        };
+      })
+      .filter((o) => o.overflowRight || o.overflowLeft);
 
     // Check grid centered: mx-auto => margin auto, grid left roughly equal to (vw - grid.w)/2 ??? But outer has padding, so not exactly viewport centered. Check grid is centered inside main/outer.
     // Better: outer padding 12 each side, outer width capped 896, grid max 872 and mx-auto inside main which is width = outer -24 = header width.
     // So grid left should equal header left, and right equals header right (if both 872). That's our headerGridDelta check.
 
     // Max-width values
-    const gridMaxIs872 = gridCS ? (gridCS.maxWidth === "872px" || gridCS.maxWidth === "872px" ) : false;
+    const gridMaxIs872 = gridCS
+      ? gridCS.maxWidth === "872px" || gridCS.maxWidth === "872px"
+      : false;
     // Actually tailwind JIT: max-w-[872px] => max-width:872px
-    const cardsMaxAre872 = cardMetrics.every(cm => cm.computed && cm.computed.maxWidth === "872px");
+    const cardsMaxAre872 = cardMetrics.every(
+      (cm) => cm.computed && cm.computed.maxWidth === "872px",
+    );
 
     // Tappable targets: retro-btn min height? Check
-    const btns = qsa('.retro-btn');
-    const btnTappable = btns.map(b => {
+    const btns = qsa(".retro-btn");
+    const btnTappable = btns.map((b) => {
       const r = b.getBoundingClientRect();
-      return { text: b.textContent.trim(), w: Math.round(r.width), h: Math.round(r.height), tappable: r.height >= 44 || r.width >= 44 };
+      return {
+        text: b.textContent.trim(),
+        w: Math.round(r.width),
+        h: Math.round(r.height),
+        tappable: r.height >= 44 || r.width >= 44,
+      };
     });
 
     return {
@@ -275,12 +313,27 @@ async function measure(viewport, name) {
       docScrollWidth: dsw,
       bodyScrollWidth: bsw,
       noHorizontalOverflow: noOverflow,
-      outer: outer ? { rect: outerRect, maxWidth: outerCS.maxWidth, width: outerCS.width, marginLeft: outerCS.marginLeft, marginRight: outerCS.marginRight, paddingLeft: outerCS.paddingLeft, paddingRight: outerCS.paddingRight, boxSizing: outerCS.boxSizing } : null,
-      header: header ? { rect: headerRect, width: headerCS.width, maxWidth: headerCS.maxWidth } : null,
+      outer: outer
+        ? {
+            rect: outerRect,
+            maxWidth: outerCS.maxWidth,
+            width: outerCS.width,
+            marginLeft: outerCS.marginLeft,
+            marginRight: outerCS.marginRight,
+            paddingLeft: outerCS.paddingLeft,
+            paddingRight: outerCS.paddingRight,
+            boxSizing: outerCS.boxSizing,
+          }
+        : null,
+      header: header
+        ? { rect: headerRect, width: headerCS.width, maxWidth: headerCS.maxWidth }
+        : null,
       main: main ? { rect: mainRect } : null,
       grid: grid ? { rect: gridRect, computed: gridChecks } : null,
       postsCol: postsCol ? { rect: postsColRect } : null,
-      sidebar: sidebar ? { rect: sidebarRect, computedWidth: sidebarCS ? sidebarCS.width : null } : null,
+      sidebar: sidebar
+        ? { rect: sidebarRect, computedWidth: sidebarCS ? sidebarCS.width : null }
+        : null,
       footer: footer ? { rect: footerRect } : null,
       cards: cardMetrics,
       headerGridDelta,
@@ -293,9 +346,24 @@ async function measure(viewport, name) {
       cardsInsideColOk,
       cardsFullWidthMobileOk,
       overflowing,
-      marquee: marquee ? { rect: marqueeRect, overflow: marqueeCS.overflow, overflowX: marqueeCS.overflowX, whiteSpace: marqueeCS.whiteSpace } : null,
+      marquee: marquee
+        ? {
+            rect: marqueeRect,
+            overflow: marqueeCS.overflow,
+            overflowX: marqueeCS.overflowX,
+            whiteSpace: marqueeCS.whiteSpace,
+          }
+        : null,
       titleNeon: titleCS ? { textShadow: titleCS.textShadow, color: titleCS.color } : null,
-      retroBox: retroBoxCS ? { border: retroBoxCS.border, borderTopWidth: retroBoxCS.borderTopWidth, backgroundImage: retroBoxCS.backgroundImage, boxShadow: retroBoxCS.boxShadow, borderRadius: retroBoxCS.borderRadius } : null,
+      retroBox: retroBoxCS
+        ? {
+            border: retroBoxCS.border,
+            borderTopWidth: retroBoxCS.borderTopWidth,
+            backgroundImage: retroBoxCS.backgroundImage,
+            boxShadow: retroBoxCS.boxShadow,
+            borderRadius: retroBoxCS.borderRadius,
+          }
+        : null,
       tappable: btnTappable,
       allOverflowingCount: overflowing.length,
     };
@@ -333,7 +401,8 @@ results.push(await measure({ width: 768, height: 800 }, "home-tablet-768"));
 const summary = {
   generatedAt: new Date().toISOString(),
   branch: "fix/posts-max-width-872",
-  description: "Validate posts grid and PostCard max-w 872 centered, header alignment, no overflow, mobile/desktop",
+  description:
+    "Validate posts grid and PostCard max-w 872 centered, header alignment, no overflow, mobile/desktop",
   expectations: {
     gridMaxWidth: "872px",
     postCardMaxWidth: "872px",
@@ -341,9 +410,9 @@ const summary = {
     noHorizontalOverflow: true,
     headerGridAligned: "delta <2px at all viewports",
     desktopGrid: "max 872, centered, gap-6, sidebar 300, posts col ~548",
-    mobile: "full width minus px-3*2, no overflow, max 872 not exceeding viewport"
+    mobile: "full width minus px-3*2, no overflow, max 872 not exceeding viewport",
   },
-  results
+  results,
 };
 
 fs.writeFileSync(path.join(screenshotDir, "metrics.json"), JSON.stringify(summary, null, 2));
