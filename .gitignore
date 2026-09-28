@@ -47,3 +47,6 @@ next-env.d.ts
 # Graphify knowledge graph (generated artifact, not sourced)
 graphify-out/
 .graphify/
+
+# Invitation draft (contains the live invite code — must never enter git history)
+INVITATION_CAROLINE_30.md

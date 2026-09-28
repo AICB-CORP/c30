@@ -46,19 +46,25 @@ async function run(viewport, name) {
   const browser = await chromium.launch();
   const ctx = await browser.newContext({ viewport });
   const page = await ctx.newPage();
-  await page.goto("http://localhost:3000/login", {waitUntil:"domcontentloaded", timeout:8000});
+  await page.goto("http://localhost:3000/login", { waitUntil: "domcontentloaded", timeout: 8000 });
   await page.waitForTimeout(500);
-  await page.evaluate(h=>{document.body.innerHTML=h; document.body.className="min-h-full sparkle-cursor";}, cleanHomeHtml());
+  await page.evaluate((h) => {
+    document.body.innerHTML = h;
+    document.body.className = "min-h-full sparkle-cursor";
+  }, cleanHomeHtml());
   await page.waitForTimeout(600);
-  const metrics = await page.evaluate(()=>{
-    const vw=window.innerWidth, dsw=document.documentElement.scrollWidth;
-    const grid=document.querySelector('[data-testid="posts-grid"]');
-    const col=document.querySelector('[data-testid="posts-col"]');
-    const card=document.querySelector('[data-testid="postcard-1"]');
-    const outer=document.querySelector('[data-testid="site-outer"]');
-    const header=document.querySelector('[data-testid="header"]');
+  const metrics = await page.evaluate(() => {
+    const vw = window.innerWidth,
+      dsw = document.documentElement.scrollWidth;
+    const grid = document.querySelector('[data-testid="posts-grid"]');
+    const col = document.querySelector('[data-testid="posts-col"]');
+    const card = document.querySelector('[data-testid="postcard-1"]');
+    const outer = document.querySelector('[data-testid="site-outer"]');
+    const header = document.querySelector('[data-testid="header"]');
     return {
-      vw, dsw, overflow:dsw>vw+1,
+      vw,
+      dsw,
+      overflow: dsw > vw + 1,
       outerW: outer.getBoundingClientRect().width,
       outerMax: getComputedStyle(outer).maxWidth,
       headerW: header.getBoundingClientRect().width,
@@ -71,16 +77,16 @@ async function run(viewport, name) {
     };
   });
   console.log(`\n=== CLEAN ${name} ${viewport.width}x${viewport.height} ===`, metrics);
-  await page.screenshot({path: path.join(dir, `${name}.png`), fullPage:true});
+  await page.screenshot({ path: path.join(dir, `${name}.png`), fullPage: true });
   console.log(`saved ${name}.png`);
   await browser.close();
   return metrics;
 }
 
-await run({width:1280,height:800}, "home-desktop");
-await run({width:375,height:812}, "home-mobile");
-await run({width:360,height:800}, "home-mobile-360-clean");
-await run({width:768,height:800}, "home-tablet-768-clean");
+await run({ width: 1280, height: 800 }, "home-desktop");
+await run({ width: 375, height: 812 }, "home-mobile");
+await run({ width: 360, height: 800 }, "home-mobile-360-clean");
+await run({ width: 768, height: 800 }, "home-tablet-768-clean");
 
 // Also test standalone PostCard outside grid (like post detail page)
 async function standalone() {
@@ -91,19 +97,35 @@ async function standalone() {
       <article class="retro-box mx-auto mb-5 w-full max-w-[872px]" data-testid="standalone-card"><h2 class="retro-title">Standalone post</h2><div class="post-content"><p>Post detail should be centered max 872</p></div></article>
     </main>
   </div>`;
-  const viewports = [{width:1280,height:800},{width:375,height:812}];
-  for(let vp of viewports){
-    const browser=await chromium.launch();
-    const ctx=await browser.newContext({viewport:vp});
-    const page=await ctx.newPage();
-    await page.goto("http://localhost:3000/login", {waitUntil:"domcontentloaded", timeout:8000});
+  const viewports = [
+    { width: 1280, height: 800 },
+    { width: 375, height: 812 },
+  ];
+  for (let vp of viewports) {
+    const browser = await chromium.launch();
+    const ctx = await browser.newContext({ viewport: vp });
+    const page = await ctx.newPage();
+    await page.goto("http://localhost:3000/login", {
+      waitUntil: "domcontentloaded",
+      timeout: 8000,
+    });
     await page.waitForTimeout(500);
-    await page.evaluate(h=>{document.body.innerHTML=h;}, html);
+    await page.evaluate((h) => {
+      document.body.innerHTML = h;
+    }, html);
     await page.waitForTimeout(400);
-    const m=await page.evaluate(()=>{
-      const card=document.querySelector('[data-testid="standalone-card"]');
-      const r=card.getBoundingClientRect();
-      return {vw:window.innerWidth, dsw:document.documentElement.scrollWidth, cardW:r.width, cardMax:getComputedStyle(card).maxWidth, left:r.left, right:r.right, centered: Math.abs(window.innerWidth - r.width - r.left*2) < 2 };
+    const m = await page.evaluate(() => {
+      const card = document.querySelector('[data-testid="standalone-card"]');
+      const r = card.getBoundingClientRect();
+      return {
+        vw: window.innerWidth,
+        dsw: document.documentElement.scrollWidth,
+        cardW: r.width,
+        cardMax: getComputedStyle(card).maxWidth,
+        left: r.left,
+        right: r.right,
+        centered: Math.abs(window.innerWidth - r.width - r.left * 2) < 2,
+      };
     });
     console.log(`standalone ${vp.width} =>`, m);
     await browser.close();

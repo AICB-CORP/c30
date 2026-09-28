@@ -21,17 +21,18 @@ Created GitHub Actions workflow for automatic Vercel deployment and configured c
 ## Context / Problem
 
 The Skyblog des 30 ans project needs:
+
 1. Automatic CI/CD pipeline for Vercel deployments
 2. Custom domain `caroline-30.fun` configured and accessible
 3. Preview deployments on PRs, production deployment on merge to main
 
 ## Decision Points
 
-| Choice | Rationale | Alternatives | Tradeoff |
-|--------|-----------|--------------|----------|
-| GitHub Actions with `amondnet/vercel-action` | Standard, well-maintained action for Vercel deployments | Vercel CLI, direct API | Requires GitHub secrets configuration |
-| npm install instead of npm ci | Lock file was out of sync with package.json | Fix lock file locally | Less strict but works |
-| Node.js 22 instead of 20 | Node 20 deprecated on GitHub Actions runners | Set ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION | Uses supported LTS version |
+| Choice                                       | Rationale                                               | Alternatives                                | Tradeoff                              |
+| -------------------------------------------- | ------------------------------------------------------- | ------------------------------------------- | ------------------------------------- |
+| GitHub Actions with `amondnet/vercel-action` | Standard, well-maintained action for Vercel deployments | Vercel CLI, direct API                      | Requires GitHub secrets configuration |
+| npm install instead of npm ci                | Lock file was out of sync with package.json             | Fix lock file locally                       | Less strict but works                 |
+| Node.js 22 instead of 20                     | Node 20 deprecated on GitHub Actions runners            | Set ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION | Uses supported LTS version            |
 
 ## Implementation Approach
 
@@ -55,6 +56,7 @@ The Skyblog des 30 ans project needs:
 ## Screenshots
 
 All screenshots saved to `task-memory/screenshot/feat/deploy-vercel-domain/`:
+
 - `custom-domain-404.png` — Desktop view of 404 on caroline-30.fun (no production deployment)
 - `custom-domain-404-mobile.png` — Mobile view (375x667) of 404 on caroline-30.fun
 - `www-subdomain-404.png` — Desktop view of 404 on www.caroline-30.fun
