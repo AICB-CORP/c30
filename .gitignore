@@ -48,5 +48,6 @@ next-env.d.ts
 graphify-out/
 .graphify/
 
-# Invitation draft (contains the live invite code — must never enter git history)
+# Invitation physique du jour J — contient le code d'invitation et le prénom
+# de la destinataire (stealth §10) : ne JAMAIS committer ce fichier.
 INVITATION_CAROLINE_30.md
