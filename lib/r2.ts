@@ -62,13 +62,19 @@ export function getR2Client(): S3Client {
 export interface PresignedUpload {
   /** Object key within the bucket: `{userId}/{uuid}.{ext}` */
   key: string;
-  /** Presigned PUT URL (valid 600 s, content-type pinned) */
+  /** Presigned PUT URL (valid 1 h, content-type pinned) */
   signedUrl: string;
   /** Public read URL (`R2_PUBLIC_URL/{key}`) */
   publicUrl: string;
 }
 
-const PRESIGNED_URL_TTL = 600; // seconds
+// 3600 s: a 300 MB video over a slow mobile uplink (~1 Mbps) can take
+// 30+ min to PUT directly to R2. With the old 600 s TTL, the signature
+// (checked at request receipt) could already be expired when the PUT
+// finally started. The URL is single-key, only minted for authenticated
+// users, and the Content-Type header is part of the signature
+// (signableHeaders below), so the longer window is low-risk.
+const PRESIGNED_URL_TTL = 3600; // seconds
 
 export async function createPresignedUploadUrl(
   key: string,
@@ -87,8 +93,13 @@ export async function createPresignedUploadUrl(
     ContentType: contentType,
   });
 
+  // signableHeaders makes Content-Type part of the SigV4 signature:
+  // without it only `host` is signed and the uploader could PUT
+  // arbitrary bytes served as text/html off the public R2 origin.
+  // With it, a PUT whose Content-Type differs from the presigned one → 403.
   const signedUrl = await getSignedUrl(client, command, {
     expiresIn: PRESIGNED_URL_TTL,
+    signableHeaders: new Set(["content-type"]),
   });
 
   return { key, signedUrl, publicUrl: buildPublicUrl(key) };

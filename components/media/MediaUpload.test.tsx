@@ -673,14 +673,50 @@ describe("<MediaUpload /> — video/audio normalization & inference", () => {
     expect(fetchCalls).toHaveLength(0);
   });
 
-  it("rejects video files larger than 50 MB (MAX_RAW_MB) without uploading", async () => {
+  it("accepts video files between 50 and 300 MB (passes the selection guard and uploads)", async () => {
+    const onUploaded = vi.fn();
+    render(<MediaUpload kind="video" onUploaded={onUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const big = makeFile("big.mp4", "video/mp4", 1024);
+    // 250 MB — above the old all-kinds 50 MB cap, under the new
+    // video-specific 300 MB one. Regression test: before MAX_RAW_MB was
+    // kind-aware, the selection-time MAX_INPUT_BYTES guard (50 MB) used
+    // to reject this file before any upload could start.
+    Object.defineProperty(big, "size", { value: 250 * 1024 * 1024 });
+
+    dispatchFileChange(input, big);
+
+    // Must reach the presign + PUT flow instead of erroring out.
+    await waitFor(() => {
+      expect(onUploaded).toHaveBeenCalledTimes(1);
+    });
+    expect(screen.queryByText(/Trop lourd/)).toBeNull();
+    const presign = fetchCalls.find((c) => c.url === "/api/upload");
+    expect(presign).toBeDefined();
+    expect(JSON.parse(presign!.init!.body!.toString())).toMatchObject({
+      bucket: "post-media",
+      contentType: "video/mp4",
+    });
+    const put = fetchCalls.find((c) => c.url === "https://r2.example.com/signed");
+    expect(put).toBeDefined();
+    // The PUT Content-Type must match the presigned one byte-for-byte —
+    // it is part of the SigV4 signature (signableHeaders in lib/r2.ts).
+    expect((put!.init!.headers as Record<string, string>)["Content-Type"]).toBe("video/mp4");
+    expect(onUploaded).toHaveBeenCalledWith(
+      "user-123/abc.jpg",
+      "https://pub-test.r2.dev/user-123/abc.jpg",
+    );
+  });
+
+  it("rejects video files larger than 300 MB (MAX_RAW_MB) without uploading", async () => {
     const onUploaded = vi.fn();
     render(<MediaUpload kind="video" onUploaded={onUploaded} />);
 
     const input = document.querySelector('input[type="file"]') as HTMLInputElement;
     const huge = makeFile("big.mp4", "video/mp4", 1024);
-    // Override size to 60 MB without allocating huge buffer
-    Object.defineProperty(huge, "size", { value: 60 * 1024 * 1024 });
+    // Override size to 350 MB without allocating huge buffer
+    Object.defineProperty(huge, "size", { value: 350 * 1024 * 1024 });
 
     dispatchFileChange(input, huge);
 
@@ -689,6 +725,24 @@ describe("<MediaUpload /> — video/audio normalization & inference", () => {
     });
     expect(onUploaded).not.toHaveBeenCalled();
     expect(fetchCalls).toHaveLength(0);
+  });
+
+  it("shows the 300 Mo error message for oversized videos", async () => {
+    const onUploaded = vi.fn();
+    render(<MediaUpload kind="video" onUploaded={onUploaded} />);
+
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const huge = makeFile("big.mp4", "video/mp4", 1024);
+    Object.defineProperty(huge, "size", { value: 350 * 1024 * 1024 });
+
+    dispatchFileChange(input, huge);
+
+    await waitFor(() => {
+      // Regression: the guard used to tell every kind "max 50 Mo";
+      // videos must now be told about their 300 Mo ceiling.
+      expect(screen.queryByText(/Trop lourd : max 300 Mo/)).toBeTruthy();
+    });
+    expect(onUploaded).not.toHaveBeenCalled();
   });
 
   it("rejects audio files larger than 50 MB without uploading", async () => {

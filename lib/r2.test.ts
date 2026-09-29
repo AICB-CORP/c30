@@ -243,7 +243,12 @@ describe("createPresignedUploadUrl", () => {
       Key: "user123/img.jpg",
       ContentType: "image/jpeg",
     });
-    expect(options.expiresIn).toBe(600);
+    // Presigned PUT valid for 1 h (3600 s) — large 300 Mo video uploads
+    // need time to complete before the URL expires.
+    expect(options.expiresIn).toBe(3600);
+    // Content-Type must be part of the signature: a PUT with a different
+    // Content-Type than the presigned one is rejected with 403 by R2.
+    expect(options.signableHeaders).toEqual(new Set(["content-type"]));
   });
 
   it("throws when R2_BUCKET_NAME is missing", async () => {

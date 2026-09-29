@@ -54,3 +54,7 @@ Chaque tâche = un fichier `YYYY-MM-DD-<slug>.md` avec :
 | 2026-09-03 | posts-max-width            | layout/posts         | implemented | [2026-09-03-posts-max-width.md](./2026-09-03-posts-max-width.md)                       |
 | 2026-09-03 | retro-mark-toggle          | editor/retro         | implemented | [2026-09-03-retro-mark-toggle.md](./2026-09-03-retro-mark-toggle.md)                   |
 | 2026-09-26 | r2-vercel-env-vars         | media/upload + infra | review      | [2026-09-26-r2-vercel-env-vars.md](./2026-09-26-r2-vercel-env-vars.md)                 |
+| 2026-09-26 | security-collapsible-editor-toolbar | security | implemented | [2026-09-26-security-collapsible-editor-toolbar.md](./2026-09-26-security-collapsible-editor-toolbar.md) |
+| 2026-09-27 | collapsible-editor-toolbar | editor/layout        | implemented | [2026-09-27-collapsible-editor-toolbar.md](./2026-09-27-collapsible-editor-toolbar.md) |
+| 2026-09-29 | video-upload-300mb         | media/upload         | review      | [2026-09-29-video-upload-300mb.md](./2026-09-29-video-upload-300mb.md)                 |
+| 2026-09-29 | security-video-upload-300mb | security           | implemented | [2026-09-29-security-video-upload-300mb.md](./2026-09-29-security-video-upload-300mb.md) |

@@ -29,7 +29,24 @@ interface MediaUploadProps {
   cropAspect?: number;
 }
 
-const MAX_RAW_MB = 50;
+/**
+ * Per-kind raw upload caps (MB).
+ *
+ * Videos: 300 MB (~2–3 min of 1080p phone footage) so friends can share
+ * real clips without fighting the limit. PROJECT_PLAN §12 targets 2–5 Mo
+ * per clip, but that budget only holds if friends stay reasonable — the
+ * 300 MB ceiling is the hard guard, not the target (see PR budget note).
+ * Audio stays at 50 MB (voice notes are 2-min WebM, music files are small).
+ * Images are NOT governed by this map: the cropper + browser-image-
+ * compression read the whole file into memory, so they use MAX_INPUT_BYTES.
+ */
+const MAX_RAW_MB: Record<MediaUploadProps["kind"], number> = {
+  // `image` entry is dead config — both guards branch to MAX_INPUT_BYTES
+  // for kind === "image" (cropper memory). Kept only to satisfy the Record.
+  image: 50,
+  video: 300,
+  audio: 50,
+};
 const ACCEPT: Record<MediaUploadProps["kind"], string> = {
   image: "image/*",
   video: "video/*",
@@ -167,11 +184,14 @@ export default function MediaUpload({
       setBusy(false);
       return;
     }
-    // Per-file sanity cap: a 50 MB+ raw upload would crash
-    // `browser-image-compression` (it reads the whole file into memory
-    // before compressing). Reject early and skip the rest of the batch.
-    if (next.size > MAX_INPUT_BYTES) {
-      setError(`Trop lourd : max ${Math.round(MAX_INPUT_BYTES / 1024 / 1024)} Mo.`);
+    // Per-file sanity cap. Images use MAX_INPUT_BYTES: a bigger raw file
+    // would crash `browser-image-compression` (it reads the whole file
+    // into memory before compressing). Videos/audio use their own
+    // per-kind cap from MAX_RAW_MB. Reject early and skip the rest of
+    // the batch.
+    const maxInputBytes = kind === "image" ? MAX_INPUT_BYTES : MAX_RAW_MB[kind] * 1024 * 1024;
+    if (next.size > maxInputBytes) {
+      setError(`Trop lourd : max ${Math.round(maxInputBytes / 1024 / 1024)} Mo.`);
       // Drain remaining queue and reset state.
       queueRef.current = [];
       batchUploadsRef.current = [];
@@ -252,8 +272,8 @@ export default function MediaUpload({
         return false;
       }
     } else {
-      if (fileOrBlob.size > MAX_RAW_MB * 1024 * 1024) {
-        setError(`Trop lourd : max ${MAX_RAW_MB} Mo.`);
+      if (fileOrBlob.size > MAX_RAW_MB[kind] * 1024 * 1024) {
+        setError(`Trop lourd : max ${MAX_RAW_MB[kind]} Mo.`);
         setProgress(null);
         return false;
       }
