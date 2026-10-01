@@ -427,13 +427,14 @@ async function shot(page, file) {
 /** Scroll the middle to reveal the editor below the sticky block, and return
  *  the best tap point in the visible band (or none). Works in a page or frame. */
 async function revealAndFindTap(target, sel) {
-  const has = (exp) => target.evaluate ? target : target.page;
+  const has = (exp) => (target.evaluate ? target : target.page);
   await target.evaluate((s) => {
     const el = document.querySelector(s);
     const m = document.querySelector('[data-testid="middle-scroll"]');
     const sticky = document.querySelector('[data-testid="toolbar-sticky"]');
-    const mr = m.getBoundingClientRect(), er = el.getBoundingClientRect(),
-          sr = sticky.getBoundingClientRect();
+    const mr = m.getBoundingClientRect(),
+      er = el.getBoundingClientRect(),
+      sr = sticky.getBoundingClientRect();
     const stickyBottomOffset = sr.bottom - mr.top;
     const elementTopInScroll = er.top - mr.top + m.scrollTop;
     const wanted = elementTopInScroll - stickyBottomOffset - 12;
@@ -448,9 +449,14 @@ async function revealAndFindTap(target, sel) {
     const top = Math.max(r.top, sticky.bottom + 6);
     const bottom = Math.min(r.bottom, middle.bottom - 6, window.innerHeight - 4);
     const band = bottom - top;
-    if (band < 8) return { none: true, band: +band.toFixed(1),
-      stickyBottom: +sticky.bottom.toFixed(1), middleBottom: +middle.bottom.toFixed(1),
-      elTop: +r.top.toFixed(1) };
+    if (band < 8)
+      return {
+        none: true,
+        band: +band.toFixed(1),
+        stickyBottom: +sticky.bottom.toFixed(1),
+        middleBottom: +middle.bottom.toFixed(1),
+        elTop: +r.top.toFixed(1),
+      };
     const x = Math.min(Math.max(r.left + 24, 8), window.innerWidth - 8);
     return { x: +x.toFixed(1), y: +((top + bottom) / 2).toFixed(1), band: +band.toFixed(1) };
   }, sel);
@@ -461,7 +467,8 @@ async function markTap(page, pt) {
   await page.evaluate((p) => {
     const m = document.createElement("div");
     m.id = "tap-marker";
-    m.style.cssText = `position:fixed;left:${p.x - 11}px;top:${p.y - 11}px;width:22px;height:22px;` +
+    m.style.cssText =
+      `position:fixed;left:${p.x - 11}px;top:${p.y - 11}px;width:22px;height:22px;` +
       `border:3px dashed #00ff88;border-radius:50%;pointer-events:none;z-index:999;` +
       `box-shadow:0 0 10px #00ff88, inset 0 0 6px #00ff88;`;
     document.body.appendChild(m);
@@ -472,10 +479,15 @@ async function markTap(page, pt) {
  * Shared mobile end-to-end scenario: collapsed → expand (cap checks) →
  * tap editor band → focus auto-collapse → win; optional guard + scrolled.
  * ========================================================================= */
-async function mobileFlow(browser, { width, height, tag, guard = false, scrolledShot = false, expandShotWithMarker = true }) {
+async function mobileFlow(
+  browser,
+  { width, height, tag, guard = false, scrolledShot = false, expandShotWithMarker = true },
+) {
   console.log(`\n=== MOBILE ${width}×${height} (${tag}) — end-to-end ===`);
   const context = await browser.newContext({
-    viewport: { width, height }, hasTouch: true, isMobile: true,
+    viewport: { width, height },
+    hasTouch: true,
+    isMobile: true,
   });
   const page = await context.newPage();
   await page.setContent(pageHtml(), { waitUntil: "load" });
@@ -485,63 +497,98 @@ async function mobileFlow(browser, { width, height, tag, guard = false, scrolled
 
   /* 1. collapsed default — regression checks */
   M.collapsed = await page.evaluate((s) => window.__measure(s), `1-collapsed-${tag}`);
-  assert(`${tag}: starts COLLAPSED`, M.collapsed.state.toolbarOpen === false && !M.collapsed.regionPresent);
-  assert(`${tag}: handle ≥44px, full width, visible`,
-    M.collapsed.handleInViewport && M.collapsed.handle.height >= 44 &&
-    Math.abs(M.collapsed.handle.width - (M.collapsed.sticky.width - 20)) <= 1.5,
-    `${px(M.collapsed.handle.width)}×${px(M.collapsed.handle.height)}`);
-  assert(`${tag}: handle label '🎨 Styles ▼' + aria-expanded=false`,
-    M.collapsed.handleText === "🎨 Styles ▼" && M.collapsed.ariaExpanded === "false");
-  assert(`${tag}: editor visible when collapsed (≥250px — win preserved)`,
-    M.collapsed.editorVisibleHeight >= 250, px(M.collapsed.editorVisibleHeight));
-  assert(`${tag}: 💾 Publier visible + no overflow`,
+  assert(
+    `${tag}: starts COLLAPSED`,
+    M.collapsed.state.toolbarOpen === false && !M.collapsed.regionPresent,
+  );
+  assert(
+    `${tag}: handle ≥44px, full width, visible`,
+    M.collapsed.handleInViewport &&
+      M.collapsed.handle.height >= 44 &&
+      Math.abs(M.collapsed.handle.width - (M.collapsed.sticky.width - 20)) <= 1.5,
+    `${px(M.collapsed.handle.width)}×${px(M.collapsed.handle.height)}`,
+  );
+  assert(
+    `${tag}: handle label '🎨 Styles ▼' + aria-expanded=false`,
+    M.collapsed.handleText === "🎨 Styles ▼" && M.collapsed.ariaExpanded === "false",
+  );
+  assert(
+    `${tag}: editor visible when collapsed (≥250px — win preserved)`,
+    M.collapsed.editorVisibleHeight >= 250,
+    px(M.collapsed.editorVisibleHeight),
+  );
+  assert(
+    `${tag}: 💾 Publier visible + no overflow`,
     M.collapsed.publishInViewport && M.collapsed.docScrollWidth <= width,
-    `doc=${M.collapsed.docScrollWidth}`);
+    `doc=${M.collapsed.docScrollWidth}`,
+  );
   await shot(page, `editor-collapsed-${tag}-r3.png`);
 
   /* 2. expand → cap checks */
   await page.click('[data-testid="styles-handle"]');
   await page.waitForTimeout(150);
   M.expanded = await page.evaluate((s) => window.__measure(s), `2-expanded-${tag}`);
-  assert(`${tag}: expanded — 26 buttons / 2 selects`,
-    M.expanded.regionPresent && M.expanded.regionButtons === 26 && M.expanded.regionSelects === 2);
-  assert(`${tag}: region max-height computes calc(42vh−80px) = ${px(capExpected)}`,
+  assert(
+    `${tag}: expanded — 26 buttons / 2 selects`,
+    M.expanded.regionPresent && M.expanded.regionButtons === 26 && M.expanded.regionSelects === 2,
+  );
+  assert(
+    `${tag}: region max-height computes calc(42vh−80px) = ${px(capExpected)}`,
     Math.abs(parseFloat(M.expanded.regionComputed.maxHeight) - capExpected) <= 2,
-    `maxHeight=${M.expanded.regionComputed.maxHeight}`);
-  assert(`${tag}: region CLAMPED to cap with internal scrollbar`,
+    `maxHeight=${M.expanded.regionComputed.maxHeight}`,
+  );
+  assert(
+    `${tag}: region CLAMPED to cap with internal scrollbar`,
     Math.abs(M.expanded.region.height - capExpected) <= 2 &&
-    M.expanded.regionComputed.overflowY === "auto" &&
-    M.expanded.regionComputed.scrollHeight > M.expanded.regionComputed.clientHeight + 1,
-    `region=${px(M.expanded.region.height)}, scrollHeight=${M.expanded.regionComputed.scrollHeight} > client=${M.expanded.regionComputed.clientHeight}`);
+      M.expanded.regionComputed.overflowY === "auto" &&
+      M.expanded.regionComputed.scrollHeight > M.expanded.regionComputed.clientHeight + 1,
+    `region=${px(M.expanded.region.height)}, scrollHeight=${M.expanded.regionComputed.scrollHeight} > client=${M.expanded.regionComputed.clientHeight}`,
+  );
   const bandRest = +(M.expanded.middle.bottom - M.expanded.sticky.bottom).toFixed(1);
   M.bandRest = bandRest;
-  console.log(`  ℹ️  space below sticky (at scrollTop=0): ${bandRest}px — this is where the media row sits; the editor enters it after a small swipe`);
-  assert(`${tag}: sticky block ≤ middle scrollport (editor reachable by scroll)`,
+  console.log(
+    `  ℹ️  space below sticky (at scrollTop=0): ${bandRest}px — this is where the media row sits; the editor enters it after a small swipe`,
+  );
+  assert(
+    `${tag}: sticky block ≤ middle scrollport (editor reachable by scroll)`,
     M.expanded.sticky.height <= M.expanded.middle.height,
-    `sticky=${px(M.expanded.sticky.height)} ≤ middle=${px(M.expanded.middle.height)}`);
-  assert(`${tag}: 💾 Publier visible while expanded + no overflow`,
-    M.expanded.publishInViewport && M.expanded.docScrollWidth <= width);
+    `sticky=${px(M.expanded.sticky.height)} ≤ middle=${px(M.expanded.middle.height)}`,
+  );
+  assert(
+    `${tag}: 💾 Publier visible while expanded + no overflow`,
+    M.expanded.publishInViewport && M.expanded.docScrollWidth <= width,
+  );
 
   /* 3. end-to-end: tap editor band → focus → auto-collapse */
   await page.waitForTimeout(900); // guard expiry since handle tap
   const pt = await revealAndFindTap(page, '[data-testid="tiptap"]');
   M.tapBand = pt.band;
-  if (expandShotWithMarker && !pt.none) { await markTap(page, pt); }
+  if (expandShotWithMarker && !pt.none) {
+    await markTap(page, pt);
+  }
   await shot(page, `editor-expanded-${tag}-r3.png`);
   if (pt.none) {
-    assert(`${tag}: editor band tappable → auto-collapse reachable`, false,
-      `band=${pt.band}px (${pt.detail ?? ""})`);
+    assert(
+      `${tag}: editor band tappable → auto-collapse reachable`,
+      false,
+      `band=${pt.band}px (${pt.detail ?? ""})`,
+    );
   } else {
     await page.mouse.click(pt.x, pt.y);
     await page.waitForTimeout(120);
     M.autocollapsed = await page.evaluate((s) => window.__measure(s), `3-autocollapse-${tag}`);
-    assert(`${tag}: editor band tappable (band=${pt.band}px) → focus fires AUTO-COLLAPSE`,
+    assert(
+      `${tag}: editor band tappable (band=${pt.band}px) → focus fires AUTO-COLLAPSE`,
       M.autocollapsed.state.toolbarOpen === false && !M.autocollapsed.regionPresent,
-      `msSinceToolbarTouch=${M.autocollapsed.state.msSinceToolbarTouch}`);
+      `msSinceToolbarTouch=${M.autocollapsed.state.msSinceToolbarTouch}`,
+    );
     const winH = +(M.autocollapsed.editorVisibleHeight - M.expanded.editorVisibleHeight).toFixed(1);
     M.screenSpaceWin = winH;
-    assert(`${tag}: screen-space win ≥ 150px`, winH >= 150,
-      `Δ=${px(winH)} (${px(M.expanded.editorVisibleHeight)} → ${px(M.autocollapsed.editorVisibleHeight)})`);
+    assert(
+      `${tag}: screen-space win ≥ 150px`,
+      winH >= 150,
+      `Δ=${px(winH)} (${px(M.expanded.editorVisibleHeight)} → ${px(M.autocollapsed.editorVisibleHeight)})`,
+    );
     await shot(page, `editor-autocollapse-${tag}-r3.png`);
   }
 
@@ -555,9 +602,11 @@ async function mobileFlow(browser, { width, height, tag, guard = false, scrolled
   });
   await page.waitForTimeout(120);
   M.scrolled = await page.evaluate((s) => window.__measure(s), `3b-scrolled-${tag}`);
-  assert(`${tag}: handle sticky & fully visible while scrolled (R1-4 clip nit resolved)`,
+  assert(
+    `${tag}: handle sticky & fully visible while scrolled (R1-4 clip nit resolved)`,
     M.scrolled.handleInViewport && M.scrolled.handle.top >= M.scrolled.middle.top - 1.5,
-    `handle.top=${M.scrolled.handle?.top} ≥ middle.top=${M.scrolled.middle?.top}−1.5`);
+    `handle.top=${M.scrolled.handle?.top} ≥ middle.top=${M.scrolled.middle?.top}−1.5`,
+  );
   if (scrolledShot) await shot(page, `editor-expanded-scrolled-${tag}-r3.png`);
 
   /* 4. optional guard flow */
@@ -575,9 +624,11 @@ async function mobileFlow(browser, { width, height, tag, guard = false, scrolled
     await page.mouse.click(ptB.x, ptB.y);
     await page.waitForTimeout(100);
     M.guardHold = await page.evaluate((s) => window.__measure(s), `4a-guard-${tag}`);
-    assert(`${tag}: B tap + immediate text tap → toolbar STAYS open (guard < 800ms)`,
+    assert(
+      `${tag}: B tap + immediate text tap → toolbar STAYS open (guard < 800ms)`,
       M.guardHold.state.toolbarOpen === true && M.guardHold.regionPresent,
-      `msSinceToolbarTouch=${M.guardHold.state.msSinceToolbarTouch}`);
+      `msSinceToolbarTouch=${M.guardHold.state.msSinceToolbarTouch}`,
+    );
     await shot(page, `editor-guard-stays-open-${tag}-r3.png`);
     await page.evaluate(() => window.__test.blurEditor());
     await page.waitForTimeout(900);
@@ -585,9 +636,11 @@ async function mobileFlow(browser, { width, height, tag, guard = false, scrolled
     await page.mouse.click(ptC.x, ptC.y);
     await page.waitForTimeout(100);
     M.guardExpire = await page.evaluate((s) => window.__measure(s), `4b-guard-expire-${tag}`);
-    assert(`${tag}: after 900ms → text tap collapses`,
+    assert(
+      `${tag}: after 900ms → text tap collapses`,
       M.guardExpire.state.toolbarOpen === false && !M.guardExpire.regionPresent,
-      `msSinceToolbarTouch=${M.guardExpire.state.msSinceToolbarTouch}`);
+      `msSinceToolbarTouch=${M.guardExpire.state.msSinceToolbarTouch}`,
+    );
     await shot(page, `editor-guard-expires-${tag}-r3.png`);
   }
 
@@ -599,13 +652,24 @@ async function mobileFlow(browser, { width, height, tag, guard = false, scrolled
     const h = document.querySelector('[data-testid="styles-handle"]');
     const t0 = performance.now();
     h.click();
-    return { unmountMs: +(performance.now() - t0).toFixed(2),
-             gone: !document.getElementById("retro-style-toolbar") };
+    return {
+      unmountMs: +(performance.now() - t0).toFixed(2),
+      gone: !document.getElementById("retro-style-toolbar"),
+    };
   });
-  assert(`${tag}: collapse INSTANT (<16ms)`, timing.gone && timing.unmountMs < 16, `${timing.unmountMs}ms`);
+  assert(
+    `${tag}: collapse INSTANT (<16ms)`,
+    timing.gone && timing.unmountMs < 16,
+    `${timing.unmountMs}ms`,
+  );
   const hs = M.expanded.handleStyle;
-  assert(`${tag}: handle retro look intact`, /linear-gradient/.test(hs.backgroundImage) &&
-    hs.borderTopStyle === "outset" && hs.borderRadius === "999px" && hs.fontWeight === "700");
+  assert(
+    `${tag}: handle retro look intact`,
+    /linear-gradient/.test(hs.backgroundImage) &&
+      hs.borderTopStyle === "outset" &&
+      hs.borderRadius === "999px" &&
+      hs.fontWeight === "700",
+  );
 
   await context.close();
   return M;
@@ -627,17 +691,28 @@ async function boundaryChecks(browser) {
     const M = await page.evaluate((s) => window.__measure(s), `bp-${w}`);
     results[w] = M;
     if (w === 767) {
-      assert("767px: handle styled MOBILE (flex, full-width ≥80% of sticky box)",
-        M.handleStyle.display === "flex" && M.handle.width >= 0.8 * M.sticky.width && M.handleInViewport,
-        `display=${M.handleStyle.display}, ${px(M.handle.width)} of ${px(M.sticky.width)}`);
-      assert("767px: mobile behaviour — toolbar collapsed by default",
-        M.state.isMobile === true && M.state.toolbarOpen === false && !M.regionPresent);
+      assert(
+        "767px: handle styled MOBILE (flex, full-width ≥80% of sticky box)",
+        M.handleStyle.display === "flex" &&
+          M.handle.width >= 0.8 * M.sticky.width &&
+          M.handleInViewport,
+        `display=${M.handleStyle.display}, ${px(M.handle.width)} of ${px(M.sticky.width)}`,
+      );
+      assert(
+        "767px: mobile behaviour — toolbar collapsed by default",
+        M.state.isMobile === true && M.state.toolbarOpen === false && !M.regionPresent,
+      );
       await shot(page, "boundary-767-r3.png");
     } else {
-      assert("768px: handle display:none, zero box, desktop open",
-        M.handleStyle.display === "none" && M.handle.width === 0 && M.handle.height === 0 &&
-        M.state.toolbarOpen === true && M.regionPresent,
-        `display=${M.handleStyle.display}, box=${M.handle.width}×${M.handle.height}`);
+      assert(
+        "768px: handle display:none, zero box, desktop open",
+        M.handleStyle.display === "none" &&
+          M.handle.width === 0 &&
+          M.handle.height === 0 &&
+          M.state.toolbarOpen === true &&
+          M.regionPresent,
+        `display=${M.handleStyle.display}, box=${M.handle.width}×${M.handle.height}`,
+      );
       await shot(page, "boundary-768-r3.png");
     }
     await context.close();
@@ -647,7 +722,9 @@ async function boundaryChecks(browser) {
      an iframe of exactly 767.5px inside an 800px page (matchMedia inside the
      iframe sees the iframe width — same-origin srcdoc). */
   let method = "fractional-viewport";
-  let page, target, clip = null;
+  let page,
+    target,
+    clip = null;
   const context = await browser.newContext({ viewport: { width: 800, height: 900 } });
   page = await context.newPage();
   try {
@@ -658,7 +735,7 @@ async function boundaryChecks(browser) {
     if (iw === 767.5) {
       await probe.close();
       const direct = await browser.newContext({ viewport: { width: 767.5, height: 900 } });
-      page = (await direct.newPage());
+      page = await direct.newPage();
       await page.setContent(pageHtml(), { waitUntil: "load" });
       target = page;
       method = "fractional-viewport";
@@ -671,7 +748,9 @@ async function boundaryChecks(browser) {
     // iframe fallback
     await page.setContent(`<!DOCTYPE html><html><body style="margin:0;background:#000">
       <iframe id="f" style="border:0;width:767.5px;height:900px;display:block"></iframe></body></html>`);
-    await page.evaluate((h) => { document.getElementById("f").srcdoc = h; }, pageHtml());
+    await page.evaluate((h) => {
+      document.getElementById("f").srcdoc = h;
+    }, pageHtml());
     await page.waitForTimeout(450);
     target = page.frames().find((f) => f !== page.mainFrame());
     clip = await page.evaluate(() => {
@@ -688,13 +767,19 @@ async function boundaryChecks(browser) {
      Chromium rounds the fractional media viewport (767.5 → 768) while layout
      stays fractional, so here every rule co-decides "desktop" — that is the
      fixed behaviour. A 767px / 768px bracket proves the mobile side too. */
-  const sameSide = M.state.isMobile ? M.handleStyle.display === "flex" : M.handleStyle.display === "none";
-  assert("767.5px: component CSS and hook AGREE (same side, no stray inline-block pill)",
+  const sameSide = M.state.isMobile
+    ? M.handleStyle.display === "flex"
+    : M.handleStyle.display === "none";
+  assert(
+    "767.5px: component CSS and hook AGREE (same side, no stray inline-block pill)",
     sameSide && M.handleStyle.display !== "inline-block",
-    `isMobile=${M.state.isMobile}, display=${M.handleStyle.display}, toolbarOpen=${M.state.toolbarOpen} [${method}; layout stayed fractional: sticky=${px(M.sticky.width)}]`);
-  assert("767.5px: toolbarOpen consistent with the hook's side",
+    `isMobile=${M.state.isMobile}, display=${M.handleStyle.display}, toolbarOpen=${M.state.toolbarOpen} [${method}; layout stayed fractional: sticky=${px(M.sticky.width)}]`,
+  );
+  assert(
+    "767.5px: toolbarOpen consistent with the hook's side",
     M.state.isMobile ? M.state.toolbarOpen === false : M.state.toolbarOpen === true,
-    `isMobile=${M.state.isMobile}, toolbarOpen=${M.state.toolbarOpen}`);
+    `isMobile=${M.state.isMobile}, toolbarOpen=${M.state.toolbarOpen}`,
+  );
   if (clip) {
     await page.screenshot({ path: path.join(outDir, "boundary-767.5-r3.png"), clip });
     console.log("  📸 boundary-767.5-r3.png");
@@ -704,7 +789,12 @@ async function boundaryChecks(browser) {
   const c2 = page.context();
   await c2.close();
   // close any leftover contexts opened by the fractional attempt
-  for (const ctx of browser.contexts()) if (ctx !== c2) { try { await ctx.close(); } catch {} }
+  for (const ctx of browser.contexts())
+    if (ctx !== c2) {
+      try {
+        await ctx.close();
+      } catch {}
+    }
   return results;
 }
 
@@ -720,12 +810,20 @@ async function desktop(browser) {
   const M = {};
 
   M.default = await page.evaluate((s) => window.__measure(s), "desktop-default");
-  assert("desktop: toolbar OPEN by default, 26 buttons + 2 selects",
-    M.default.state.toolbarOpen === true && M.default.regionPresent &&
-    M.default.regionButtons === 26 && M.default.regionSelects === 2);
-  assert("desktop: handle display:none + zero box",
-    M.default.handleStyle.display === "none" && M.default.handle.width === 0 && M.default.handle.height === 0,
-    `display=${M.default.handleStyle.display}, box=${M.default.handle.width}×${M.default.handle.height}`);
+  assert(
+    "desktop: toolbar OPEN by default, 26 buttons + 2 selects",
+    M.default.state.toolbarOpen === true &&
+      M.default.regionPresent &&
+      M.default.regionButtons === 26 &&
+      M.default.regionSelects === 2,
+  );
+  assert(
+    "desktop: handle display:none + zero box",
+    M.default.handleStyle.display === "none" &&
+      M.default.handle.width === 0 &&
+      M.default.handle.height === 0,
+    `display=${M.default.handleStyle.display}, box=${M.default.handle.width}×${M.default.handle.height}`,
+  );
   const clickCheck = await page.evaluate(() => {
     const handle = document.querySelector('[data-testid="styles-handle"]');
     const region = document.getElementById("retro-style-toolbar");
@@ -733,13 +831,21 @@ async function desktop(browser) {
     const elAt = document.elementFromPoint(rr.left + rr.width / 2, rr.top + 20);
     return { elIsHandle: elAt === handle || handle.contains(elAt), elTag: elAt?.tagName };
   });
-  assert("desktop: handle NOT clickable", !clickCheck.elIsHandle,
-    `element at position: <${clickCheck.elTag}>`);
-  assert("desktop: NO cap (max-height:none, overflow visible) — wraps like old layout",
-    M.default.regionComputed.maxHeight === "none" && M.default.regionComputed.overflowY === "visible",
-    `maxHeight=${M.default.regionComputed.maxHeight}, region=${px(M.default.region.height)} (round 1/2: 111px)`);
-  assert("desktop: 💾 Publier visible, no overflow",
-    M.default.publishInViewport && M.default.publishInsideBox && M.default.docScrollWidth <= 1280);
+  assert(
+    "desktop: handle NOT clickable",
+    !clickCheck.elIsHandle,
+    `element at position: <${clickCheck.elTag}>`,
+  );
+  assert(
+    "desktop: NO cap (max-height:none, overflow visible) — wraps like old layout",
+    M.default.regionComputed.maxHeight === "none" &&
+      M.default.regionComputed.overflowY === "visible",
+    `maxHeight=${M.default.regionComputed.maxHeight}, region=${px(M.default.region.height)} (round 1/2: 111px)`,
+  );
+  assert(
+    "desktop: 💾 Publier visible, no overflow",
+    M.default.publishInViewport && M.default.publishInsideBox && M.default.docScrollWidth <= 1280,
+  );
   await shot(page, "editor-desktop-unchanged-r3.png");
   await context.close();
   return M;
@@ -754,22 +860,50 @@ function savePartial(partial) {
 
 async function main() {
   const browser = await chromium.launch({ headless: true });
-  const partial = { generatedAt: new Date().toISOString(), branch: "feat/collapsible-editor-toolbar", round: 3 };
+  const partial = {
+    generatedAt: new Date().toISOString(),
+    branch: "feat/collapsible-editor-toolbar",
+    round: 3,
+  };
 
-  const m667 = await mobileFlow(browser, { width: 375, height: 667, tag: "667", scrolledShot: false });
-  partial.mobile667 = m667; partial.checks = checks; partial.findings = findings; savePartial(partial);
+  const m667 = await mobileFlow(browser, {
+    width: 375,
+    height: 667,
+    tag: "667",
+    scrolledShot: false,
+  });
+  partial.mobile667 = m667;
+  partial.checks = checks;
+  partial.findings = findings;
+  savePartial(partial);
 
-  const m360 = await mobileFlow(browser, { width: 360, height: 740, tag: "360", scrolledShot: true });
-  partial.mobile360 = m360; partial.checks = checks; partial.findings = findings; savePartial(partial);
+  const m360 = await mobileFlow(browser, {
+    width: 360,
+    height: 740,
+    tag: "360",
+    scrolledShot: true,
+  });
+  partial.mobile360 = m360;
+  partial.checks = checks;
+  partial.findings = findings;
+  savePartial(partial);
 
   const m812 = await mobileFlow(browser, { width: 375, height: 812, tag: "812", guard: true });
-  partial.mobile812 = m812; partial.checks = checks; partial.findings = findings; savePartial(partial);
+  partial.mobile812 = m812;
+  partial.checks = checks;
+  partial.findings = findings;
+  savePartial(partial);
 
   const bp = await boundaryChecks(browser);
-  partial.boundaries = bp; partial.checks = checks; savePartial(partial);
+  partial.boundaries = bp;
+  partial.checks = checks;
+  savePartial(partial);
 
   const d = await desktop(browser);
-  partial.desktop = d; partial.checks = checks; partial.findings = findings; savePartial(partial);
+  partial.desktop = d;
+  partial.checks = checks;
+  partial.findings = findings;
+  savePartial(partial);
 
   await browser.close();
 
@@ -787,12 +921,28 @@ async function main() {
       { name: "boundary", widths: [767, 767.5, 768] },
       { name: "desktop", width: 1280, height: 800 },
     ],
-    checks, findings,
+    checks,
+    findings,
     totals: { passed, failed, total: checks.length },
     bands: {
-      "375x667": { capExpected: 0.42 * 667 - 80, region: m667.expanded.region.height, bandRest: m667.bandRest, tapBand: m667.tapBand },
-      "360x740": { capExpected: 0.42 * 740 - 80, region: m360.expanded.region.height, bandRest: m360.bandRest, tapBand: m360.tapBand },
-      "375x812": { capExpected: 0.42 * 812 - 80, region: m812.expanded.region.height, bandRest: m812.bandRest, tapBand: m812.tapBand },
+      "375x667": {
+        capExpected: 0.42 * 667 - 80,
+        region: m667.expanded.region.height,
+        bandRest: m667.bandRest,
+        tapBand: m667.tapBand,
+      },
+      "360x740": {
+        capExpected: 0.42 * 740 - 80,
+        region: m360.expanded.region.height,
+        bandRest: m360.bandRest,
+        tapBand: m360.tapBand,
+      },
+      "375x812": {
+        capExpected: 0.42 * 812 - 80,
+        region: m812.expanded.region.height,
+        bandRest: m812.bandRest,
+        tapBand: m812.tapBand,
+      },
     },
     metrics: { mobile667: m667, mobile360: m360, mobile812: m812, boundaries: bp, desktop: d },
   };
@@ -804,4 +954,7 @@ async function main() {
   }
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

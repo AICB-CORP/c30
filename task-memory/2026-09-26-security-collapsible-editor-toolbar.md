@@ -26,12 +26,12 @@ decisions:
 
 Diff `main...working-tree` (HEAD == main at `1bdc880`, so **the entire change set is uncommitted**):
 
-| File | Nature |
-| --- | --- |
-| `components/editor/useCollapsibleToolbar.ts` (NEW, untracked) | Pure client hook: matchMedia mobile detection, editor `focus` subscription, 800 ms grace ref, toggle. |
-| `components/editor/useCollapsibleToolbar.test.tsx` (NEW, untracked) | 17 Vitest unit tests, mocks `matchMedia` + TipTap `Editor` double. |
-| `components/editor/RetroEditor.tsx` | Toolbar block restructured: toggle button (static aria attributes), conditional render of style region, `touchToolbar()` guards in 5 handlers, one pure-CSS `.styles-handle` rule. |
-| 15 unrelated files (`.github/workflows/deploy.yml`, `task-memory/**`, `.opencode/agent/deployment.md`, `FORCE_REBUILD.md`) | Prettier-only drift — verified below. |
+| File                                                                                                                       | Nature                                                                                                                                                                             |
+| -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `components/editor/useCollapsibleToolbar.ts` (NEW, untracked)                                                              | Pure client hook: matchMedia mobile detection, editor `focus` subscription, 800 ms grace ref, toggle.                                                                              |
+| `components/editor/useCollapsibleToolbar.test.tsx` (NEW, untracked)                                                        | 17 Vitest unit tests, mocks `matchMedia` + TipTap `Editor` double.                                                                                                                 |
+| `components/editor/RetroEditor.tsx`                                                                                        | Toolbar block restructured: toggle button (static aria attributes), conditional render of style region, `touchToolbar()` guards in 5 handlers, one pure-CSS `.styles-handle` rule. |
+| 15 unrelated files (`.github/workflows/deploy.yml`, `task-memory/**`, `.opencode/agent/deployment.md`, `FORCE_REBUILD.md`) | Prettier-only drift — verified below.                                                                                                                                              |
 
 Verification methods: full diff read, `git diff main --name-only` surface scan, deep-normalized JSON comparison for the 3 `.json` files, YAML semantic analysis for the workflow, pattern scan (`dangerouslySetInnerHTML|innerHTML|eval|javascript:|service_role|http|url(|caroline`), `.gitignore`/tracked-status audit, `proxy.ts` gate read, live run of the new test suite (17/17 pass).
 
@@ -97,8 +97,9 @@ None.
 
 ### Important — 1
 
-**I-1 — `INVITATION_CAROLINE_30.md` holds the live invite code and is not gitignored** *(pre-existing file, flagged per audit instructions; risk concretely elevated by this branch's mandated commit+push workflow)*
-- **Repro**: `grep -n "BESTIE" INVITATION_CAROLINE_30.md` → line 42: `` **`BESTIE-30ANS`** ``. `git check-ignore INVITATION_CAROLINE_30.md` → no match (exit 1).
+**I-1 — `INVITATION_CAROLINE_30.md` holds the live invite code and is not gitignored** _(pre-existing file, flagged per audit instructions; risk concretely elevated by this branch's mandated commit+push workflow)_
+
+- **Repro**: `grep -n "BESTIE" INVITATION_CAROLINE_30.md` → line 42: ``**`BESTIE-30ANS`**``. `git check-ignore INVITATION_CAROLINE_30.md` → no match (exit 1).
 - **Impact**: accidental `git add -A` (common in the agent pipeline's step "commit → push") commits the burnable invite code + recipient's name to the repo; removing it later requires history rewrite. Violates §10 stealth if the repo is ever exposed.
 - **Minimal fix** (1 line, to add in this PR before merge — outside my write scope): append `INVITATION_CAROLINE_30.md` to `.gitignore` (or move the file out of the repo — the plan §10 suggests a physical card anyway). Optionally rotate the invite code before day J if it ever touches a commit.
 
@@ -116,4 +117,4 @@ None.
 
 The collapsible toolbar is a pure client-side UI-state change: no new HTML rendering path, no sanitizer/API/RLS surface touched, no dependencies, no external URLs, no metadata/stealth regression, and it cannot bypass the `proxy.ts` auth gate or alter the sanitized save pipeline. The single Important finding concerns a pre-existing untracked file (`INVITATION_CAROLINE_30.md` with the live invite code) that must be gitignored before any commit on this branch — a one-line fix. Prettier drift on unrelated files is verified semantically identical (recommend isolating it for review hygiene). Standing posture from 2026-09-03 (sanitize-whitelist, `isSafeIframe` gate, oEmbed host allowlist) is fully preserved.
 
-*Report generated by the security agent (read-only). Verification artifacts: full diff audit, normalized JSON comparison, 17/17 unit tests passing, gitignore/tracked-status checks.*
+_Report generated by the security agent (read-only). Verification artifacts: full diff audit, normalized JSON comparison, 17/17 unit tests passing, gitignore/tracked-status checks._

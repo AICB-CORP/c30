@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Dancing_Script, Press_Start_2P } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
@@ -23,6 +23,11 @@ export const metadata: Metadata = {
     follow: false,
     nocache: true,
   },
+};
+
+export const viewport: Viewport = {
+  // Rose Skyrock classique — assorti à la favicon (app/icon.svg)
+  themeColor: "#FF69B4",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
