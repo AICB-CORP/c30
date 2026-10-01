@@ -21,11 +21,7 @@
     },
     {
       "name": "boundary",
-      "widths": [
-        767,
-        767.5,
-        768
-      ]
+      "widths": [767, 767.5, 768]
     },
     {
       "name": "desktop",
