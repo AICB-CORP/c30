@@ -42,6 +42,9 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
           <Link href="/compte" className="retro-btn">
             ⚙️ Mon compte
           </Link>
+          <Link href="/explication" className="retro-btn">
+            📖 Explication
+          </Link>
           {profile.role === "birthday_girl" && (
             <Link href="/day" className="retro-btn">
               🎂 Jour J
