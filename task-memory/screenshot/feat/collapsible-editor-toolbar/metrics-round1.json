@@ -1,0 +1,3166 @@
+{
+  "generatedAt": "2026-09-26T23:49:31.496Z",
+  "branch": "feat/collapsible-editor-toolbar",
+  "harness": "layout-test.mjs (standalone page.setContent reconstruction, faithful cascade layering)",
+  "viewports": [
+    {
+      "name": "mobile-primary",
+      "width": 375,
+      "height": 667
+    },
+    {
+      "name": "mobile-android",
+      "width": 360,
+      "height": 740
+    },
+    {
+      "name": "desktop",
+      "width": 1280,
+      "height": 800
+    }
+  ],
+  "checks": [
+    {
+      "name": "mobile starts COLLAPSED (toolbarOpen=false)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "style region NOT in DOM when collapsed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "handle visible in viewport & inside modal box",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "handle touch target ≥ 44px tall",
+      "pass": true,
+      "detail": "51px"
+    },
+    {
+      "name": "handle full-width of sticky content box",
+      "pass": true,
+      "detail": "302px vs content 302px"
+    },
+    {
+      "name": "handle reads '🎨 Styles ▼' when collapsed",
+      "pass": true,
+      "detail": "\"🎨 Styles ▼\""
+    },
+    {
+      "name": "media row (GIF/Voix) still reachable when collapsed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "editor-area ≥ 280px min-height",
+      "pass": true,
+      "detail": "280px"
+    },
+    {
+      "name": "editor substantially visible when collapsed",
+      "pass": true,
+      "detail": "259px"
+    },
+    {
+      "name": "💾 Publier visible in viewport & inside box",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no horizontal overflow (doc ≤ 375)",
+      "pass": true,
+      "detail": "375"
+    },
+    {
+      "name": "handle tap → toolbarOpen=true",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "style region mounted: 26 buttons / 2 selects / 1 color input",
+      "pass": true,
+      "detail": "26 btn / 2 sel / 1 in"
+    },
+    {
+      "name": "handle reads '🎨 Styles ▲' when expanded",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "toolbar region wraps to many rows (≥5) when expanded",
+      "pass": true,
+      "detail": "263px ≈ 8 rows (btn 29px + gap 6px; real-app fonts wrap taller — prev task ground truth: 11–13 rows @375)"
+    },
+    {
+      "name": "everything stays inside max-h-[90vh] modal box",
+      "pass": true,
+      "detail": "region.bottom=569.3 ≤ box.bottom=633.6"
+    },
+    {
+      "name": "no horizontal overflow when expanded",
+      "pass": true,
+      "detail": "doc=375, regionMaxRight=336.6"
+    },
+    {
+      "name": "💾 Publier still visible in viewport while expanded",
+      "pass": true,
+      "detail": "visible=44px"
+    },
+    {
+      "name": "handle STICKY while middle scrolled (still in viewport)",
+      "pass": true,
+      "detail": "handle.top=229.5, middle.top=237.5"
+    },
+    {
+      "name": "expanded toolbar leaves a tappable editor band at 375×667",
+      "pass": false,
+      "detail": "band=-35.7px (covered)"
+    },
+    {
+      "name": "handle collapse restores the writing area (toolbarOpen=false, region unmounted)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "screen-space win: VISIBLE editor grows by ≥ 150px after collapse",
+      "pass": true,
+      "detail": "Δ=259px (0px → 259px)"
+    },
+    {
+      "name": "editor-area element height stable across collapse (no reflow damage)",
+      "pass": true,
+      "detail": "280px → 280px"
+    },
+    {
+      "name": "collapse is INSTANT (synchronous unmount < 16ms — no animation)",
+      "pass": true,
+      "detail": "0.2ms"
+    },
+    {
+      "name": "expanded region container has no transition/animation",
+      "pass": true,
+      "detail": "{\"transitionProperty\":\"all\",\"transitionDuration\":\"0s\",\"animationName\":\"none\"}"
+    },
+    {
+      "name": "handle retro gradient (#ff1493 → #a0005e)",
+      "pass": true,
+      "detail": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))…"
+    },
+    {
+      "name": "handle 3px outset #ffb6d9 border",
+      "pass": true,
+      "detail": "outset 3px rgb(255, 182, 217)"
+    },
+    {
+      "name": "handle pill radius + bold white text + text-shadow + glow",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "812: starts collapsed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "812: editor tappable while expanded (band exists)",
+      "pass": true,
+      "detail": "band=94.8px"
+    },
+    {
+      "name": "812: editor focus auto-collapses toolbar",
+      "pass": true,
+      "detail": "msSinceToolbarTouch=1259"
+    },
+    {
+      "name": "812: screen-space win ≥ 150px after auto-collapse",
+      "pass": true,
+      "detail": "Δ=155px (125px → 280px)"
+    },
+    {
+      "name": "B tap + immediate text tap → toolbar STAYS open (guard < 800ms)",
+      "pass": true,
+      "detail": "msSinceToolbarTouch=167"
+    },
+    {
+      "name": "after 900ms without toolbar touch → text tap collapses",
+      "pass": true,
+      "detail": "msSinceToolbarTouch=1279"
+    },
+    {
+      "name": "360: starts collapsed",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "360: handle ≥ 44px & in viewport",
+      "pass": true,
+      "detail": "51px"
+    },
+    {
+      "name": "360: no horizontal overflow (doc ≤ 360)",
+      "pass": true,
+      "detail": "360"
+    },
+    {
+      "name": "360: Publier visible",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "360: expand works, all 26 buttons",
+      "pass": true,
+      "detail": "region=304px"
+    },
+    {
+      "name": "360: no horizontal overflow when expanded",
+      "pass": true,
+      "detail": "doc=360"
+    },
+    {
+      "name": "360: Publier still visible when expanded",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "360: expanded toolbar leaves a tappable editor band",
+      "pass": false,
+      "detail": "band=-11px (covered)"
+    },
+    {
+      "name": "360: handle collapse restores writing area",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "360: screen-space win ≥ 150px",
+      "pass": true,
+      "detail": "Δ=264px"
+    },
+    {
+      "name": "desktop: toolbar OPEN by default",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "desktop: handle display:none (md:hidden)",
+      "pass": false,
+      "detail": "display=flex"
+    },
+    {
+      "name": "desktop: handle takes no space (zero box)",
+      "pass": false,
+      "detail": "706×50.8"
+    },
+    {
+      "name": "desktop: all 26 buttons + 2 selects present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "desktop: toolbar wraps like old layout (60–400px tall)",
+      "pass": true,
+      "detail": "111px"
+    },
+    {
+      "name": "desktop: Publier visible, no overflow",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "desktop: stays open after breakpoint re-evaluation",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "PROBE: handle with md:hidden computes display:flex on desktop → md:hidden DEFEATED by unlayered component CSS",
+      "pass": true,
+      "detail": "A=flex, B=none (utility itself works)"
+    }
+  ],
+  "totals": {
+    "passed": 48,
+    "failed": 4,
+    "total": 52
+  },
+  "screenSpaceWin375": 258.7,
+  "screenSpaceWin375x812": 154.6,
+  "screenSpaceWin360": 264,
+  "findings": [
+    {
+      "severity": "important",
+      "name": "375×667: expanded toolbar covers the ENTIRE middle scrollport — editor untappable while expanded",
+      "detail": "tappable band=-35.7px; sticky.bottom=579.3 ≥ middle.bottom-561.6 (editor [591.3..771.3] fully covered). Auto-collapse-on-focus can never trigger at this phone height; the only exit is the 🎨 Styles ▲ handle."
+    },
+    {
+      "severity": "important",
+      "name": "360×740: expanded toolbar covers the middle scrollport — editor untappable while expanded",
+      "detail": "band=-11px; sticky.bottom=624 ≥ middle.bottom-631 (editor [636..816] fully covered)"
+    }
+  ],
+  "cascadeProbe": {
+    "A_handle": {
+      "display": "flex",
+      "w": 1232,
+      "h": 51
+    },
+    "B_utilityOnly": {
+      "display": "none",
+      "w": 0,
+      "h": 0
+    },
+    "C_retroBtnOnly": {
+      "display": "inline-block",
+      "w": 91,
+      "h": 37
+    }
+  },
+  "metrics": {
+    "mobile375": {
+      "collapsed": {
+        "step": "1-collapsed-default",
+        "vw": 375,
+        "vh": 667,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1790466564253
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "box": {
+          "top": 33.3,
+          "bottom": 633.6,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 600.3
+        },
+        "handle": {
+          "top": 247.5,
+          "bottom": 298.3,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 237.5,
+          "bottom": 308.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 237.5,
+          "bottom": 561.6,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 324.1
+        },
+        "editorArea": {
+          "top": 408.3,
+          "bottom": 688.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 574.6,
+          "bottom": 618.6,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 324,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 258.7,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionInputs": 0,
+        "regionMaxRight": 0,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": null,
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 302.3,
+            "h": 50.8
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "expanded": {
+        "step": "2-expanded-after-handle-tap",
+        "vw": 375,
+        "vh": 667,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 157
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "box": {
+          "top": 33.3,
+          "bottom": 633.6,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 600.3
+        },
+        "handle": {
+          "top": 247.5,
+          "bottom": 298.3,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": {
+          "top": 306.3,
+          "bottom": 569.3,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 263
+        },
+        "sticky": {
+          "top": 237.5,
+          "bottom": 579.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 341.8
+        },
+        "middle": {
+          "top": 237.5,
+          "bottom": 561.6,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 324.1
+        },
+        "editorArea": {
+          "top": 679.3,
+          "bottom": 959.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 574.6,
+          "bottom": 618.6,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 730,
+        "middleClientHeight": 324,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 0,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionInputs": 1,
+        "regionMaxRight": 336.6,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": {
+          "transitionProperty": "all",
+          "transitionDuration": "0s",
+          "animationName": "none"
+        },
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 302.3,
+            "h": 50.8
+          },
+          {
+            "label": "Gras",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Italique",
+            "w": 28.8,
+            "h": 29
+          },
+          {
+            "label": "Souligné",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Barré",
+            "w": 33.7,
+            "h": 29
+          },
+          {
+            "label": "Titre 1",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Titre 2",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Liste",
+            "w": 63.1,
+            "h": 29
+          },
+          {
+            "label": "Liste numérotée",
+            "w": 69.3,
+            "h": 29
+          },
+          {
+            "label": "Couleur du texte",
+            "w": 36,
+            "h": 28
+          },
+          {
+            "label": "#FF69B4",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#8B00FF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00BFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFD700",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00FF88",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFFFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "Police",
+            "w": 142.2,
+            "h": 31
+          },
+          {
+            "label": "Taille du texte",
+            "w": 77.2,
+            "h": 31
+          },
+          {
+            "label": "Aligné à gauche",
+            "w": 38,
+            "h": 33
+          },
+          {
+            "label": "Centré",
+            "w": 34.2,
+            "h": 30
+          },
+          {
+            "label": "Aligné à droite",
+            "w": 35.8,
+            "h": 29
+          },
+          {
+            "label": "Lien",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Musique (Spotify…)",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Vidéo YouTube",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Néon — donne un ef",
+            "w": 76.8,
+            "h": 35
+          },
+          {
+            "label": "Arc-en-ciel — le t",
+            "w": 110.4,
+            "h": 35
+          },
+          {
+            "label": "Défilant — le text",
+            "w": 91.7,
+            "h": 35
+          },
+          {
+            "label": "Clignotant — le te",
+            "w": 108,
+            "h": 35
+          },
+          {
+            "label": "Flou — le texte es",
+            "w": 71.8,
+            "h": 35
+          },
+          {
+            "label": "Mode HTML",
+            "w": 80.3,
+            "h": 35
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "expandedRows": 8,
+      "scrolled": {
+        "step": "2b-expanded-scrolled",
+        "vw": 375,
+        "vh": 667,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 327
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "box": {
+          "top": 33.3,
+          "bottom": 633.6,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 600.3
+        },
+        "handle": {
+          "top": 229.5,
+          "bottom": 280.3,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": {
+          "top": 288.3,
+          "bottom": 551.3,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 263
+        },
+        "sticky": {
+          "top": 219.5,
+          "bottom": 561.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 341.8
+        },
+        "middle": {
+          "top": 237.5,
+          "bottom": 561.6,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 324.1
+        },
+        "editorArea": {
+          "top": 273.3,
+          "bottom": 553.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 574.6,
+          "bottom": 618.6,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 406,
+        "middleScrollHeight": 730,
+        "middleClientHeight": 324,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionInputs": 1,
+        "regionMaxRight": 336.6,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": {
+          "transitionProperty": "all",
+          "transitionDuration": "0s",
+          "animationName": "none"
+        },
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 302.3,
+            "h": 50.8
+          },
+          {
+            "label": "Gras",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Italique",
+            "w": 28.8,
+            "h": 29
+          },
+          {
+            "label": "Souligné",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Barré",
+            "w": 33.7,
+            "h": 29
+          },
+          {
+            "label": "Titre 1",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Titre 2",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Liste",
+            "w": 63.1,
+            "h": 29
+          },
+          {
+            "label": "Liste numérotée",
+            "w": 69.3,
+            "h": 29
+          },
+          {
+            "label": "Couleur du texte",
+            "w": 36,
+            "h": 28
+          },
+          {
+            "label": "#FF69B4",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#8B00FF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00BFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFD700",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00FF88",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFFFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "Police",
+            "w": 142.2,
+            "h": 31
+          },
+          {
+            "label": "Taille du texte",
+            "w": 77.2,
+            "h": 31
+          },
+          {
+            "label": "Aligné à gauche",
+            "w": 38,
+            "h": 33
+          },
+          {
+            "label": "Centré",
+            "w": 34.2,
+            "h": 30
+          },
+          {
+            "label": "Aligné à droite",
+            "w": 35.8,
+            "h": 29
+          },
+          {
+            "label": "Lien",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Musique (Spotify…)",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Vidéo YouTube",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Néon — donne un ef",
+            "w": 76.8,
+            "h": 35
+          },
+          {
+            "label": "Arc-en-ciel — le t",
+            "w": 110.4,
+            "h": 35
+          },
+          {
+            "label": "Défilant — le text",
+            "w": 91.7,
+            "h": 35
+          },
+          {
+            "label": "Clignotant — le te",
+            "w": 108,
+            "h": 35
+          },
+          {
+            "label": "Flou — le texte es",
+            "w": 71.8,
+            "h": 35
+          },
+          {
+            "label": "Mode HTML",
+            "w": 80.3,
+            "h": 35
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "editorBand": -35.7,
+      "autocollapsed": {
+        "step": "3-collapsed-via-handle-667",
+        "vw": 375,
+        "vh": 667,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 123
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "box": {
+          "top": 33.3,
+          "bottom": 633.6,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 600.3
+        },
+        "handle": {
+          "top": 247.5,
+          "bottom": 298.3,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 237.5,
+          "bottom": 308.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 237.5,
+          "bottom": 561.6,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 324.1
+        },
+        "editorArea": {
+          "top": 408.3,
+          "bottom": 688.3,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 574.6,
+          "bottom": 618.6,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 324,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 258.7,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionInputs": 0,
+        "regionMaxRight": 0,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": null,
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 302.3,
+            "h": 50.8
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "screenSpaceWin": 258.7
+    },
+    "mobile360": {
+      "collapsed": {
+        "step": "1-collapsed-360",
+        "vw": 360,
+        "vh": 740,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1790466569378
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "box": {
+          "top": 37,
+          "bottom": 703,
+          "left": 9,
+          "right": 351,
+          "width": 342,
+          "height": 666
+        },
+        "handle": {
+          "top": 251.2,
+          "bottom": 302,
+          "left": 34,
+          "right": 322,
+          "width": 288,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 241.2,
+          "bottom": 312,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 241.2,
+          "bottom": 631,
+          "left": 24,
+          "right": 336,
+          "width": 312,
+          "height": 389.8
+        },
+        "editorArea": {
+          "top": 412,
+          "bottom": 692,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 280
+        },
+        "publish": {
+          "top": 644,
+          "bottom": 688,
+          "left": 24,
+          "right": 135.9,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 390,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionInputs": 0,
+        "regionMaxRight": 0,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": null,
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 288,
+            "h": 50.8
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "expanded": {
+        "step": "2-expanded-360",
+        "vw": 360,
+        "vh": 740,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 157
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "box": {
+          "top": 37,
+          "bottom": 703,
+          "left": 9,
+          "right": 351,
+          "width": 342,
+          "height": 666
+        },
+        "handle": {
+          "top": 251.2,
+          "bottom": 302,
+          "left": 34,
+          "right": 322,
+          "width": 288,
+          "height": 50.8
+        },
+        "region": {
+          "top": 310,
+          "bottom": 614,
+          "left": 34,
+          "right": 322,
+          "width": 288,
+          "height": 304
+        },
+        "sticky": {
+          "top": 241.2,
+          "bottom": 624,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 382.8
+        },
+        "middle": {
+          "top": 241.2,
+          "bottom": 631,
+          "left": 24,
+          "right": 336,
+          "width": 312,
+          "height": 389.8
+        },
+        "editorArea": {
+          "top": 724,
+          "bottom": 1004,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 280
+        },
+        "publish": {
+          "top": 644,
+          "bottom": 688,
+          "left": 24,
+          "right": 135.9,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 771,
+        "middleClientHeight": 390,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 16,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionInputs": 1,
+        "regionMaxRight": 322,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": {
+          "transitionProperty": "all",
+          "transitionDuration": "0s",
+          "animationName": "none"
+        },
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 288,
+            "h": 50.8
+          },
+          {
+            "label": "Gras",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Italique",
+            "w": 28.8,
+            "h": 29
+          },
+          {
+            "label": "Souligné",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Barré",
+            "w": 33.7,
+            "h": 29
+          },
+          {
+            "label": "Titre 1",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Titre 2",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Liste",
+            "w": 63.1,
+            "h": 29
+          },
+          {
+            "label": "Liste numérotée",
+            "w": 69.3,
+            "h": 29
+          },
+          {
+            "label": "Couleur du texte",
+            "w": 36,
+            "h": 28
+          },
+          {
+            "label": "#FF69B4",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#8B00FF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00BFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFD700",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00FF88",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFFFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "Police",
+            "w": 142.2,
+            "h": 31
+          },
+          {
+            "label": "Taille du texte",
+            "w": 77.2,
+            "h": 31
+          },
+          {
+            "label": "Aligné à gauche",
+            "w": 38,
+            "h": 33
+          },
+          {
+            "label": "Centré",
+            "w": 34.2,
+            "h": 30
+          },
+          {
+            "label": "Aligné à droite",
+            "w": 35.8,
+            "h": 29
+          },
+          {
+            "label": "Lien",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Musique (Spotify…)",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Vidéo YouTube",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Néon — donne un ef",
+            "w": 76.8,
+            "h": 35
+          },
+          {
+            "label": "Arc-en-ciel — le t",
+            "w": 110.4,
+            "h": 35
+          },
+          {
+            "label": "Défilant — le text",
+            "w": 91.7,
+            "h": 35
+          },
+          {
+            "label": "Clignotant — le te",
+            "w": 108,
+            "h": 35
+          },
+          {
+            "label": "Flou — le texte es",
+            "w": 71.8,
+            "h": 35
+          },
+          {
+            "label": "Mode HTML",
+            "w": 80.3,
+            "h": 35
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "editorBand": -11,
+      "autocollapsed": {
+        "step": "3-collapsed-via-handle-360",
+        "vw": 360,
+        "vh": 740,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 123
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 360,
+        "bodyScrollWidth": 360,
+        "box": {
+          "top": 37,
+          "bottom": 703,
+          "left": 9,
+          "right": 351,
+          "width": 342,
+          "height": 666
+        },
+        "handle": {
+          "top": 251.2,
+          "bottom": 302,
+          "left": 34,
+          "right": 322,
+          "width": 288,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 241.2,
+          "bottom": 312,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 241.2,
+          "bottom": 631,
+          "left": 24,
+          "right": 336,
+          "width": 312,
+          "height": 389.8
+        },
+        "editorArea": {
+          "top": 412,
+          "bottom": 692,
+          "left": 24,
+          "right": 332,
+          "width": 308,
+          "height": 280
+        },
+        "publish": {
+          "top": 644,
+          "bottom": 688,
+          "left": 24,
+          "right": 135.9,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 390,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionInputs": 0,
+        "regionMaxRight": 0,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": null,
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 288,
+            "h": 50.8
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "screenSpaceWin": 264
+    },
+    "desktop": {
+      "default": {
+        "step": "desktop-default",
+        "vw": 1280,
+        "vh": 800,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": false,
+          "msSinceToolbarTouch": 1790466571100
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 1280,
+        "bodyScrollWidth": 1280,
+        "box": {
+          "top": 40,
+          "bottom": 760,
+          "left": 256,
+          "right": 1024,
+          "width": 768,
+          "height": 720
+        },
+        "handle": {
+          "top": 277.4,
+          "bottom": 328.2,
+          "left": 285,
+          "right": 991,
+          "width": 706,
+          "height": 50.8
+        },
+        "region": {
+          "top": 328.2,
+          "bottom": 439.2,
+          "left": 285,
+          "right": 991,
+          "width": 706,
+          "height": 111
+        },
+        "sticky": {
+          "top": 267.4,
+          "bottom": 449.2,
+          "left": 275,
+          "right": 1001,
+          "width": 726,
+          "height": 181.8
+        },
+        "middle": {
+          "top": 267.4,
+          "bottom": 684,
+          "left": 275,
+          "right": 1005,
+          "width": 730,
+          "height": 416.6
+        },
+        "editorArea": {
+          "top": 508.2,
+          "bottom": 788.2,
+          "left": 275,
+          "right": 1001,
+          "width": 726,
+          "height": 280
+        },
+        "publish": {
+          "top": 697,
+          "bottom": 741,
+          "left": 275,
+          "right": 386.9,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 529,
+        "middleClientHeight": 417,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionInputs": 1,
+        "regionMaxRight": 886.9,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": {
+          "transitionProperty": "all",
+          "transitionDuration": "0s",
+          "animationName": "none"
+        },
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 706,
+            "h": 50.8
+          },
+          {
+            "label": "Gras",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Italique",
+            "w": 28.8,
+            "h": 29
+          },
+          {
+            "label": "Souligné",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Barré",
+            "w": 33.7,
+            "h": 29
+          },
+          {
+            "label": "Titre 1",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Titre 2",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Liste",
+            "w": 63.1,
+            "h": 29
+          },
+          {
+            "label": "Liste numérotée",
+            "w": 69.3,
+            "h": 29
+          },
+          {
+            "label": "Couleur du texte",
+            "w": 36,
+            "h": 28
+          },
+          {
+            "label": "#FF69B4",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#8B00FF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00BFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFD700",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00FF88",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFFFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "Police",
+            "w": 142.2,
+            "h": 31
+          },
+          {
+            "label": "Taille du texte",
+            "w": 77.2,
+            "h": 31
+          },
+          {
+            "label": "Aligné à gauche",
+            "w": 38,
+            "h": 33
+          },
+          {
+            "label": "Centré",
+            "w": 34.2,
+            "h": 30
+          },
+          {
+            "label": "Aligné à droite",
+            "w": 35.8,
+            "h": 29
+          },
+          {
+            "label": "Lien",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Musique (Spotify…)",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Vidéo YouTube",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Néon — donne un ef",
+            "w": 76.8,
+            "h": 35
+          },
+          {
+            "label": "Arc-en-ciel — le t",
+            "w": 110.4,
+            "h": 35
+          },
+          {
+            "label": "Défilant — le text",
+            "w": 91.7,
+            "h": 35
+          },
+          {
+            "label": "Clignotant — le te",
+            "w": 108,
+            "h": 35
+          },
+          {
+            "label": "Flou — le texte es",
+            "w": 71.8,
+            "h": 35
+          },
+          {
+            "label": "Mode HTML",
+            "w": 80.3,
+            "h": 35
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "afterFlip": {
+        "step": "desktop-after-flip",
+        "vw": 1280,
+        "vh": 800,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": false,
+          "msSinceToolbarTouch": 1790466571246
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 1280,
+        "bodyScrollWidth": 1280,
+        "box": {
+          "top": 40,
+          "bottom": 760,
+          "left": 256,
+          "right": 1024,
+          "width": 768,
+          "height": 720
+        },
+        "handle": {
+          "top": 277.4,
+          "bottom": 328.2,
+          "left": 285,
+          "right": 991,
+          "width": 706,
+          "height": 50.8
+        },
+        "region": {
+          "top": 328.2,
+          "bottom": 439.2,
+          "left": 285,
+          "right": 991,
+          "width": 706,
+          "height": 111
+        },
+        "sticky": {
+          "top": 267.4,
+          "bottom": 449.2,
+          "left": 275,
+          "right": 1001,
+          "width": 726,
+          "height": 181.8
+        },
+        "middle": {
+          "top": 267.4,
+          "bottom": 684,
+          "left": 275,
+          "right": 1005,
+          "width": 730,
+          "height": 416.6
+        },
+        "editorArea": {
+          "top": 508.2,
+          "bottom": 788.2,
+          "left": 275,
+          "right": 1001,
+          "width": 726,
+          "height": 280
+        },
+        "publish": {
+          "top": 697,
+          "bottom": 741,
+          "left": 275,
+          "right": 386.9,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 529,
+        "middleClientHeight": 417,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionInputs": 1,
+        "regionMaxRight": 886.9,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": {
+          "transitionProperty": "all",
+          "transitionDuration": "0s",
+          "animationName": "none"
+        },
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 706,
+            "h": 50.8
+          },
+          {
+            "label": "Gras",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Italique",
+            "w": 28.8,
+            "h": 29
+          },
+          {
+            "label": "Souligné",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Barré",
+            "w": 33.7,
+            "h": 29
+          },
+          {
+            "label": "Titre 1",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Titre 2",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Liste",
+            "w": 63.1,
+            "h": 29
+          },
+          {
+            "label": "Liste numérotée",
+            "w": 69.3,
+            "h": 29
+          },
+          {
+            "label": "Couleur du texte",
+            "w": 36,
+            "h": 28
+          },
+          {
+            "label": "#FF69B4",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#8B00FF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00BFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFD700",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00FF88",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFFFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "Police",
+            "w": 142.2,
+            "h": 31
+          },
+          {
+            "label": "Taille du texte",
+            "w": 77.2,
+            "h": 31
+          },
+          {
+            "label": "Aligné à gauche",
+            "w": 38,
+            "h": 33
+          },
+          {
+            "label": "Centré",
+            "w": 34.2,
+            "h": 30
+          },
+          {
+            "label": "Aligné à droite",
+            "w": 35.8,
+            "h": 29
+          },
+          {
+            "label": "Lien",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Musique (Spotify…)",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Vidéo YouTube",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Néon — donne un ef",
+            "w": 76.8,
+            "h": 35
+          },
+          {
+            "label": "Arc-en-ciel — le t",
+            "w": 110.4,
+            "h": 35
+          },
+          {
+            "label": "Défilant — le text",
+            "w": 91.7,
+            "h": 35
+          },
+          {
+            "label": "Clignotant — le te",
+            "w": 108,
+            "h": 35
+          },
+          {
+            "label": "Flou — le texte es",
+            "w": 71.8,
+            "h": 35
+          },
+          {
+            "label": "Mode HTML",
+            "w": 80.3,
+            "h": 35
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      }
+    },
+    "mobile812": {
+      "collapsed": {
+        "step": "1-collapsed-812",
+        "vw": 375,
+        "vh": 812,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1790466566280
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "box": {
+          "top": 40.6,
+          "bottom": 771.4,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 730.8
+        },
+        "handle": {
+          "top": 254.8,
+          "bottom": 305.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 244.8,
+          "bottom": 315.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 244.8,
+          "bottom": 699.4,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 454.6
+        },
+        "editorArea": {
+          "top": 415.6,
+          "bottom": 695.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 712.4,
+          "bottom": 756.4,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 455,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionInputs": 0,
+        "regionMaxRight": 0,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": null,
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 302.3,
+            "h": 50.8
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "expanded": {
+        "step": "2-expanded-812",
+        "vw": 375,
+        "vh": 812,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 157
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "box": {
+          "top": 40.6,
+          "bottom": 771.4,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 730.8
+        },
+        "handle": {
+          "top": 254.8,
+          "bottom": 305.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": {
+          "top": 313.6,
+          "bottom": 576.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 263
+        },
+        "sticky": {
+          "top": 244.8,
+          "bottom": 586.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 341.8
+        },
+        "middle": {
+          "top": 244.8,
+          "bottom": 699.4,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 454.6
+        },
+        "editorArea": {
+          "top": 686.6,
+          "bottom": 966.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 712.4,
+          "bottom": 756.4,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 730,
+        "middleClientHeight": 455,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 125.4,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionInputs": 1,
+        "regionMaxRight": 336.6,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": {
+          "transitionProperty": "all",
+          "transitionDuration": "0s",
+          "animationName": "none"
+        },
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 302.3,
+            "h": 50.8
+          },
+          {
+            "label": "Gras",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Italique",
+            "w": 28.8,
+            "h": 29
+          },
+          {
+            "label": "Souligné",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Barré",
+            "w": 33.7,
+            "h": 29
+          },
+          {
+            "label": "Titre 1",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Titre 2",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Liste",
+            "w": 63.1,
+            "h": 29
+          },
+          {
+            "label": "Liste numérotée",
+            "w": 69.3,
+            "h": 29
+          },
+          {
+            "label": "Couleur du texte",
+            "w": 36,
+            "h": 28
+          },
+          {
+            "label": "#FF69B4",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#8B00FF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00BFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFD700",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00FF88",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFFFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "Police",
+            "w": 142.2,
+            "h": 31
+          },
+          {
+            "label": "Taille du texte",
+            "w": 77.2,
+            "h": 31
+          },
+          {
+            "label": "Aligné à gauche",
+            "w": 38,
+            "h": 33
+          },
+          {
+            "label": "Centré",
+            "w": 34.2,
+            "h": 30
+          },
+          {
+            "label": "Aligné à droite",
+            "w": 35.8,
+            "h": 29
+          },
+          {
+            "label": "Lien",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Musique (Spotify…)",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Vidéo YouTube",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Néon — donne un ef",
+            "w": 76.8,
+            "h": 35
+          },
+          {
+            "label": "Arc-en-ciel — le t",
+            "w": 110.4,
+            "h": 35
+          },
+          {
+            "label": "Défilant — le text",
+            "w": 91.7,
+            "h": 35
+          },
+          {
+            "label": "Clignotant — le te",
+            "w": 108,
+            "h": 35
+          },
+          {
+            "label": "Flou — le texte es",
+            "w": 71.8,
+            "h": 35
+          },
+          {
+            "label": "Mode HTML",
+            "w": 80.3,
+            "h": 35
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "editorBand": 94.8,
+      "autocollapsed": {
+        "step": "3-autocollapse-on-focus-812",
+        "vw": 375,
+        "vh": 812,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1259
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "box": {
+          "top": 40.6,
+          "bottom": 771.4,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 730.8
+        },
+        "handle": {
+          "top": 254.8,
+          "bottom": 305.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 244.8,
+          "bottom": 315.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 244.8,
+          "bottom": 699.4,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 454.6
+        },
+        "editorArea": {
+          "top": 415.6,
+          "bottom": 695.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 712.4,
+          "bottom": 756.4,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 455,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionInputs": 0,
+        "regionMaxRight": 0,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": null,
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 302.3,
+            "h": 50.8
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "screenSpaceWin": 154.6,
+      "guardHold": {
+        "step": "4a-guard-holds-812",
+        "vw": 375,
+        "vh": 812,
+        "state": {
+          "toolbarOpen": true,
+          "isMobile": true,
+          "msSinceToolbarTouch": 167
+        },
+        "handleText": "🎨 Styles ▲",
+        "ariaExpanded": "true",
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "box": {
+          "top": 40.6,
+          "bottom": 771.4,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 730.8
+        },
+        "handle": {
+          "top": 254.8,
+          "bottom": 305.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": {
+          "top": 313.6,
+          "bottom": 576.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 263
+        },
+        "sticky": {
+          "top": 244.8,
+          "bottom": 586.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 341.8
+        },
+        "middle": {
+          "top": 244.8,
+          "bottom": 699.4,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 454.6
+        },
+        "editorArea": {
+          "top": 588.6,
+          "bottom": 868.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 712.4,
+          "bottom": 756.4,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 98,
+        "middleScrollHeight": 730,
+        "middleClientHeight": 455,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 223.4,
+        "publishVisibleHeight": 44,
+        "regionPresent": true,
+        "regionButtons": 26,
+        "regionSelects": 2,
+        "regionInputs": 1,
+        "regionMaxRight": 336.6,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": {
+          "transitionProperty": "all",
+          "transitionDuration": "0s",
+          "animationName": "none"
+        },
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 302.3,
+            "h": 50.8
+          },
+          {
+            "label": "Gras",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Italique",
+            "w": 28.8,
+            "h": 29
+          },
+          {
+            "label": "Souligné",
+            "w": 34.4,
+            "h": 29
+          },
+          {
+            "label": "Barré",
+            "w": 33.7,
+            "h": 29
+          },
+          {
+            "label": "Titre 1",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Titre 2",
+            "w": 41.6,
+            "h": 29
+          },
+          {
+            "label": "Liste",
+            "w": 63.1,
+            "h": 29
+          },
+          {
+            "label": "Liste numérotée",
+            "w": 69.3,
+            "h": 29
+          },
+          {
+            "label": "Couleur du texte",
+            "w": 36,
+            "h": 28
+          },
+          {
+            "label": "#FF69B4",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#8B00FF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00BFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFD700",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#00FF88",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "#FFFFFF",
+            "w": 20,
+            "h": 20
+          },
+          {
+            "label": "Police",
+            "w": 142.2,
+            "h": 31
+          },
+          {
+            "label": "Taille du texte",
+            "w": 77.2,
+            "h": 31
+          },
+          {
+            "label": "Aligné à gauche",
+            "w": 38,
+            "h": 33
+          },
+          {
+            "label": "Centré",
+            "w": 34.2,
+            "h": 30
+          },
+          {
+            "label": "Aligné à droite",
+            "w": 35.8,
+            "h": 29
+          },
+          {
+            "label": "Lien",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Musique (Spotify…)",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Vidéo YouTube",
+            "w": 41.2,
+            "h": 35
+          },
+          {
+            "label": "Néon — donne un ef",
+            "w": 76.8,
+            "h": 35
+          },
+          {
+            "label": "Arc-en-ciel — le t",
+            "w": 110.4,
+            "h": 35
+          },
+          {
+            "label": "Défilant — le text",
+            "w": 91.7,
+            "h": 35
+          },
+          {
+            "label": "Clignotant — le te",
+            "w": 108,
+            "h": 35
+          },
+          {
+            "label": "Flou — le texte es",
+            "w": 71.8,
+            "h": 35
+          },
+          {
+            "label": "Mode HTML",
+            "w": 80.3,
+            "h": 35
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      },
+      "guardExpire": {
+        "step": "4b-guard-expired-812",
+        "vw": 375,
+        "vh": 812,
+        "state": {
+          "toolbarOpen": false,
+          "isMobile": true,
+          "msSinceToolbarTouch": 1279
+        },
+        "handleText": "🎨 Styles ▼",
+        "ariaExpanded": "false",
+        "docScrollWidth": 375,
+        "bodyScrollWidth": 375,
+        "box": {
+          "top": 40.6,
+          "bottom": 771.4,
+          "left": 9.4,
+          "right": 365.6,
+          "width": 356.3,
+          "height": 730.8
+        },
+        "handle": {
+          "top": 254.8,
+          "bottom": 305.6,
+          "left": 34.4,
+          "right": 336.6,
+          "width": 302.3,
+          "height": 50.8
+        },
+        "region": null,
+        "sticky": {
+          "top": 244.8,
+          "bottom": 315.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 70.8
+        },
+        "middle": {
+          "top": 244.8,
+          "bottom": 699.4,
+          "left": 24.4,
+          "right": 350.6,
+          "width": 326.3,
+          "height": 454.6
+        },
+        "editorArea": {
+          "top": 415.6,
+          "bottom": 695.6,
+          "left": 24.4,
+          "right": 346.6,
+          "width": 322.3,
+          "height": 280
+        },
+        "publish": {
+          "top": 712.4,
+          "bottom": 756.4,
+          "left": 24.4,
+          "right": 136.3,
+          "width": 111.9,
+          "height": 44
+        },
+        "middleScrollTop": 0,
+        "middleScrollHeight": 459,
+        "middleClientHeight": 455,
+        "handleInViewport": true,
+        "handleInsideBox": true,
+        "publishInViewport": true,
+        "publishInsideBox": true,
+        "editorAreaHeight": 280,
+        "editorVisibleHeight": 280,
+        "publishVisibleHeight": 44,
+        "regionPresent": false,
+        "regionButtons": 0,
+        "regionSelects": 0,
+        "regionInputs": 0,
+        "regionMaxRight": 0,
+        "handleStyle": {
+          "display": "flex",
+          "backgroundImage": "linear-gradient(rgb(255, 20, 147), rgb(160, 0, 94))",
+          "borderTopStyle": "outset",
+          "borderTopWidth": "3px",
+          "borderTopColor": "rgb(255, 182, 217)",
+          "borderRadius": "999px",
+          "fontWeight": "700",
+          "color": "rgb(255, 255, 255)",
+          "fontSize": "14.4px",
+          "textShadow": "rgba(0, 0, 0, 0.6) 1px 1px 2px",
+          "boxShadow": "rgba(0, 0, 0, 0.4) 2px 2px 4px 0px, rgba(255, 20, 147, 0.3) 0px 0px 8px 0px"
+        },
+        "regionTransition": null,
+        "touchTargets": [
+          {
+            "label": "Afficher ou masque",
+            "w": 302.3,
+            "h": 50.8
+          },
+          {
+            "label": "Ajouter des photos",
+            "w": 88.1,
+            "h": 35
+          },
+          {
+            "label": "Ajouter une vidéo",
+            "w": 79.4,
+            "h": 35
+          },
+          {
+            "label": "Ajouter un son",
+            "w": 68.9,
+            "h": 35
+          },
+          {
+            "label": "💬 GIF",
+            "w": 66.1,
+            "h": 35
+          },
+          {
+            "label": "🎙 Voix",
+            "w": 70.8,
+            "h": 35
+          }
+        ]
+      }
+    }
+  }
+}

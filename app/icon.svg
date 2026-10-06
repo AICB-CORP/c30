@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Fond rose Skyrock classique -->
+  <rect width="64" height="64" rx="14" fill="#FF69B4"/>
+  <!-- Lettre C : arc blanc épais, ouverture à droite -->
+  <path d="M43 18.5A17 17 0 1 0 43 45.5" fill="none" stroke="#ffffff" stroke-width="9" stroke-linecap="round"/>
+  <!-- Coeur niché dans l'ouverture du C -->
+  <path d="M46 39.5C40.5 35 38.2 31 39.8 28.3 41.3 25.6 45.3 26.3 46 29 46.7 26.3 50.7 25.6 52.2 28.3 53.8 31 51.5 35 46 39.5Z" fill="#e2004e"/>
+</svg>

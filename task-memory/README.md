@@ -52,4 +52,7 @@ Chaque tâche = un fichier `YYYY-MM-DD-<slug>.md` avec :
 | 2026-09-03 | editor-scrollable          | editor/layout      | implemented | [2026-09-03-editor-scrollable.md](./2026-09-03-editor-scrollable.md)                   |
 | 2026-09-03 | carousel-fix               | editor/carousel    | implemented | [2026-09-03-carousel-fix.md](./2026-09-03-carousel-fix.md)                             |
 | 2026-09-03 | posts-max-width           | layout/posts        | implemented | [2026-09-03-posts-max-width.md](./2026-09-03-posts-max-width.md)                        |
+| 2026-09-03 | retro-mark-toggle          | editor/retro         | implemented | [2026-09-03-retro-mark-toggle.md](./2026-09-03-retro-mark-toggle.md)                   |
+| 2026-09-26 | r2-vercel-env-vars         | media/upload + infra | review      | [2026-09-26-r2-vercel-env-vars.md](./2026-09-26-r2-vercel-env-vars.md)                 |
+| 2026-10-01 | favicon-c-heart            | branding/favicon     | implemented | [2026-10-01-favicon-c-heart.md](./2026-10-01-favicon-c-heart.md)                       |
 | 2026-09-13 | explication               | site/help           | implemented | [2026-09-13-explication.md](./2026-09-13-explication.md)                                  |

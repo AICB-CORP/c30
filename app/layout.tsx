@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Dancing_Script, Press_Start_2P } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const dancingScript = Dancing_Script({
@@ -24,10 +25,18 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  // Rose Skyrock classique — assorti à la favicon (app/icon.svg)
+  themeColor: "#FF69B4",
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={`${dancingScript.variable} ${pressStart.variable} h-full`}>
-      <body className="min-h-full sparkle-cursor">{children}</body>
+      <body className="min-h-full sparkle-cursor">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
